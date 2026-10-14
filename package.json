@@ -1,0 +1,9 @@
+{
+  "name": "life-solver",
+  "private": true,
+  "type": "module",
+  "description": "生活觀察解題室：鳳新高中自主學習工具（學生網頁、API、老師後台）",
+  "dependencies": {
+    "@vercel/blob": "2.8.2"
+  }
+}

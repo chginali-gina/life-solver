@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>解題室老師後台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FDF8F1;--bg-warm:#F7EFE3;--card:#FFFFFF;--amber:#D97706;--amber-deep:#B45309;--amber-dark:#92400E;--amber-tint:#FDF0DC;
+  --teal:#0F766E;--teal-soft:#5EAEA6;--teal-tint:#E3F2EF;--ink:#2E2419;--ink-soft:#6B5D4F;--line:#E8DCCB;--on-amber:#FFFFFF;--bad:#B91C1C;--bad-tint:#FDECEC;
+  --shadow:0 4px 20px rgba(146,64,14,.08);--radius:16px;--radius-sm:10px;
+  --serif:'Noto Serif TC','Songti TC','PMingLiU',serif;--display:'Playfair Display',Georgia,'Noto Serif TC',serif;
+}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#1B1611;--bg-warm:#231C15;--card:#2A221A;--amber:#F59E0B;--amber-deep:#FBBF24;--amber-dark:#FCD34D;--amber-tint:#3A2A14;--teal:#5EC4B8;--teal-tint:#17332F;--ink:#F3E9DC;--ink-soft:#BFAF9C;--line:#3E3228;--on-amber:#1B1611;--bad:#F87171;--bad-tint:#3A1C1C;--shadow:0 4px 20px rgba(0,0,0,.35)}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:15px;line-height:1.7;padding:0 16px}
+[hidden]{display:none!important}
+.wrap{max-width:1180px;margin:0 auto;padding-block:24px 60px}
+h1,h2,h3{margin:0;line-height:1.35}
+button,input,select,textarea{font:inherit;color:inherit}
+.eyebrow{font-family:var(--display);font-style:italic;color:var(--amber);letter-spacing:.06em;font-size:.9rem}
+.btn{border:0;background:var(--amber);color:var(--on-amber);font-weight:600;padding:8px 18px;border-radius:999px;cursor:pointer}
+.btn:hover{background:var(--amber-deep)}
+.btn.ghost{background:transparent;color:var(--amber-dark);border:1.5px solid var(--line)}
+.btn.sm{padding:5px 12px;font-size:.88rem}
+.btn[disabled]{opacity:.5;cursor:default}
+input[type=text],input[type=password],select,textarea{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:7px 11px}
+textarea{width:100%;min-height:90px;resize:vertical;line-height:1.7}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.login{max-width:400px;margin:12vh auto 0;display:grid;gap:14px;text-align:center}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:18px}
+.top h1{font-size:clamp(1.5rem,4vw,2rem)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:5px 14px;cursor:pointer;color:var(--ink-soft)}
+.tab.on{background:var(--amber);border-color:var(--amber);color:var(--on-amber);font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 14px}
+.stat b{display:block;font-family:var(--display);font-size:1.7rem;color:var(--amber-dark);font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:.84rem;color:var(--ink-soft)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.tbwrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
+th{font-size:.8rem;color:var(--ink-soft);font-weight:600;letter-spacing:.04em;position:sticky;top:0;background:var(--card)}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--amber-tint)}
+tbody tr.sel{background:var(--teal-tint)}
+td.step{white-space:normal;min-width:240px;max-width:360px}
+.tag{display:inline-block;border-radius:6px;padding:1px 8px;font-size:.8rem;background:var(--bg-warm)}
+.tag.teal{background:var(--teal-tint);color:var(--teal)}
+.tag.amber{background:var(--amber-tint);color:var(--amber-dark)}
+.tag.bad{background:var(--bad-tint);color:var(--bad)}
+.mini{font-size:.85rem;color:var(--ink-soft)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.detail{display:grid;gap:14px}
+.dhead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:flex-start}
+.qa{display:grid;gap:10px}
+.qa section{border-left:3px solid var(--amber);padding:2px 0 2px 12px}
+.qa h4{margin:0 0 2px;font-size:.82rem;letter-spacing:.08em;color:var(--amber-dark)}
+.qa p{margin:0;white-space:pre-wrap;word-break:break-word}
+.empty{color:var(--ink-soft);font-style:italic}
+.fbbox{background:var(--teal-tint);border-radius:var(--radius);padding:14px;display:grid;gap:8px}
+.wk{border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 12px;display:grid;gap:6px}
+details summary{cursor:pointer;color:var(--amber-dark);font-weight:600}
+pre{white-space:pre-wrap;word-break:break-word;font-family:var(--serif);margin:8px 0 0;font-size:.9rem}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 18px;border-radius:99px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+.toast.show{opacity:1}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+footer{margin-top:40px;text-align:center;color:var(--ink-soft);font-size:.82rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="login" class="card login" hidden>
+    <p class="eyebrow">Teacher Dashboard</p>
+    <h1>解題室老師後台</h1>
+    <p class="mini">輸入老師密碼，查看全班學生在「生活觀察解題室」每個步驟的回答。</p>
+    <input type="password" id="pw" placeholder="老師密碼" autocomplete="current-password">
+    <button class="btn" id="loginBtn">登入</button>
+    <p class="mini" id="loginMsg"></p>
+  </div>
+
+  <div id="app" hidden>
+    <div class="top">
+      <div><p class="eyebrow">Teacher Dashboard</p><h1>解題室老師後台</h1></div>
+      <div class="row">
+        <div class="tabs"><button class="tab on" data-tab="list">全班進度</button><button class="tab" data-tab="roster">名單</button></div>
+        <button class="btn ghost sm" id="refresh">重新整理</button>
+        <button class="btn ghost sm" id="export">匯出 CSV</button>
+        <button class="btn ghost sm" id="logout">登出</button>
+      </div>
+    </div>
+
+    <div id="tabList">
+      <div class="stats" id="stats"></div>
+      <div class="filters">
+        <select id="fCls" aria-label="班級"><option value="">全部班級</option></select>
+        <select id="fGate" aria-label="關卡"><option value="">全部關卡</option></select>
+        <select id="fFlag" aria-label="篩選"><option value="">全部學生</option><option value="help">需要協助（未回覆）</option><option value="idle">超過 7 天沒更新</option><option value="none">尚未開始</option></select>
+        <input type="text" id="fQ" placeholder="搜尋姓名或座號" aria-label="搜尋">
+        <span class="mini" id="count"></span>
+      </div>
+      <div class="layout">
+        <div class="tbwrap"><table><thead><tr><th>班級</th><th>座號</th><th>姓名</th><th>目前進度</th><th>最後更新</th><th>送出</th><th>關卡</th><th>週報</th><th>提醒</th></tr></thead><tbody id="tbody"></tbody></table></div>
+        <div id="detail" class="card detail" hidden></div>
+      </div>
+    </div>
+
+    <div id="tabRoster" class="card" hidden style="display:grid;gap:12px">
+      <h2 style="font-size:1.2rem">全班名單</h2>
+      <p class="mini">一行一位學生：<b>班級、座號、姓名、學校帳號（選填）</b>，用 Tab 或逗號分隔。可以直接從 Excel 或校務系統複製四欄貼上。有名單時，只有名單上的學生能建立身分、送出資料；名單清空就不核對。</p>
+      <textarea id="rosterText" style="min-height:260px" placeholder="205	1	王小明&#10;205	2	林小晴	s1100802@fhsh.khc.edu.tw"></textarea>
+      <div class="row"><button class="btn" id="saveRoster">儲存名單</button><span class="mini" id="rosterMsg"></span></div>
+    </div>
+  </div>
+  <footer>鳳新高中英文科李姬慧老師 X AI 彙整製作</footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const API='/api/teacher';
+const GATES=['待審','需修改','選題通過','計畫通過','期中通過','完成'];
+const STEP_FIELDS=[['觀察','observe'],['問題敘述','problem'],['五個為什麼','root'],['影響範圍','scale'],['選定方案','option'],['我的版本','mine'],['第一版','mvp'],['前後測量','measure'],['這週第一件事','first'],['我的條件','resources'],['成果數據','result'],['試做日誌','logs'],['結論與反思','reflect']];
+let PW='';try{PW=sessionStorage.getItem('ls-teacher-pw')||''}catch(e){}
+let LIST=[],SEL=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800)}
+async function api(body){const r=await fetch(API,{method:'POST',headers:{'content-type':'application/json','x-teacher-password':PW},body:JSON.stringify(body)});
+ const j=await r.json().catch(()=>({ok:false,msg:'伺服器沒有回應'}));if(j.auth===false){logout(j.msg);throw new Error('auth')}return j}
+function showLogin(msg){$('app').hidden=true;$('login').hidden=false;$('loginMsg').textContent=msg||'';$('pw').focus()}
+function logout(msg){PW='';try{sessionStorage.removeItem('ls-teacher-pw')}catch(e){}showLogin(msg)}
+async function login(){PW=$('pw').value.trim();if(!PW)return;$('loginMsg').textContent='登入中…';
+ try{const j=await api({action:'overview'});if(!j.ok){$('loginMsg').textContent=j.msg;return}try{sessionStorage.setItem('ls-teacher-pw',PW)}catch(e){}
+  $('login').hidden=true;$('app').hidden=false;setList(j)}catch(e){}}
+function setList(j){LIST=j.list||[];const cls=[...new Set(LIST.map(x=>x.cls))].filter(Boolean);
+ $('fCls').innerHTML='<option value="">全部班級</option>'+cls.map(c=>`<option ${c===$('fCls').value?'selected':''}>${esc(c)}</option>`).join('');
+ $('fGate').innerHTML='<option value="">全部關卡</option>'+GATES.map(g=>`<option ${g===$('fGate').value?'selected':''}>${g}</option>`).join('');
+ renderList()}
+const idle=x=>x.syncIso&&(Date.now()-new Date(x.syncIso).getTime())>7*864e5;
+function renderList(){const c=$('fCls').value,g=$('fGate').value,f=$('fFlag').value,q=$('fQ').value.trim();
+ const rows=LIST.filter(x=>(!c||x.cls===c)&&(!g||x.gate===g)&&(!q||(x.name+x.seat).includes(q))&&(!f||(f==='help'&&x.needHelp)||(f==='idle'&&idle(x))||(f==='none'&&x.notStarted)));
+ const started=LIST.filter(x=>!x.notStarted);
+ $('stats').innerHTML=[[LIST.length,'名單＋已使用'],[started.length,'已開始'],[LIST.filter(x=>x.count>0).length,'已手動送出'],[LIST.filter(x=>x.needHelp).length,'需要協助未回覆'],[LIST.filter(idle).length,'7 天沒更新']].map(([n,l])=>`<div class="stat"><b>${n}</b><span>${l}</span></div>`).join('');
+ $('count').textContent=`顯示 ${rows.length} 位`;
+ $('tbody').innerHTML=rows.map(x=>`<tr data-key="${esc(x.key)}" class="${SEL===x.key?'sel':''}"><td>${esc(x.cls)}</td><td>${esc(x.seat)}</td><td>${esc(x.name)}</td>
+  <td class="step">${x.notStarted?'<span class="empty">尚未開始</span>':esc(x.step)}</td><td>${esc(x.syncAt)}</td><td>${x.count||''}</td>
+  <td>${x.gate?`<span class="tag ${x.gate==='需修改'?'bad':x.gate==='待審'?'':'teal'}">${esc(x.gate)}</span>`:''}</td><td>${x.weeks?x.weeks+' 則':''}</td>
+  <td>${x.needHelp?'<span class="tag bad">需要協助</span> ':''}${idle(x)?'<span class="tag amber">久未更新</span>':''}${x.fb?'<span class="tag teal">已建議</span>':''}</td></tr>`).join('')||'<tr><td colspan="9" class="empty">還沒有學生資料。學生建立身分後就會出現在這裡。</td></tr>'}
+async function openDetail(key){SEL=key;renderList();const box=$('detail');box.hidden=false;box.innerHTML='<p class="mini">載入中…</p>';box.scrollIntoView({behavior:'smooth',block:'start'});
+ let j;try{j=await api({action:'detail',key})}catch(e){return}
+ if(!j.ok){box.innerHTML=`<p class="empty">${esc(j.msg)}</p>`;return}
+ const s=j.student,t=j.teacher;
+ box.innerHTML=`<div class="dhead"><div><p class="eyebrow">Student</p><h2>${esc(s.cls||'')} 班 ${esc(s.seat||'')} 號 ${esc(s.name||'')}</h2>
+  <p class="mini">${s.email?esc(s.email)+'｜':''}最後更新 ${esc(s.syncAt||'—')}｜手動送出 ${s.count||0} 次${s.submittedAt?'（最近 '+esc(s.submittedAt)+'）':''}</p><p class="mini">${esc(s.step||'')}</p></div>
+  <div class="row">${s.backup?'<button class="btn ghost sm" id="copyBk">複製進度碼</button>':''}<button class="btn ghost sm" id="closeD">關閉</button></div></div>
+  <div class="fbbox"><b>老師回饋</b><div class="row"><label class="mini" for="gateSel">目前關卡</label><select id="gateSel">${GATES.map(g=>`<option ${g===t.gate?'selected':''}>${g}</option>`).join('')}</select>${t.fbAt?`<span class="mini">建議時間 ${esc(t.fbAt)}</span>`:''}</div>
+  <textarea id="fbText" placeholder="寫給這位學生的建議，學生的網頁會顯示">${esc(t.fb)}</textarea><div class="row"><button class="btn sm" id="saveFb">儲存建議與關卡</button></div></div>
+  <div class="qa">${STEP_FIELDS.map(([l,k])=>`<section><h4>${l}</h4>${s[k]?`<p>${esc(s[k])}</p>`:'<p class="empty">尚未填寫</p>'}</section>`).join('')}</div>
+  <div><b>每週回報（${j.progress.length}）</b>${j.progress.length?j.progress.slice().reverse().map(p=>`<div class="wk" style="margin-top:8px"><div class="row"><span class="tag">第 ${esc(p.week)} 週</span><span class="mini">${esc(p.atText)}</span>${p.help==='需要'?'<span class="tag bad">需要協助</span>':''}</div>
+   <div><b>完成：</b>${esc(p.done)}</div>${p.next?`<div><b>下週：</b>${esc(p.next)}</div>`:''}${p.stuck?`<div><b>卡關：</b>${esc(p.stuck)}</div>`:''}
+   <textarea data-at="${esc(p.at)}" class="rep" style="min-height:60px" placeholder="回覆這週的回報">${esc(p.reply)}</textarea><div><button class="btn sm ghost saveRep" data-at="${esc(p.at)}">儲存回覆</button></div></div>`).join(''):'<p class="empty">還沒有週報。</p>'}</div>
+  ${s.full?`<details><summary>完整行動卡與成果（學生送出的全文）</summary><pre>${esc(s.full)}</pre></details>`:''}`;
+ $('closeD').onclick=()=>{box.hidden=true;SEL=null;renderList()};
+ if($('copyBk'))$('copyBk').onclick=()=>copy(s.backup,'已複製進度碼，到學生網頁「進度碼」貼上即可看完整過程');
+ $('saveFb').onclick=async()=>{const r=await api({action:'saveFeedback',key,fb:$('fbText').value,gate:$('gateSel').value});if(r.ok){toast('已儲存');const x=LIST.find(x=>x.key===key);if(x){x.gate=$('gateSel').value;x.fb=$('fbText').value;renderList()}}else toast(r.msg)};
+ box.querySelectorAll('.saveRep').forEach(b=>b.onclick=async()=>{const ta=box.querySelector(`textarea.rep[data-at="${b.dataset.at}"]`);const r=await api({action:'reply',key,at:b.dataset.at,text:ta.value});toast(r.ok?'已儲存回覆':r.msg)})}
+async function copy(text,msg){try{await navigator.clipboard.writeText(text);toast(msg||'已複製')}catch(e){prompt('請複製：',text)}}
+async function refresh(){try{const j=await api({action:'overview'});if(j.ok)setList(j);else toast(j.msg)}catch(e){}}
+function csvCell(v){v=String(v??'');return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
+async function exportCSV(){toast('匯出中…');let j;try{j=await api({action:'exportAll'})}catch(e){return}if(!j.ok){toast(j.msg);return}
+ const head=['班級','座號','姓名','學校帳號','目前進度','最後更新','手動送出次數','關卡','老師建議',...STEP_FIELDS.map(x=>x[0]),'週報'];
+ const fmt=iso=>iso?new Date(iso).toLocaleString('zh-TW',{timeZone:'Asia/Taipei',hour12:false}):'';
+ const lines=[head,...j.rows.map(({s,p,t})=>[s.cls,s.seat,s.name,s.email,s.step,fmt(s.syncAt),s.count||0,t.gate||'待審',t.fb||'',...STEP_FIELDS.map(([,k])=>s[k]||''),(p||[]).map(w=>`第${w.week}週：${w.done}${w.stuck?'（卡關：'+w.stuck+'）':''}`).join('\n')])];
+ const csv='﻿'+lines.map(r=>r.map(csvCell).join(',')).join('\r\n');
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=`生活觀察解題室_${new Date().toISOString().slice(0,10)}.csv`;document.body.appendChild(a);a.click();a.remove()}
+async function loadRoster(){let j;try{j=await api({action:'getRoster'})}catch(e){return}if(j.ok){$('rosterText').value=j.roster.map(r=>[r.cls,r.seat,r.name,r.email].filter((v,i)=>i<3||v).join('\t')).join('\n');$('rosterMsg').textContent=`目前名單 ${j.roster.length} 人`}}
+async function saveRoster(){const r=await api({action:'saveRoster',text:$('rosterText').value});$('rosterMsg').textContent=r.ok?`已儲存，共 ${r.count} 人`:r.msg;if(r.ok){toast('名單已儲存');refresh()}}
+
+$('loginBtn').onclick=login;$('pw').onkeydown=e=>{if(e.key==='Enter')login()};
+$('refresh').onclick=refresh;$('export').onclick=exportCSV;$('logout').onclick=()=>logout('已登出');
+['fCls','fGate','fFlag'].forEach(id=>$(id).onchange=renderList);$('fQ').oninput=renderList;
+$('tbody').onclick=e=>{const tr=e.target.closest('tr[data-key]');if(tr)openDetail(tr.dataset.key)};
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===b));$('tabList').hidden=b.dataset.tab!=='list';$('tabRoster').hidden=b.dataset.tab!=='roster';if(b.dataset.tab==='roster')loadRoster()});
+$('saveRoster').onclick=saveRoster;
+if(PW){(async()=>{try{const j=await api({action:'overview'});if(j.ok){$('app').hidden=false;setList(j)}else showLogin(j.msg)}catch(e){}})()}else showLogin();
+</script>
+</body>
+</html>
