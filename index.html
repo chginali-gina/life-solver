@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>生活觀察解題室</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FDF8F1; --bg-warm:#F7EFE3; --card:#FFFFFF;
+  --amber:#D97706; --amber-deep:#B45309; --amber-dark:#92400E; --amber-tint:#FDF0DC;
+  --teal:#0F766E; --teal-soft:#5EAEA6; --teal-tint:#E3F2EF;
+  --ink:#2E2419; --ink-soft:#6B5D4F; --line:#E8DCCB; --on-amber:#FFFFFF;
+  --bad:#B91C1C; --bad-tint:#FDECEC;
+  --shadow:0 4px 20px rgba(146,64,14,.08); --shadow-lg:0 12px 40px rgba(146,64,14,.12);
+  --radius:18px; --radius-sm:12px;
+  --serif:'Noto Serif TC','Songti TC','PMingLiU',serif;
+  --display:'Playfair Display',Georgia,'Noto Serif TC',serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#1B1611; --bg-warm:#231C15; --card:#2A221A;
+    --amber:#F59E0B; --amber-deep:#FBBF24; --amber-dark:#FCD34D; --amber-tint:#3A2A14;
+    --teal:#5EC4B8; --teal-soft:#5EAEA6; --teal-tint:#17332F;
+    --ink:#F3E9DC; --ink-soft:#BFAF9C; --line:#3E3228; --on-amber:#1B1611;
+    --bad:#F87171; --bad-tint:#3A1C1C;
+    --shadow:0 4px 20px rgba(0,0,0,.35); --shadow-lg:0 12px 40px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#1B1611; --bg-warm:#231C15; --card:#2A221A;
+  --amber:#F59E0B; --amber-deep:#FBBF24; --amber-dark:#FCD34D; --amber-tint:#3A2A14;
+  --teal:#5EC4B8; --teal-soft:#5EAEA6; --teal-tint:#17332F;
+  --ink:#F3E9DC; --ink-soft:#BFAF9C; --line:#3E3228; --on-amber:#1B1611;
+  --bad:#F87171; --bad-tint:#3A1C1C;
+  --shadow:0 4px 20px rgba(0,0,0,.35); --shadow-lg:0 12px 40px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:16px;line-height:1.8;padding:0 16px}
+.wrap{max-width:900px;margin:0 auto}
+h1,h2,h3,h4{text-wrap:balance;line-height:1.35;margin:0}
+p{margin:0}
+button,input,textarea,select{font-family:inherit;font-size:1rem;color:inherit}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+a{color:var(--amber-dark)}
+
+.hero{padding-block:36px 18px;display:grid;gap:10px}
+.eyebrow{font-family:var(--display);font-style:italic;color:var(--amber);letter-spacing:.06em;font-size:.95rem}
+.hero h1{font-size:clamp(1.9rem,6vw,2.8rem);font-weight:700}
+.hero p{color:var(--ink-soft);max-width:38em}
+
+.btn{display:inline-flex;align-items:center;gap:6px;border:0;background:var(--amber);color:var(--on-amber);font-weight:600;padding:10px 22px;border-radius:999px;cursor:pointer;transition:background .2s,transform .2s;text-decoration:none}
+.btn:hover{background:var(--amber-deep);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--amber-dark);border:1.5px solid var(--line)}
+.btn.ghost:hover{border-color:var(--amber);background:var(--amber-tint)}
+.btn.teal{background:var(--teal);color:var(--card)}
+.btn.sm{padding:6px 14px;font-size:.9rem}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.linkbtn{background:none;border:0;color:var(--amber-dark);cursor:pointer;font-size:.9rem;text-decoration:underline;padding:2px 4px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.ctx{display:grid;gap:10px;margin-bottom:26px}
+.ctx .k,.k{font-size:.8rem;letter-spacing:.08em;color:var(--ink-soft);font-weight:600;display:block}
+.ctx .rq{font-size:1.12rem;font-weight:700;line-height:1.6}
+.tag{display:inline-block;background:var(--bg-warm);border-radius:6px;padding:1px 8px;margin:2px 4px 2px 0;font-size:.88rem}
+.tag.teal{background:var(--teal-tint);color:var(--teal)}
+.tag.amber{background:var(--amber-tint);color:var(--amber-dark)}
+.mini{font-size:.9rem;color:var(--ink-soft);line-height:1.65}
+.empty{color:var(--ink-soft);font-style:italic}
+
+.mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:20px}
+.mod{text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);padding:20px;cursor:pointer;display:grid;gap:8px;align-content:start;position:relative;transition:transform .25s,box-shadow .25s,border-color .25s}
+.mod:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--amber)}
+.mod .num{font-family:var(--display);font-size:2.2rem;font-weight:700;color:var(--amber);line-height:1}
+.mod h3{font-size:1.2rem}
+.mod .en{font-family:var(--display);font-style:italic;color:var(--ink-soft);font-size:.85rem}
+.mod p{font-size:.92rem;color:var(--ink-soft);line-height:1.65}
+.mod .stuck{font-size:.85rem;border-top:1px dashed var(--line);padding-top:8px;color:var(--amber-dark)}
+.mod .use{position:absolute;top:16px;right:16px;background:var(--teal);color:var(--card);font-size:.75rem;padding:2px 10px;border-radius:99px;font-weight:600}
+
+.mhead{display:grid;gap:6px;margin-block:8px 16px}
+.mhead h2{font-size:clamp(1.5rem,4.5vw,2.1rem)}
+.mhead h2::after{content:'';display:block;width:48px;height:3px;background:var(--amber);border-radius:2px;margin-top:12px}
+.ctxbar{background:var(--bg-warm);border-radius:var(--radius-sm);padding:10px 14px;font-size:.92rem;margin-bottom:18px;line-height:1.6}
+.ctxbar b{color:var(--amber-dark)}
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);margin-bottom:22px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:6px 16px;cursor:pointer;white-space:nowrap;font-size:.94rem;color:var(--ink-soft)}
+.tab.on{border-color:var(--amber);background:var(--amber);color:var(--on-amber);font-weight:600}
+.tab.home{color:var(--amber-dark);font-weight:600}
+
+.sec{display:grid;gap:16px;margin-bottom:32px}
+.stitle{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;font-size:1.15rem;font-weight:700;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+.stitle small{font-weight:400;color:var(--ink-soft);font-size:.88rem}
+.lead{color:var(--ink-soft);font-size:.95rem}
+.q{display:grid;gap:6px}
+.q label,.qlabel{font-weight:600;font-size:.95rem}
+textarea,input[type=text],input[type=number],input[type=url]{width:100%;background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:9px 13px;line-height:1.7}
+textarea{min-height:80px;resize:vertical}
+textarea:focus,input:focus{border-color:var(--amber);outline:none}
+::placeholder{color:var(--ink-soft);opacity:.7}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:620px){.grid2,.grid3{grid-template-columns:1fr}}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:5px 14px;cursor:pointer;font-size:.92rem}
+.chip:hover{border-color:var(--amber)}
+.chip.on{background:var(--amber);border-color:var(--amber);color:var(--on-amber);font-weight:600}
+.chip.teal.on{background:var(--teal);border-color:var(--teal);color:var(--card)}
+.seg{display:inline-flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:4px 13px;font-size:.88rem;cursor:pointer;color:var(--ink-soft)}
+.seg button.on{background:var(--amber);border-color:var(--amber);color:var(--on-amber);font-weight:600}
+
+.res{border-radius:var(--radius-sm);padding:12px 16px;font-size:.94rem;line-height:1.7}
+.res b.h{display:block;font-size:.8rem;letter-spacing:.08em}
+.res ul{margin:4px 0 0;padding-left:1.2em}
+.res li+li{margin-top:4px}
+.res.warn{background:var(--amber-tint);color:var(--amber-dark)}
+.res.ok{background:var(--teal-tint);color:var(--teal)}
+.res.bad{background:var(--bad-tint);color:var(--bad)}
+.res.neutral{background:var(--bg-warm);color:var(--ink)}
+.out{background:var(--card);border:2px dashed var(--amber);border-radius:var(--radius-sm);padding:14px 16px;display:grid;gap:8px}
+.out pre{white-space:pre-wrap;word-break:break-word;margin:0;font-family:var(--serif);font-size:.93rem;line-height:1.75}
+.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;background:var(--bg-warm);border-radius:8px;padding:8px 12px;word-break:break-all}
+
+.list{display:grid;gap:8px}
+.item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 14px}
+.item .n{font-family:var(--display);color:var(--amber);font-weight:700;min-width:1.5em;font-variant-numeric:tabular-nums}
+.item .t{font-weight:600;line-height:1.6}
+.xbtn{border:0;background:transparent;color:var(--ink-soft);cursor:pointer;font-size:1.2rem;line-height:1;padding:6px}
+.xbtn:hover{color:var(--bad)}
+
+table.tb{width:100%;border-collapse:collapse;font-size:.92rem}
+.tbwrap{overflow-x:auto}
+.tb th,.tb td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.tb th{font-size:.8rem;letter-spacing:.06em;color:var(--ink-soft);font-weight:600}
+.tb td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar{height:10px;background:var(--bg-warm);border-radius:99px;overflow:hidden;min-width:80px}
+.bar i{display:block;height:100%;background:var(--amber);border-radius:99px}
+
+.checkrow{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px}
+.checkrow.on{background:var(--teal-tint);border-color:var(--teal-soft)}
+.box{width:28px;height:28px;border-radius:8px;border:2px solid var(--line);background:var(--card);cursor:pointer;color:var(--card);font-weight:700;display:grid;place-items:center;padding:0}
+.checkrow.on .box{background:var(--teal);border-color:var(--teal)}
+.checkrow p{font-size:.9rem;color:var(--ink-soft);line-height:1.6}
+
+.credrow{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 14px}
+@media (max-width:560px){.credrow{grid-template-columns:1fr}}
+
+.compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.cmp{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px;display:grid;gap:6px;font-size:.92rem}
+.cmp .bad s{text-decoration-color:var(--bad);text-decoration-thickness:2px;color:var(--ink-soft)}
+.cmp .good{font-weight:600;border-left:3px solid var(--teal);padding-left:10px}
+
+.seg-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 14px;display:grid;gap:6px}
+.seg-card .quote{line-height:1.7}
+.seg-card .quote::before{content:'「';color:var(--amber)}
+.seg-card .quote::after{content:'」';color:var(--amber)}
+.seg-card input{padding:6px 12px}
+
+.chartpick{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.cp{border:1.5px solid var(--line);background:var(--card);border-radius:var(--radius-sm);padding:12px;cursor:pointer;text-align:left;font-size:.92rem;line-height:1.55}
+.cp.on{border-color:var(--amber);background:var(--amber-tint);font-weight:600}
+.rec{display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center}
+@media (max-width:560px){.rec{grid-template-columns:1fr}}
+.rec svg{width:100%;max-width:180px;height:auto}
+svg .axis{stroke:var(--ink-soft);stroke-width:1}
+svg .grid{stroke:var(--line);stroke-width:1}
+svg .dot{fill:var(--amber);fill-opacity:.8}
+svg .trend{stroke:var(--teal);stroke-width:2;stroke-dasharray:5 4}
+svg .lbl{fill:var(--ink-soft);font-size:11px;font-family:var(--serif)}
+svg .f1{fill:var(--amber)} svg .f2{fill:var(--teal)} svg .f3{fill:var(--amber-tint);stroke:var(--amber);stroke-width:1.5} svg .f4{fill:var(--line)}
+svg .ln{fill:none;stroke:var(--amber);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.scatter{width:100%;max-width:440px;height:auto;display:block}
+.stat{display:flex;flex-wrap:wrap;gap:10px}
+.stat div{background:var(--bg-warm);border-radius:var(--radius-sm);padding:8px 14px}
+.stat b{display:block;font-family:var(--display);font-size:1.5rem;color:var(--amber-dark);font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:.8rem;color:var(--ink-soft)}
+
+.quiz{display:grid;gap:8px}
+.qz{display:grid;grid-template-columns:1fr auto;gap:8px 12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 14px}
+.qz .fb{grid-column:1/-1;font-size:.88rem}
+@media (max-width:560px){.qz{grid-template-columns:1fr}}
+
+.ai{background:var(--card);border:2px solid var(--teal-soft);border-radius:var(--radius);padding:20px;display:grid;gap:12px;margin-top:10px}
+.ai h3{font-size:1.1rem;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.ai textarea{min-height:160px;font-size:.88rem;line-height:1.65;background:var(--bg)}
+.ai .note{font-size:.85rem;color:var(--ink-soft);border-left:3px solid var(--amber);padding-left:10px}
+
+.banner{background:var(--teal-tint);border:1px solid var(--teal-soft);border-radius:var(--radius-sm);padding:12px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;font-size:.95rem;margin-bottom:16px}
+.reply{background:var(--teal-tint);border-radius:var(--radius-sm);padding:10px 14px;font-size:.93rem}
+.reply b{color:var(--teal)}
+.plan{display:grid;gap:4px;font-size:.92rem}
+.plan div{display:grid;grid-template-columns:110px 1fr;gap:10px;border-bottom:1px dotted var(--line);padding-block:4px}
+.plan span:first-child{color:var(--amber-dark);font-weight:600;font-variant-numeric:tabular-nums}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:99px;opacity:0;pointer-events:none;transition:all .25s;font-size:.92rem;z-index:20;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+footer{text-align:center;color:var(--ink-soft);font-size:.85rem;padding-block:40px 30px;border-top:1px solid var(--line);margin-top:30px}
+footer .brand{font-family:var(--display);font-style:italic;color:var(--amber)}
+.fade{animation:fade .35s ease}
+@keyframes fade{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.rule{background:var(--amber-tint);border-radius:var(--radius-sm);padding:12px 16px;color:var(--amber-dark);font-size:.95rem;margin-bottom:22px}
+.btn.danger{background:var(--bad);color:#fff}
+.stepper{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.steps{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
+.step{flex:1 0 auto;display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:6px 14px 6px 6px;cursor:pointer;white-space:nowrap;font-size:.92rem;color:var(--ink-soft)}
+.step .n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--bg-warm);font-family:var(--display);font-weight:700;font-size:.9rem;color:var(--amber-dark)}
+.step.done .n{background:var(--teal);color:var(--card)}
+.step.on{border-color:var(--amber);color:var(--ink);font-weight:600;background:var(--amber-tint)}
+.step.on .n{background:var(--amber);color:var(--on-amber)}
+.sparks{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+.spark{text-align:left;border:1px dashed var(--line);background:var(--card);border-radius:var(--radius-sm);padding:9px 12px;cursor:pointer;font-size:.92rem;line-height:1.55}
+.spark:hover{border-color:var(--amber);border-style:solid}
+.spark b{color:var(--amber-dark);display:flex;gap:8px;align-items:baseline;font-size:.82rem;letter-spacing:.04em}
+.spark b span{font-weight:400;color:var(--ink-soft);font-size:.76rem}
+.meter{display:flex;align-items:center;gap:12px;font-size:.92rem}
+.meter .bar{flex:1;height:8px}
+.meter .bar i.ok{background:var(--teal)}
+.fcard{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);padding:16px 18px;display:grid;gap:14px;box-shadow:var(--shadow)}
+.fcard.picked{border-color:var(--teal);background:linear-gradient(0deg,var(--teal-tint),var(--card) 60%)}
+.fcard.final{border:2px solid var(--amber)}
+.fcard .t{font-weight:700;line-height:1.55}
+.sc-top{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}
+.total{font-family:var(--display);font-weight:700;font-size:1.5rem;color:var(--amber-dark);font-variant-numeric:tabular-nums;line-height:1}
+.total small{font-size:.75rem;color:var(--ink-soft);font-family:var(--serif);font-weight:400}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.legend div{background:var(--bg-warm);border-radius:var(--radius-sm);padding:8px 12px;font-size:.86rem;line-height:1.55}
+.legend b{display:block;font-size:.95rem}
+.lights{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 14px}
+@media (max-width:620px){.lights{grid-template-columns:1fr 1fr}}
+.light .k{margin-bottom:3px}
+.seg.tri{gap:4px}
+.seg.tri button{padding:3px 11px;font-size:.84rem}
+.seg.tri button.綠.on{background:var(--teal);border-color:var(--teal);color:var(--card)}
+.seg.tri button.黃.on{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.seg.tri button.紅.on{background:var(--bad);border-color:var(--bad);color:#fff}
+.radio{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;color:var(--amber-dark);border:1.5px solid var(--line);border-radius:999px;padding:4px 14px 4px 8px;background:var(--card);white-space:nowrap}
+.radio .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--amber);display:grid;place-items:center}
+.radio.on{background:var(--amber);color:var(--on-amber);border-color:var(--amber)}
+.radio.on .dot{border-color:var(--on-amber)}
+.radio.on .dot::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--on-amber)}
+.cmp .k{margin-top:4px}
+.evl{display:grid;gap:6px}
+.evl div{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center;border-radius:var(--radius-sm);padding:8px 12px;font-size:.9rem;background:var(--bg-warm)}
+.evl .ev5{background:var(--teal-tint)} .evl .ev5 b{color:var(--teal)}
+.evl .ev4{background:var(--teal-tint)} .evl .ev4 b{color:var(--teal)}
+.evl .ev1{background:var(--bad-tint)} .evl .ev1 b{color:var(--bad)}
+.evl span{color:var(--ink-soft)}
+details.mini-sum{background:var(--bg-warm);border-radius:var(--radius-sm);padding:10px 16px;margin-bottom:18px}
+details.mini-sum summary{cursor:pointer;font-weight:600;color:var(--amber-dark)}
+table.mat input{padding:6px 8px;min-width:80px;font-size:.92rem}
+table.mat td{padding:4px}
+.plan input{padding:5px 8px;font-size:.92rem}
+.doc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:clamp(20px,5vw,40px);display:grid;gap:20px}
+.doc .dt{text-align:center;display:grid;gap:4px;padding-bottom:16px;border-bottom:2px solid var(--amber)}
+.doc .dt h3{font-size:clamp(1.25rem,4vw,1.6rem)}
+.dsec{display:grid;gap:6px}
+.dsec h4{margin:0;font-size:.82rem;letter-spacing:.12em;color:var(--amber-dark)}
+.dsec .big{font-size:1.12rem;font-weight:700;line-height:1.6}
+.dplan{display:grid;gap:4px;font-size:.94rem}
+.dplan>div{display:grid;grid-template-columns:120px 1fr;gap:10px;border-bottom:1px dotted var(--line);padding-block:5px}
+.dplan>div>span:first-child{color:var(--amber-dark);font-weight:600}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:620px){.row2{grid-template-columns:1fr}.dplan>div{grid-template-columns:1fr;gap:0}}
+.fbcard{background:var(--card);border:2px solid var(--teal);border-radius:var(--radius);padding:18px 20px;display:grid;gap:8px;margin-bottom:20px}
+.fbh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.fbh b{font-size:1.1rem;color:var(--teal)}
+.send{display:grid;gap:14px;margin-top:32px;background:var(--card);border:2px solid var(--teal-soft);border-radius:var(--radius);padding:20px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-block:30px 18px}
+@media (max-width:620px){
+ table.mat,table.mat tbody{display:block;width:100%}
+ table.mat thead{display:none}
+ table.mat tr{display:grid;grid-template-columns:1fr 1fr 36px;gap:6px;padding-block:10px;border-bottom:1px solid var(--line)}
+ table.mat td{border:0;padding:0}
+ table.mat td:nth-child(1){grid-row:1;grid-column:1/3}
+ table.mat td:nth-child(6){grid-row:1;grid-column:3}
+ table.mat td:nth-child(2){grid-row:2;grid-column:1}
+ table.mat td:nth-child(3){grid-row:2;grid-column:2/4}
+ table.mat td:nth-child(4){grid-row:3;grid-column:1}
+ table.mat td:nth-child(5){grid-row:3;grid-column:2/4}
+ table.mat input{min-width:0}
+}
+
+.scores{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.scores .seg button{min-width:30px;padding:3px 0;font-family:var(--display)}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:620px){.tiers{grid-template-columns:1fr}}
+.tiers div{border-radius:var(--radius-sm);padding:10px 14px;display:grid;gap:2px;font-size:.9rem;line-height:1.55}
+.tiers b{font-size:1rem}
+.lv1{--lv:var(--teal);--lvt:var(--teal-tint)}
+.lv2{--lv:var(--amber-deep);--lvt:var(--amber-tint)}
+.lv3{--lv:var(--bad);--lvt:var(--bad-tint)}
+.tiers .lv1,.tiers .lv2,.tiers .lv3{background:var(--lvt)}
+.tiers b{color:var(--lv)}
+.lvtag{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.06em;padding:2px 10px;border-radius:99px;background:var(--lvt,var(--bg-warm));color:var(--lv,var(--ink))}
+.tierrow{display:grid;gap:8px;margin-top:10px}
+.sols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.sol{background:var(--card);border:1.5px solid var(--line);border-top:4px solid var(--lv);border-radius:var(--radius-sm);padding:14px 16px;display:grid;gap:8px;align-content:start}
+.sol.fav{border-color:var(--lv);box-shadow:var(--shadow)}
+.sol h4{margin:0;font-size:1.05rem}
+.sol p{font-size:.92rem;line-height:1.65}
+.sol-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.star{border:1.5px solid var(--line);background:var(--card);border-radius:99px;padding:3px 12px;font-size:.84rem;cursor:pointer;color:var(--ink-soft)}
+.star.on{background:var(--amber);border-color:var(--amber);color:var(--on-amber);font-weight:600}
+.meta{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.84rem;color:var(--amber-dark);font-weight:600}
+.out p b{line-height:1.7}
+
+.gates{display:grid;gap:8px;margin-bottom:20px}
+.gtrack{display:flex;flex-wrap:wrap;gap:6px}
+.gtrack .g{border:1.5px solid var(--line);border-radius:99px;padding:4px 12px;font-size:.86rem;color:var(--ink-soft);background:var(--card)}
+.gtrack .g.on{background:var(--teal);border-color:var(--teal);color:var(--card);font-weight:600}
+.cbars{display:grid;gap:8px;margin-block:4px}
+.cbars>div{display:grid;grid-template-columns:56px 1fr 52px;gap:10px;align-items:center;font-size:.9rem}
+.cbars .bar{height:16px;min-width:0}
+.cbars .bar i.t{background:var(--teal)}
+.cbars b{font-variant-numeric:tabular-nums;text-align:right}
+
+.idcard{display:grid;gap:12px;margin-bottom:18px;border:2px solid var(--amber)}
+.idcard h3{font-size:1.15rem;margin-top:2px}
+@media (max-width:620px){.idcard .grid3{grid-template-columns:1fr 1fr}.idcard .grid3 .q:last-child{grid-column:1/-1}}
+.idbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;background:var(--teal-tint);border-radius:var(--radius-sm);padding:8px 14px;font-size:.92rem;margin-bottom:12px}
+.idline{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;background:var(--bg-warm);border-radius:var(--radius-sm);padding:10px 14px;font-size:.95rem}
+
+[hidden]{display:none!important}
+body.locked .wrap{display:none}
+.gate{min-height:100vh;display:grid;place-items:center;padding-block:40px}
+.gatecard{max-width:440px;width:100%;background:var(--card);border:2px solid var(--amber);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:32px 26px;display:grid;gap:14px;text-align:center;justify-items:center}
+.gatecard h1{font-size:clamp(1.6rem,6vw,2.2rem)}
+.gbtn{min-height:44px}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate" hidden>
+  <div class="gatecard">
+    <p class="eyebrow">Fengxin Senior High School</p>
+    <h1>生活觀察解題室</h1>
+    <p>這個網站只開放<b>鳳新高中</b>學生使用。請用學校的 Google 帳號（<b>@fhsh.khc.edu.tw</b>）登入。</p>
+    <div id="gbtn" class="gbtn"></div>
+    <p class="mini" id="gmsg"></p>
+    <p class="mini">登入只用來確認你是鳳新高中的學生，不會讀取你的信件或雲端硬碟。</p>
+  </div>
+</div>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">From Everyday Life to Solutions</p>
+    <h1>生活觀察解題室</h1>
+    <p>好的實作題目，常常藏在每天讓你覺得「卡卡的」時刻裡。先觀察、找出真正的問題，再從初階到進階的方案中，挑一個你做得到的開始動手。</p>
+    <div class="toolbar">
+      <button class="btn ghost sm" data-act="backup">進度碼：換裝置接著做</button>
+      <button class="btn ghost sm" data-act="askclear">全部清空</button>
+    </div>
+  </header>
+  <div id="notice"></div>
+  <nav class="stepper" aria-label="步驟"><div class="steps" id="steps"></div></nav>
+  <main id="panel"></main>
+  <footer><span class="brand">Gina教室的AI奇蹟</span> · 你的內容只存在這台裝置的瀏覽器裡。方案的預算與時間是估計值，實際以你的情況為準。</footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<script>
+/* ===== 老師設定 ===== */
+const SCRIPT_URL='';              // Apps Script 網頁應用程式網址（結尾 /exec）
+const GOOGLE_CLIENT_ID='';        // Google OAuth 用戶端 ID（結尾 .apps.googleusercontent.com）；留空＝不需登入
+const ALLOWED_DOMAIN='fhsh.khc.edu.tw';
+/* ========================================================== */
+const KEY='gina-sdl-solver-v1';
+const STEPS=[['1','觀察'],['2','定義'],['3','選題'],['4','方案'],['5','適配'],['6','計畫'],['7','行動卡'],['8','執行'],['✓','成果']];
+const FBSTEP=6;
+const GATES=['選題通過','計畫通過','期中通過','完成'];
+const STALLS=[['沒有人願意配合','先找 3–5 位願意幫忙的朋友試辦；請導師或幹部在班會上說明；讓參與的人看到結果（例如每週公布數據）。'],
+ ['數據太少、回收率很低','把紀錄方式變簡單（例如只問一題，或固定時間由你親自量）；延長一週蒐集；在報告中誠實寫出樣本數。'],
+ ['改變前後看不出差別','先檢查每次的測量方式是否一樣；差別小也是一種結果，寫下可能的原因；下一輪加強解法（例如提醒更明顯）。'],
+ ['做到一半沒時間','回到「第一版」，只保留核心；時程最後兩週當緩衝；先把初階版本做完，進階寫成未來延伸。'],
+ ['方案行不通','這不是失敗，是發現。寫下為什麼行不通，回到步驟 4 換方案或降一級。'],
+ ['常常忘記紀錄','設定固定的紀錄時間（例如每天午餐後）；在手機設提醒；拍照也是紀錄。']];
+const LAST=STEPS.length-1;
+const SCENES=['家裡','上學路上','教室','午餐時間','福利社','社團或運動','下課走廊','睡前滑手機'];
+const LENSES=[['浪費','食物、電、東西、時間白白浪費'],['不方便','要繞路、要等、要重複做'],['不安全','差點受傷、危險的地方'],['不健康','吃、睡、坐、用眼的習慣'],['不公平','有人被忽略或不方便使用'],['不舒服','太吵、太熱、太擠、太亂'],['讓人煩惱','壓力、人際、情緒']];
+const FREQ=['每天','每週幾次','偶爾'];
+const SKILLS=['試算表','Google 表單','問卷訪談','手作','烹飪','實驗設計','程式','電路','網頁','設計排版','溝通協調'];
+const TIER=['','初階','中階','進階'];
+const TIER_D=['','看見問題：觀察、記錄、調查，提出改善建議','試一個解法：做一個低成本的改變，比較前後','做出工具：原型、感測器或程式，讓使用者測試'];
+const SCORE=[['reach','影響多少人'],['freq','多常發生'],['care','我有多在乎'],['access','我接觸得到（能觀察、能測試）'],['fresh','還沒有人好好解決']];
+const DOMAINS={
+ env:{n:'環境與浪費',lens:'浪費',ex:'剩食、一次性杯、用電、紙張',c:[
+  [1,'剩食稽查員','連續兩週秤量班上午餐剩食，整理成圖表，向班會或午餐秘書提出改善建議。','數據報告＋提案',['試算表'],'電子秤、手機',200,6,'中階：設計一個小改變，比較前後剩食量'],
+  [1,'一次性杯調查地圖','調查各處室、福利社一天用掉多少一次性杯，畫成校園地圖海報。','調查海報',['問卷訪談','設計排版'],'紙筆、手機',150,6,'中階：試辦環保杯借用站'],
+  [2,'減量介入實驗','設計一個小改變（例如份量選擇卡、提醒標語），比較介入前後兩週的剩食量。','前後比較報告',['實驗設計','試算表','溝通協調'],'電子秤、護貝卡',400,8,'進階：做份量預約表單或儀表板'],
+  [2,'環保杯借用站試辦','在班上設借用站兩週，用 Google 表單記錄借還，算出少用了多少杯子。','試辦報告',['Google 表單','溝通協調'],'環保杯、收納架',800,8,'進階：做自動統計的借還網頁'],
+  [3,'智慧回收提示','用 micro:bit 偵測垃圾桶滿載或分類錯誤，亮燈提示，並做使用者測試。','原型＋測試報告',['程式','電路'],'micro:bit、感測器',1500,12,'加入數據紀錄，分析哪個時段最滿'],
+  [3,'教室用電儀表板','用插座式電表記錄冷氣用電，做成網頁儀表板，再辦一場節電挑戰。','儀表板＋挑戰成果',['網頁','試算表'],'插座式電表、電腦',1200,12,'推廣到其他班級比較']]},
+ health:{n:'健康與飲食',lens:'不健康',ex:'含糖飲料、早餐、睡眠、久坐',c:[
+  [1,'一週含糖飲料日記','招募同學記錄一週喝的飲料，換算成方糖數，做成視覺化海報。','數據海報',['試算表','設計排版'],'手機、表單',100,6,'中階：做低糖配方盲測'],
+  [1,'不吃早餐原因調查','調查同學不吃早餐的原因，整理一份「5 分鐘早餐清單」。','調查報告＋清單',['問卷訪談'],'Google 表單',0,6,'中階：試辦早餐預約或分享'],
+  [2,'低糖配方盲測','設計 2–3 款低糖飲品配方，讓 20 位同學盲測喜好度。','配方＋盲測結果',['烹飪','實驗設計'],'廚房、量杯',500,8,'進階：加入甜味劑或香氣變因實驗'],
+  [2,'久坐伸展挑戰','設計兩週伸展挑戰與紀錄表，比較前後的肩頸痠痛自評。','挑戰設計＋前後比較',['Google 表單','溝通協調'],'海報、表單',200,8,'進階：做提醒伸展的小程式'],
+  [3,'健康零食開發','用食材科學做出一款健康點心（例如雞胸肉脆片），實驗配方、溫度和保存。','成品＋實驗報告',['烹飪','實驗設計'],'烤箱、電子秤、溫度計',1200,12,'做成本分析和包裝設計'],
+  [3,'睡眠紀錄 App','用 App Inventor 加試算表做睡眠紀錄 App，找出影響睡眠的習慣。','App＋使用者測試',['程式','試算表'],'手機、電腦',300,14,'加入圖表回饋與提醒']]},
+ campus:{n:'校園生活與動線',lens:'不方便',ex:'福利社排隊、走廊擁擠、找教室、雨天',c:[
+  [1,'排隊時間觀察','在福利社記錄不同時段的排隊人數和等待時間，提出分流建議。','觀察報告＋建議',['試算表'],'手機計時',0,6,'中階：試辦預購表單'],
+  [1,'新生友善地圖','替新生畫一張標示專科教室、飲水機、無障礙設施的校園地圖。','地圖海報',['設計排版'],'紙筆或電腦',200,6,'進階：做成互動地圖網站'],
+  [2,'福利社預購試辦','用 Google 表單做預購，和福利社合作試辦兩週，比較等待時間。','試辦報告',['Google 表單','溝通協調'],'表單、手機',200,8,'進階：做自動彙整訂單的試算表'],
+  [2,'雨天動線改善提案','記錄雨天積水和擁擠的地點，做照片或模型提案給總務處。','提案＋模型',['手作','設計排版'],'相機、紙板',500,8,'追蹤提案是否被採納'],
+  [3,'擁擠程度提示','用感測器計算進出人數（不拍臉），在網頁顯示福利社擁擠程度。','原型＋測試',['程式','電路','網頁'],'micro:bit、感測器',1800,14,'分析一週人流數據'],
+  [3,'校園導覽網站','做互動式校園地圖網站，貼 QR Code，收集使用回饋改版兩次。','網站＋改版紀錄',['網頁','設計排版'],'電腦、QR Code 貼紙',300,12,'加入英文版給交換生']]},
+ study:{n:'學習與時間管理',lens:'讓人煩惱',ex:'拖延、背單字、筆記、考試焦慮',c:[
+  [1,'拖延原因調查','調查同學最常拖延的情境和原因，整理成策略卡。','調查報告＋策略卡',['問卷訪談','設計排版'],'Google 表單',100,6,'中階：做番茄鐘挑戰'],
+  [1,'讀書環境比較','比較在不同環境（安靜、音樂、圖書館）讀書 25 分鐘後的專注自評。','比較報告',['試算表'],'計時器',0,6,'中階：增加人數與重複次數'],
+  [2,'番茄鐘挑戰','設計兩週番茄鐘挑戰，記錄完成量和自評，比較前後。','挑戰設計＋前後比較',['Google 表單','試算表'],'表單',0,8,'進階：做計時與紀錄小工具'],
+  [2,'背單字方法比較','比較兩種背單字方法（例如間隔複習與集中複習）一週後的測驗成績。','實驗報告',['實驗設計','試算表'],'單字表、小考卷',0,8,'進階：做間隔複習工具'],
+  [3,'間隔複習小工具','用試算表或網頁做自動排程的單字複習工具，讓 10 位同學試用兩週。','工具＋使用者測試',['程式','網頁'],'電腦',0,12,'加入成績追蹤圖表'],
+  [3,'專注偵測器','用 micro:bit 偵測手機被拿起的次數，提醒並記錄專注時間。','原型＋測試',['程式','電路'],'micro:bit、感測器',1000,12,'比較有無提醒的差別']]},
+ safe:{n:'安全',lens:'不安全',ex:'上學路口、腳踏車、夜間、防災',c:[
+  [1,'危險路口紀錄','上學時段在安全的位置記錄學校周邊路口的人車衝突次數，畫成安全地圖。','安全地圖',['試算表','設計排版'],'手機、紙筆',0,6,'中階：向學校或里長提出改善提案'],
+  [1,'家庭防災準備調查','調查同學家中的防災準備，整理一份簡易防災包清單。','調查＋清單',['問卷訪談'],'Google 表單',100,6,'中階：辦一場防災包實作'],
+  [2,'夜間反光設計','比較不同反光材料貼在書包上的可見距離，做出反光配件。','實驗＋配件',['實驗設計','手作'],'反光貼、手電筒',500,8,'做成小量販售或推廣'],
+  [2,'腳踏車停車改善','觀察停車混亂的原因，用標示或排列方式試辦並比較。','試辦報告',['溝通協調','設計排版'],'標示貼紙',300,8,'追蹤一個月後的效果'],
+  [3,'來車提醒原型','用 micro:bit 和超音波感測器做來車接近提示原型，在校內模擬測試。','原型＋測試',['程式','電路'],'micro:bit、超音波感測器',1200,12,'測試不同距離與環境的準確度'],
+  [3,'防災資訊網頁','整理學校周邊避難路線與資源，做成手機網頁，舉辦演練收集回饋。','網頁＋演練回饋',['網頁','溝通協調'],'電腦',200,12,'和學校防災演練結合']]},
+ mind:{n:'人際與心理',lens:'讓人煩惱',ex:'壓力、孤單、新生適應',c:[
+  [1,'壓力來源調查','用匿名問卷調查同學的壓力來源和紓壓方式，整理成資源卡。','調查報告＋資源卡',['問卷訪談','設計排版'],'Google 表單',0,6,'中階：試辦紓壓角落'],
+  [1,'感謝卡行動','在班上推動一週感謝卡，記錄參與率和心情自評。','行動紀錄',['溝通協調'],'卡片',150,6,'中階：擴大到全年級'],
+  [2,'新生適應手冊','訪談學長姐和新生，做一本校園生存手冊並試發給新生。','手冊＋回饋',['問卷訪談','設計排版'],'印刷',500,10,'進階：做成網站或桌遊'],
+  [2,'紓壓角落試辦','在教室角落放紓壓小物和指引，兩週後調查使用情形。','試辦報告',['手作','溝通協調'],'紓壓小物',600,8,'比較不同物品的使用率'],
+  [3,'班級心情溫度計','用匿名表單加試算表做班級心情趨勢圖，老師只看整體、不看個人。','工具＋使用回饋',['Google 表單','試算表'],'表單、試算表',0,12,'設計對應的班級活動'],
+  [3,'求助練習桌遊','設計一款練習表達情緒、向人求助的桌遊，多輪測試修改。','桌遊＋測試紀錄',['設計排版','手作'],'卡紙、印刷',800,14,'帶到國中或社團試玩']]},
+ tech:{n:'科技與手機使用',lens:'不健康',ex:'滑太久、通知、網路謠言',c:[
+  [1,'螢幕時間觀察','請同學匿名分享一週螢幕使用時間截圖，分析最常用的 App 和時段。','分析報告',['試算表'],'手機',0,6,'中階：減少滑手機實驗'],
+  [1,'謠言破解海報','蒐集班群流傳的訊息，查證後做成破解海報。','海報',['設計排版'],'電腦',100,6,'中階：辦一場查證小教室'],
+  [2,'減少滑手機實驗','設計兩週的手機使用規則（例如關通知），比較前後的螢幕時間和睡眠。','實驗報告',['實驗設計','試算表'],'手機',0,8,'進階：做專注模式 App'],
+  [2,'長輩數位小教室','設計 3 堂手機教學（例如辨識詐騙訊息），實際教 5 位長輩並評估。','教案＋成效',['溝通協調','設計排版'],'講義',300,8,'做成影片教材'],
+  [3,'專注模式 App','用 App Inventor 做專注計時、提醒的 App，讓同學試用並改版。','App＋使用者測試',['程式'],'手機、電腦',0,14,'加入統計與獎勵機制'],
+  [3,'謠言查核小幫手','用表單或聊天機器人自動回覆，整理常見謠言的查核連結。','工具＋使用紀錄',['程式','網頁'],'電腦',200,12,'和班級或家長群組合作試用']]},
+ home:{n:'家庭與生活',lens:'不方便',ex:'家務分工、長輩、收納、植物',c:[
+  [1,'家務時間紀錄','記錄家人一週的家務時間，畫成圖表，和家人討論分工。','圖表＋家庭討論',['試算表'],'紀錄表',0,6,'中階：試行新的分工表'],
+  [1,'長輩提醒卡','為長輩設計大字、圖示化的生活提醒卡（例如出門檢查、作息），請長輩試用。','提醒卡＋回饋',['設計排版'],'印刷、護貝',100,6,'中階：做成可替換的提醒板'],
+  [2,'收納改造','測量並改造家裡一個雜亂的空間，比較改造前後找東西的時間。','改造前後比較',['手作','實驗設計'],'收納盒、木板',600,8,'做成收納改造指南'],
+  [2,'家庭節水挑戰','記錄家中用水，設計兩週節水挑戰，比較水費單或水錶讀數。','挑戰＋前後比較',['試算表','溝通協調'],'水錶、紀錄表',100,8,'進階：做節水裝置原型'],
+  [3,'澆水提醒器','用 micro:bit 和土壤濕度感測器，土太乾時亮燈提醒。','原型＋紀錄',['程式','電路'],'micro:bit、土壤感測器',800,12,'加入數據紀錄與自動澆水'],
+  [3,'節水裝置原型','測量家中出水量，做一個可調流量的節水原型，比較使用前後的用水。','原型＋測量報告',['手作','實驗設計'],'水管零件、量杯',800,12,'計算一年可省多少水費']]}};
+const LADDER=[[1,'記錄與調查','把「{p}」發生的次數、時間、影響的人記錄兩週，做成圖表，提出改善建議。','數據報告＋建議',['試算表','問卷訪談'],'手機、紙筆、表單',100,6,'中階：挑一個建議實際試辦'],
+ [2,'試一個小改變','針對「{p}」設計一個低成本的改變（標語、流程、表單或手作工具），試辦兩週並比較前後。','試辦＋前後比較',['實驗設計','溝通協調'],'依解法而定',500,8,'進階：把有效的改變做成工具'],
+ [3,'做出工具','做一個能更自動、更大規模解決「{p}」的原型（感測器、網頁或 App），讓至少 10 位使用者測試並改版。','原型＋使用者測試',['程式'],'電腦、micro:bit 等',1200,12,'推廣到其他班級或社區']];
+const PHASES={1:[['設計觀察與紀錄方式',.2],['蒐集資料',.4],['整理與分析',.2],['提出建議並分享',.2]],2:[['蒐集改變前的數據',.2],['設計並準備解法',.2],['試辦',.3],['比較前後、修正',.2],['分享成果',.1]],3:[['訪談使用者、確認需求',.15],['設計並學習技術',.2],['做出第一版原型',.25],['使用者測試',.2],['改版',.1],['發表',.1]]};
+
+function blank(){return{sample:false,name:'',cls:'',seat:'',code:'',idOK:false,idRoster:false,idAt:'',submittedAt:'',feedback:{text:'',at:'',seen:''},
+ obs:[],of:{where:'',when:'',what:'',who:'',freq:'',lens:''},probs:[],nextId:1,chosen:null,favs:[],pick:'',
+ me:{skills:[],budget:'',weeks:'',tools:''},plan:{mvp:'',mine:'',before:'',after:'',stuff:'',first:'',tl:[]},gate:'',
+ exe:{unit:'',goal:'變少',data:[],df:{date:'',phase:'改變前',v:'',note:''},log:[],lf:{did:'',saw:'',next:''},pg:{week:'',done:'',next:'',stuck:'',help:''},hist:[],replies:[]},
+ res:{concl:'',reflect:'',surprise:'',again:''}}}
+function sample(){const s=blank();s.sample=true;s.name='小晴（範例）';
+ s.obs=[{where:'午餐時間',when:'每天中午',what:'班上很多人的飯菜吃不完，直接倒進廚餘桶，桶子常常半滿',who:'全班、打菜的同學',freq:'每天',lens:'浪費'},
+  {where:'福利社',when:'第二節下課',what:'排隊排到上課鐘響還買不到，只好空手回教室',who:'買早餐的同學',freq:'每天',lens:'不方便'},
+  {where:'睡前滑手機',when:'晚上 11 點後',what:'本來只想看一下，結果滑到一點多，隔天第一節很想睡',who:'我和很多同學',freq:'每週幾次',lens:'不健康'},
+  {where:'上學路上',when:'早上 7:20',what:'校門口的路口機車很多，走路的學生常常要閃車',who:'走路上學的同學',freq:'每天',lens:'不安全'}];
+ s.probs=[{id:1,from:0,who:'本班同學',sit:'吃營養午餐',cause:'打菜份量固定，每個人食量不同，不喜歡的菜也一樣多',effect:'每天倒掉很多剩食，浪費食物，也增加廚餘處理量',
+   whys:['為什麼會剩這麼多？因為很多人吃不完','為什麼吃不完？因為份量固定，不管食量大小都一樣','為什麼份量固定？因為打菜時沒有人問要多少','為什麼沒人問？因為時間趕，也沒有方便表達的方式'],n:'約 32 人',f:'每天',domain:'env',sc:{reach:4,freq:5,care:4,access:5,fresh:3}},
+  {id:2,from:1,who:'買早餐的同學',sit:'第二節下課到福利社',cause:'大家集中在同一時間去，結帳只有一個櫃台',effect:'排隊排到上課，買不到或遲到',whys:['為什麼排這麼久？因為人都擠在同一節下課','為什麼都擠在同一節？因為第一節下課太短、早上沒時間吃','',''],n:'每天約 100 人',f:'每天',domain:'campus',sc:{reach:5,freq:5,care:3,access:3,fresh:3}}];
+ s.nextId=3;s.chosen=1;s.favs=['env-2','env-0','ladder-1'];s.pick='env-2';
+ s.me={skills:['試算表','問卷訪談','溝通協調'],budget:'800',weeks:'10',tools:'家政教室的電子秤、手機'};
+ s.plan={mvp:'準備「大份／正常／小份」三種選擇卡，打菜時讓同學舉卡選份量，試辦兩週',before:'介入前兩週，每天午餐後秤量全班剩食重量（公斤）',after:'介入後兩週同樣秤量，比較平均剩食量；再用問卷調查同學對份量的滿意度',stuff:'選擇卡印刷、護貝 32 套約 300 元；電子秤向家政教室借',first:'這週先和導師、打菜股長討論，並借好電子秤',tl:[]};
+ s.plan.tl=genTL(10,2);
+ s.plan.mine='方案卡原本是一般的「改變」；我們班的問題在份量固定，不是忘記吃完，所以我改成「份量選擇卡」。對象只限本班 32 人，地點在教室打菜區。';
+ s.gate='計畫通過';
+ const B=[4.2,3.8,4.5,4.0,3.9],A=[3.1,2.9,3.4,2.7,3.0];
+ s.exe.unit='公斤';s.exe.goal='變少';
+ s.exe.data=[...B.map((v,i)=>({date:'10/'+(20+i),phase:'改變前',v:String(v),note:''})),...A.map((v,i)=>({date:'11/'+(3+i),phase:'改變後',v:String(v),note:i===2?'這天有不受歡迎的苦瓜':''}))];
+ s.exe.log=[{did:'第一週試用選擇卡，打菜股長看卡打菜',saw:'有些人忘記舉卡，打菜速度變慢',next:'把卡片貼在餐盤架旁（只改這一件事）'},{did:'第二週把卡片改貼在餐盤架',saw:'舉卡的人變多，打菜時間恢復正常',next:'維持做法，開始量改變後的剩食'}];
+ s.exe.hist=[{week:'4',done:'完成改變前一週的秤量，平均約 4.1 公斤',stuck:'',at:'10/24 17:20'}];
+ s.res={concl:'在本班 32 位同學、各五天的紀錄中，實施份量選擇卡後，每日剩食平均從 4.08 公斤降到 3.02 公斤，約減少 26%。不過菜色不同，也可能影響剩食量。',reflect:'剩食有減少，但還沒有完全解決：不喜歡的菜還是剩很多。',surprise:'打菜股長說，知道每個人要多少之後，打菜反而更快。',again:'我會把同一道菜放在改變前、改變後各一天，比較時更公平。'};
+ return s}
+
+function genTL(w,t){w=Math.max(4,parseInt(w)||10);const P=PHASES[t]||PHASES[1];let L=P.map(p=>Math.max(1,Math.round(p[1]*w)));let d=w-L.reduce((a,b)=>a+b,0),i=0;
+ while(d!==0&&i<200){const k=i%L.length;if(d>0){L[k]++;d--}else if(L[k]>1){L[k]--;d++}i++}
+ let s=1;return P.map((p,k)=>{const a=s,b=s+L[k]-1;s=b+1;return{w:a===b?`第 ${a} 週`:`第 ${a}–${b} 週`,task:p[0]}})}
+function load(){try{const r=localStorage.getItem(KEY);return r?JSON.parse(r):null}catch(e){return null}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function deepMerge(b,o){for(const k in o){if(o[k]&&typeof o[k]==='object'&&!Array.isArray(o[k])&&b[k]&&typeof b[k]==='object'&&!Array.isArray(b[k]))deepMerge(b[k],o[k]);else b[k]=o[k]}return b}
+let S=(()=>{const l=load();return l?deepMerge(blank(),l):sample()})();
+let cur=0;const ui={confirmClear:false,backup:false,sending:false,dom:''};
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function nl(s){return esc(s).replace(/\n/g,'<br>')}
+function getP(p){return p.split('.').reduce((o,k)=>o==null?o:o[k],S)}
+function setP(p,v){const ks=p.split('.');let o=S;ks.slice(0,-1).forEach(k=>{if(o[k]==null)o[k]={};o=o[k]});o[ks[ks.length-1]]=v}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2000)}
+async function copy(text,msg){try{await navigator.clipboard.writeText(text);toast(msg||'已複製')}catch(e){const t=document.createElement('textarea');t.value=text;t.setAttribute('readonly','');t.style.cssText='position:fixed;left:16px;right:16px;bottom:80px;width:auto;height:160px;z-index:30';document.body.appendChild(t);t.focus();t.select();toast('請按 Ctrl+C（手機長按）複製選取的文字');setTimeout(()=>t.remove(),12000)}}
+function encode(){try{return btoa(unescape(encodeURIComponent(JSON.stringify(S))))}catch(e){return''}}
+function inp(path,ph,id,type='text'){return`<input type="${type}" id="${id||path.replace(/\./g,'-')}" data-path="${path}" value="${esc(getP(path))}" placeholder="${esc(ph)}">`}
+function ta(path,ph,h,id){return`<textarea id="${id||path.replace(/\./g,'-')}" data-path="${path}" placeholder="${esc(ph)}" ${h?`style="min-height:${h}px"`:''}>${esc(getP(path))}</textarea>`}
+function seg(path,opts,vals,keep){const v=getP(path);vals=vals||opts;return`<div class="seg" role="group">${opts.map((o,i)=>`<button data-set="${path}" data-val="${esc(vals[i])}" ${keep?'data-keep="1"':''} class="${String(v)===String(vals[i])?'on':''}" aria-pressed="${String(v)===String(vals[i])}">${esc(o)}</button>`).join('')}</div>`}
+function chips(path,list,cls=''){const a=getP(path)||[];return`<div class="chips">${list.map(v=>`<button class="chip ${cls} ${a.includes(v)?'on':''}" data-toggle="${path}" data-val="${esc(v)}" aria-pressed="${a.includes(v)}">${esc(v)}</button>`).join('')}</div>`}
+function sec(t,sm,body){return`<section class="sec"><div class="stitle">${t}${sm?`<small>${sm}</small>`:''}</div>${body}</section>`}
+function resBox(kind,head,items){return`<div class="res ${kind}"><b class="h">${head}</b>${Array.isArray(items)?`<ul>${items.map(x=>`<li>${x}</li>`).join('')}</ul>`:items}</div>`}
+function head(eb,t,rule){return`<div class="mhead"><p class="eyebrow">${eb}</p><h2>${t}</h2></div><p class="rule">${rule}</p>`}
+
+/* 衍生資料 */
+const chosen=()=>S.probs.find(p=>p.id===S.chosen);
+const stmt=p=>p&&(p.who||p.sit||p.cause||p.effect)?`${p.who||'（誰）'}在${p.sit||'（什麼情境）'}時，因為${p.cause||'（原因）'}，所以${p.effect||'（造成什麼困擾）'}。`:'';
+const shortP=()=>{const p=chosen();return p?(p.who&&p.sit?`${p.who}在${p.sit}時${p.effect?'，'+p.effect.split(/[，,。]/)[0]:''}`:stmt(p)):'你的問題'};
+const pscore=p=>SCORE.reduce((a,[k])=>a+(+p.sc[k]||0),0);
+function card(id){if(!id)return null;const [d,i]=id.split('-');if(d==='ladder'){const c=LADDER[+i];return{id,dom:'通用方案階梯',lv:c[0],t:c[1],d:c[2].replace('{p}',shortP()),out:c[3],need:c[4],tools:c[5],cost:c[6],wk:c[7],ext:c[8]}}
+ const D=DOMAINS[d];if(!D)return null;const c=D.c[+i];return c?{id,dom:D.n,lv:c[0],t:c[1],d:c[2],out:c[3],need:c[4],tools:c[5],cost:c[6],wk:c[7],ext:c[8]}:null}
+function fit(c){const have=S.me.skills,miss=c.need.filter(s=>!have.includes(s)),b=+S.me.budget,w=+S.me.weeks;const issues=[];
+ if(b&&c.cost>b)issues.push(`預估花費約 ${c.cost} 元，超過你的預算 ${b} 元`);if(w&&c.wk>w)issues.push(`大約需要 ${c.wk} 週，你只有 ${w} 週`);
+ const lv=!issues.length&&miss.length===0?'ok':(!issues.length&&miss.length<=1)?'prep':'down';return{miss,issues,lv}}
+function suggestDomain(p){const o=S.obs[p?.from];const m={'浪費':'env','不健康':'health','不方便':'campus','不安全':'safe','讓人煩惱':'mind','不舒服':'campus','不公平':'campus'};return o?m[o.lens]||'':''}
+
+function done(i){const p=chosen();switch(i){
+ case 0:return S.obs.length>=3;
+ case 1:return S.probs.some(x=>x.who&&x.sit&&x.cause&&x.effect);
+ case 2:return!!(p&&SCORE.every(([k])=>p.sc[k]));
+ case 3:return S.favs.length>=1;
+ case 4:return!!(S.pick&&S.me.budget&&S.me.weeks);
+ case 5:return!!(S.plan.mvp&&S.plan.mine&&S.plan.before&&S.plan.after&&S.plan.first);
+ case 6:return[0,1,2,3,4,5].every(done);
+ case 7:{const d=S.exe.data;return d.some(x=>x.phase==='改變前')&&d.some(x=>x.phase==='改變後')&&S.exe.log.length>=1}
+ case 8:return!!(S.res.concl&&S.res.reflect)}}
+
+const R=[];
+/* 1 觀察 */
+R[0]=()=>{const f=S.of;return head('Step 1 · Observe','觀察：記下生活中卡卡的時刻','<strong>這一步的規則：</strong>花 3–7 天，只要遇到讓你覺得「好麻煩、好浪費、好危險、好不舒服」的時刻，就記下來。先不要想解法，只記錄發生了什麼。至少記 3 則。')+
+ sec('用這些角度觀察','',`<div class="legend">${LENSES.map(([n,d])=>`<div><b>${n}</b>${d}</div>`).join('')}</div>`)+
+ sec('新增一則觀察','',`<div class="card" style="display:grid;gap:12px">
+  <div class="q"><span class="qlabel">在哪裡？</span>${seg('of.where',SCENES,null,true)}</div>
+  <div class="grid2"><div class="q"><label for="ow">什麼時候？</label>${inp('of.when','例如：第二節下課','ow')}</div><div class="q"><label for="oh">影響了誰？</label>${inp('of.who','例如：買早餐的同學','oh')}</div></div>
+  <div class="q"><label for="ot">發生了什麼？（寫看到的事實）</label>${ta('of.what','例如：排隊排到上課鐘響還買不到，只好空手回教室',60,'ot')}</div>
+  <div class="grid2"><div class="q"><span class="qlabel">多常發生？</span>${seg('of.freq',FREQ,null,true)}</div><div class="q"><span class="qlabel">屬於哪一種？</span>${seg('of.lens',LENSES.map(l=>l[0]),null,true)}</div></div>
+  <div class="toolbar"><button class="btn" data-act="addObs">加入觀察日記</button></div></div>`)+
+ sec('我的觀察日記',`${S.obs.length} 則`,S.obs.length?`<div class="list">${S.obs.map((o,i)=>`<div class="item"><span class="n">${i+1}</span><div><div class="t">${esc(o.what)}</div><div>${o.where?`<span class="tag">${esc(o.where)}</span>`:''}${o.when?`<span class="tag">${esc(o.when)}</span>`:''}${o.lens?`<span class="tag amber">${esc(o.lens)}</span>`:''}${o.freq?`<span class="tag teal">${esc(o.freq)}</span>`:''}</div>${o.who?`<p class="mini">影響：${esc(o.who)}</p>`:''}</div><button class="xbtn" data-act="delObs" data-i="${i}" aria-label="刪除">×</button></div>`).join('')}</div>`:'<p class="empty">還沒有觀察。今天就從上學路上開始吧。</p>')+nav()};
+
+/* 2 定義 */
+function stmtWarn(p){const t=[p.who,p.sit,p.cause,p.effect].join('');if(!t)return'';const w=[];
+ if(/(沒有|缺少|需要|應該有).{0,6}(App|APP|網站|系統|機器|裝置|程式)/.test(t))w.push('這比較像「解法」，不是「問題」。先寫出大家遇到的困擾，解法留到步驟 4。');
+ if(!p.effect)w.push('寫出這個問題造成什麼困擾或後果，才看得出它值不值得解決。');
+ if(p.who&&/(大家|所有人|人們)/.test(p.who))w.push('「大家」太廣了，寫出具體是誰，例如「本班同學」「走路上學的學生」。');
+ return w.length?resBox('warn','可以更清楚',w):resBox('ok','問題敘述','有對象、情境、原因和影響，是一個清楚的問題。')}
+R[1]=()=>head('Step 2 · Define','定義：把觀察變成一個清楚的問題','<strong>這一步的規則：</strong>挑 1–3 則觀察，各寫成一句完整的問題：「誰，在什麼情境，因為什麼原因，造成什麼困擾」。再用「五個為什麼」往下挖，找到你真正能著力的原因。')+
+ sec('從觀察日記挑一則','',S.obs.length?`<div class="list">${S.obs.map((o,i)=>{const used=S.probs.some(p=>p.from===i);return`<div class="item"><span class="n">${i+1}</span><div class="t">${esc(o.what)}</div><button class="btn sm ${used?'ghost':''}" data-act="mkProb" data-i="${i}" ${used?'disabled':''}>${used?'已定義':'定義這個'}</button></div>`}).join('')}</div>`:'<p class="empty">先在步驟 1 記下觀察。</p>')+
+ S.probs.map((p,k)=>{const o=S.obs[p.from]||{};return`<div class="fcard" style="margin-bottom:16px"><div class="sc-top"><div><span class="k">問題 ${k+1}</span><p class="mini">觀察：${esc(o.what||'')}</p></div><button class="xbtn" data-act="delProb" data-i="${k}" aria-label="刪除">×</button></div>
+  <div class="grid2"><div class="q"><label for="pw${k}">誰？</label>${inp(`probs.${k}.who`,'例如：本班同學',`pw${k}`)}</div><div class="q"><label for="ps${k}">在什麼情境？</label>${inp(`probs.${k}.sit`,'例如：吃營養午餐',`ps${k}`)}</div></div>
+  <div class="grid2"><div class="q"><label for="pc${k}">因為什麼原因？</label>${inp(`probs.${k}.cause`,'例如：打菜份量固定，每個人食量不同',`pc${k}`)}</div><div class="q"><label for="pe${k}">造成什麼困擾？</label>${inp(`probs.${k}.effect`,'例如：每天倒掉很多剩食',`pe${k}`)}</div></div>
+  <div class="out"><span class="k">問題敘述</span><p id="st${k}"><b>${esc(stmt(p))||'填好上面四格，這裡會組成一句話。'}</b></p></div><div id="sw${k}">${stmtWarn(p)}</div>
+  <details class="mini-sum" ${p.whys.some(Boolean)?'open':''}><summary>五個為什麼：往下挖出根本原因</summary><div style="display:grid;gap:8px;margin-top:10px">${p.whys.map((w,j)=>`<div class="q"><label for="wy${k}-${j}">為什麼 ${j+1}</label>${inp(`probs.${k}.whys.${j}`,j===0?'為什麼會發生？因為…':'那為什麼會這樣？因為…',`wy${k}-${j}`)}</div>`).join('')}<p class="mini">挖到「你可以著力的原因」就可以停了。最下面那個原因，通常就是解法要對準的地方。</p></div></details>
+  <div class="grid2"><div class="q"><label for="pn${k}">大約影響多少人？</label>${inp(`probs.${k}.n`,'例如：約 32 人',`pn${k}`)}</div><div class="q"><label for="pf${k}">多常發生？</label>${inp(`probs.${k}.f`,'例如：每天',`pf${k}`)}</div></div></div>`}).join('')+nav();
+
+/* 3 選題 */
+R[2]=()=>{const P=S.probs.filter(p=>p.who||p.effect);return head('Step 3 · Choose','選題：哪個問題最值得解決？','<strong>這一步的規則：</strong>每個問題依五個面向打 1–5 分，再選一個。「我接觸得到」很重要：你要能親自觀察、找到人測試，問題才做得下去。')+
+ `<div class="legend">${SCORE.map(([k,n])=>`<div><b>${n}</b></div>`).join('')}</div><div style="height:16px"></div>`+
+ (P.length?`<div class="list">${P.map(p=>{const k=S.probs.indexOf(p);return`<div class="fcard ${S.chosen===p.id?'final':''}"><div class="sc-top"><div class="t">${esc(stmt(p))}</div><div class="total">${pscore(p)}<small> /25</small></div></div>
+  <div class="scores">${SCORE.map(([s,n])=>`<div><span class="k">${n}</span>${seg(`probs.${k}.sc.${s}`,['1','2','3','4','5'],[1,2,3,4,5].map(String),true)}</div>`).join('')}</div>
+  <button class="radio ${S.chosen===p.id?'on':''}" data-act="choose" data-id="${p.id}" style="justify-self:start"><span class="dot"></span>${S.chosen===p.id?'就解決這個':'選這個'}</button></div>`}).join('')}</div>`:'<p class="empty">先在步驟 2 定義問題。</p>')+nav()};
+
+/* 4 方案 */
+function cardHTML(c){const on=S.favs.includes(c.id);return`<div class="sol lv${c.lv} ${on?'fav':''}"><div class="sol-top"><span class="lvtag">${TIER[c.lv]}</span><button class="star ${on?'on':''}" data-act="fav" data-id="${c.id}" aria-pressed="${on}" aria-label="收藏">${on?'★ 已收藏':'☆ 收藏'}</button></div>
+ <h4>${esc(c.t)}</h4><p>${esc(c.d)}</p><div class="meta"><span>成果：${esc(c.out)}</span><span>約 ${c.cost?c.cost+' 元':'免費'}</span><span>約 ${c.wk} 週</span></div>
+ <div>${c.need.map(s=>`<span class="tag ${S.me.skills.includes(s)?'teal':''}">${esc(s)}</span>`).join('')}</div><p class="mini">需要：${esc(c.tools)}　延伸：${esc(c.ext)}</p></div>`}
+R[3]=()=>{const p=chosen(),dk=ui.dom||p?.domain||suggestDomain(p)||'env',D=DOMAINS[dk];return head('Step 4 · Options','方案：從初階到進階','<strong>這一步的規則：</strong>先看「通用方案階梯」，再到領域方案庫找靈感，收藏 1–3 個有興趣的方案。不一定要選進階：初階做得紮實，一樣是好成果，而且做完可以往上升級。')+
+ `<div class="ctxbar"><b>我的問題：</b>${esc(stmt(p)||'（先完成步驟 3）')}</div>`+
+ sec('三種難度代表什麼','',`<div class="tiers">${[1,2,3].map(l=>`<div class="lv${l}"><b>${TIER[l]}</b><span>${TIER_D[l]}</span></div>`).join('')}</div>`)+
+ sec('通用方案階梯','依你的問題自動帶入',`<div class="sols">${LADDER.map((c,i)=>cardHTML(card('ladder-'+i))).join('')}</div>`)+
+ sec('領域方案庫',D?esc(D.ex):'',`<div class="chips">${Object.entries(DOMAINS).map(([k,d])=>`<button class="chip teal ${k===dk?'on':''}" data-act="dom" data-k="${k}">${esc(d.n)}</button>`).join('')}</div>
+  ${p&&dk!==p.domain?`<button class="linkbtn" data-act="setDom" data-k="${dk}">把「${esc(D.n)}」設成我的問題領域</button>`:''}
+  ${[1,2,3].map(l=>`<div class="tierrow"><span class="k">${TIER[l]}</span><div class="sols">${D.c.map((c,i)=>c[0]===l?cardHTML(card(dk+'-'+i)):'').join('')}</div></div>`).join('')}`)+
+ sec('我收藏的方案',`${S.favs.length} 個`,S.favs.length?`<div class="list">${S.favs.map(id=>{const c=card(id);return c?`<div class="item"><span class="n">${TIER[c.lv][0]}</span><div><div class="t">${esc(c.t)}</div><p class="mini">${esc(c.dom)}</p></div><button class="xbtn" data-act="fav" data-id="${id}" aria-label="取消收藏">×</button></div>`:''}).join('')}</div>`:'<p class="empty">按方案右上角的「收藏」。</p>')+nav()};
+
+/* 5 適配 */
+R[4]=()=>head('Step 5 · Fit Check','適配：哪個方案最適合我？','<strong>這一步的規則：</strong>誠實填寫你的技能、預算和時間，系統會比對每個收藏的方案。結果是「需要準備」或「建議降一級」都沒關係，先從做得到的開始，做完再升級。')+
+ sec('我的條件','',`<div class="q"><span class="qlabel">我會的技能</span>${chips('me.skills',SKILLS,'teal')}</div>
+  <div class="grid3"><div class="q"><label for="mb">預算（元）</label>${inp('me.budget','例如：800','mb','number')}</div><div class="q"><label for="mw">可以做幾週</label>${inp('me.weeks','例如：10','mw','number')}</div><div class="q"><label for="mt">有的設備或資源</label>${inp('me.tools','例如：家政教室的電子秤','mt')}</div></div>`)+
+ sec('收藏方案的適配結果','',S.favs.length?`<div class="list">${S.favs.map(id=>{const c=card(id);if(!c)return'';const f=fit(c),lbl={ok:['ok','適合，可以直接開始'],prep:['warn','需要先準備'],down:['bad','建議先做低一級的版本']}[f.lv];
+  const lower=c.lv>1?(id.startsWith('ladder')?'ladder-'+(c.lv-2):(()=>{const [d]=id.split('-');const j=DOMAINS[d].c.findIndex(x=>x[0]===c.lv-1);return j>=0?d+'-'+j:''})()):'';
+  return`<div class="fcard ${S.pick===id?'final':''}"><div class="sc-top"><div><span class="lvtag lv${c.lv}">${TIER[c.lv]}</span> <b>${esc(c.t)}</b><p class="mini">${esc(c.dom)}</p></div><button class="radio ${S.pick===id?'on':''}" data-act="pick" data-id="${id}"><span class="dot"></span>${S.pick===id?'就做這個':'選這個'}</button></div>
+  ${resBox(lbl[0],lbl[1],[...(f.miss.length?[`還要學：${esc(f.miss.join('、'))}（可以找老師、社團或線上教學）`]:[]),...f.issues.map(esc),...(f.lv==='ok'?['技能、預算、時間都在範圍內。']:[]),...(f.lv==='down'&&lower?[`可以先做「${esc(card(lower).t)}」，做完再升級到這個方案。`]:[])])}</div>`}).join('')}</div>`:'<p class="empty">先在步驟 4 收藏方案。</p>')+nav();
+
+/* 6 計畫 */
+R[5]=()=>{const c=card(S.pick),p=S.plan;return head('Step 6 · Plan','計畫：第一版做什麼、怎麼知道有效','<strong>這一步的規則：</strong>先做出最小的第一版，而且要在開始前就決定「怎麼量」。改變前量一次、改變後再量一次，才看得出有沒有解決問題。')+
+ `<div class="ctxbar"><b>選定方案：</b>${c?`${TIER[c.lv]}・${esc(c.t)}`:'（先完成步驟 5）'}<br><b>問題：</b>${esc(stmt(chosen())||'')}</div>`+
+ sec('我的版本：這個方案用在我的問題上，哪裡不一樣？','對象、地點、做法，至少寫出一個你自己的調整',`${ta('plan.mine','例如：方案卡是一般的提醒標語；我們班的問題在份量固定，所以改成「份量選擇卡」，只在本班打菜區試辦',70,'pmi')}<div id="minewarn">${mineWarn()}</div>`)+
+ sec('第一版要做出什麼？','越小越好，兩三週內做得完',ta('plan.mvp','例如：準備大份／正常／小份三種選擇卡，打菜時讓同學舉卡選份量，試辦兩週',70,'pm'))+
+ sec('怎麼知道有沒有解決問題？','',`<div class="grid2"><div class="q"><label for="pb">改變前：量什麼、怎麼量</label>${ta('plan.before','例如：介入前兩週，每天秤全班剩食重量',70,'pb')}</div><div class="q"><label for="pa">改變後：量什麼、和什麼比</label>${ta('plan.after','例如：介入後兩週同樣秤量，比較平均剩食量',70,'pa')}</div></div><div id="mwarn">${measureWarn()}</div>`)+
+ sec('需要的東西與預算','',ta('plan.stuff','例如：選擇卡印刷 300 元；電子秤向家政教室借',60,'pst'))+
+ sec('這週就做的第一件事','只寫一件、具體的事',inp('plan.first','例如：和導師、打菜股長討論，並借好電子秤','pf'))+
+ sec('時程',`${esc(S.me.weeks||'?')} 週`,`<div class="toolbar"><button class="btn ghost sm" data-act="genTL">${p.tl.length?'依週數重新產生':'依週數產生時程'}</button></div>${p.tl.length?`<div class="plan">${p.tl.map((r,i)=>`<div><input type="text" data-path="plan.tl.${i}.w" value="${esc(r.w)}" aria-label="週次"><input type="text" data-path="plan.tl.${i}.task" value="${esc(r.task)}" aria-label="工作"></div>`).join('')}</div>`:''}`)+
+ (['mind','tech'].includes(c?.id.split('-')[0])||/問卷|訪談|匿名/.test(c?.d||'')?resBox('warn','研究倫理提醒','你的方案會蒐集別人的資料或心情。記得事先說明目的、採匿名、不蒐集不必要的個資，並先和老師確認。'):'')+nav()};
+function mineWarn(){const t=(S.plan.mine||'').trim(),c=card(S.pick);if(!t)return resBox('neutral','為什麼要寫這一欄','方案庫是起點，不是答案。寫出你為自己的問題做了什麼調整，作品才會是你的，而不是和別人一樣的方案卡。');
+ if(t.length<25)return resBox('warn','我的版本','再具體一點：你的對象是誰？在哪裡做？和方案卡原本的做法有什麼不同？');
+ if(c&&t.includes(c.d.slice(0,15)))return resBox('warn','我的版本','看起來和方案卡的描述很像。寫出你自己的調整，例如針對根本原因改了什麼。');return resBox('ok','我的版本','有寫出自己的調整，這會是你作品的特色。')}
+function measureWarn(){const a=S.plan.before+S.plan.after;if(!a.trim())return'';const w=[];if(!/\d|次|公斤|分鐘|人數|份|分數|秒|公升|元/.test(a))w.push('還看不出要量什麼數字。寫出單位，例如「公斤」「分鐘」「次數」「1–5 分」。');
+ if(!S.plan.before.trim())w.push('記得量「改變前」，不然沒有比較的基準。');return w.length?resBox('warn','測量方式',w):resBox('ok','測量方式','前後都有可以比較的數字。')}
+
+/* 7 行動卡 */
+function propText(){const p=chosen(),c=card(S.pick),P=S.plan;return`【問題解決行動卡】${S.name?'　'+S.name:''}
+觀察：${S.obs[p?.from]?.what||'（未填）'}
+問題：${stmt(p)||'（未填）'}
+根本原因：${(p?.whys||[]).filter(Boolean).slice(-1)[0]||'（未填）'}
+影響：${p?.n||'?'}，${p?.f||'?'}
+方案：${c?`${TIER[c.lv]}｜${c.t}（${c.dom}）\n　　${c.d}`:'（未選）'}
+第一版：${P.mvp||'（未填）'}
+改變前測量：${P.before||'（未填）'}
+改變後測量：${P.after||'（未填）'}
+需要的東西：${P.stuff||'（未填）'}
+這週第一件事：${P.first||'（未填）'}
+時程：
+${P.tl.map(r=>`${r.w}　${r.task}`).join('\n')||'（未填）'}`}
+function fbKey(){return S.feedback.at||S.feedback.text}
+R[6]=()=>{const p=chosen(),c=card(S.pick),P=S.plan,v=x=>x?esc(x):'<span class="empty">尚未填寫</span>';return head('Finish · Action Card','問題解決行動卡','<strong>計畫完成！</strong>把行動卡送給老師。老師通過「計畫」關卡後，從「這週第一件事」開始動手，並到下一步「執行」記錄過程。')+gateHTML()+
+ (S.feedback.text?`<div class="fbcard"><div class="fbh"><span class="eyebrow">From Your Teacher</span><b>老師的建議</b>${S.feedback.at?`<span class="mini">${esc(S.feedback.at)}</span>`:''}</div><p>${nl(S.feedback.text)}</p></div>`:'')+
+ `<article class="doc"><div class="dt"><p class="eyebrow">Action Card</p><h3>${c?esc(c.t):v('')}</h3><p class="mini">${S.name?esc(S.name)+'　·　':''}${c?`<span class="lvtag lv${c.lv}">${TIER[c.lv]}</span> <span class="tag teal">${esc(c.dom)}</span>`:''}</p></div>
+  <div class="dsec"><h4>我觀察到</h4><p>${v(S.obs[p?.from]?.what)}</p></div>
+  <div class="dsec"><h4>要解決的問題</h4><p class="big">${v(stmt(p))}</p><p class="mini">根本原因：${v((p?.whys||[]).filter(Boolean).slice(-1)[0])}｜影響 ${v(p?.n)}，${v(p?.f)}</p></div>
+  <div class="dsec"><h4>方案</h4><p>${c?esc(c.d):v('')}</p></div>
+  <div class="dsec"><h4>我的版本</h4><p>${v(P.mine)}</p></div>
+  <div class="dsec"><h4>第一版</h4><p><b>${v(P.mvp)}</b></p></div>
+  <div class="row2"><div class="dsec"><h4>改變前測量</h4><p>${v(P.before)}</p></div><div class="dsec"><h4>改變後測量</h4><p>${v(P.after)}</p></div></div>
+  <div class="row2"><div class="dsec"><h4>需要的東西</h4><p>${v(P.stuff)}</p></div><div class="dsec"><h4>這週第一件事</h4><p><b>${v(P.first)}</b></p></div></div>
+  <div class="dsec"><h4>時程</h4>${P.tl.length?`<div class="dplan">${P.tl.map(r=>`<div><span>${esc(r.w)}</span><span>${esc(r.task)}</span></div>`).join('')}</div>`:v('')}</div></article>
+ <div class="toolbar" style="margin-top:18px"><button class="btn" data-act="copyProp">複製行動卡文字</button></div>
+ ${sendBox()}`+nav()};
+
+function sendBox(){return`<section class="send"><div class="stitle">送出給老師</div>
+  ${S.sample?'<p class="rule">現在是範例資料，無法送出。請按上方「清空，開始填我的」。</p>':''}
+  ${!SCRIPT_URL?'<p class="rule">老師還沒設定送出網址，可以先按「複製行動卡文字」交給老師。</p>':''}
+  ${S.sample?'':idLine()}
+  <div class="toolbar"><button class="btn" data-act="submit" ${S.sample||!SCRIPT_URL||!S.idOK?'disabled':''}>${cur===8?'送出成果（更新行動卡）':S.submittedAt?'更新送出的行動卡':'送出行動卡'}</button>${S.submittedAt&&SCRIPT_URL?'<button class="btn ghost sm" data-act="fb">查看老師建議</button>':''}</div>
+  <p class="mini" id="sendStatus">${S.submittedAt?`上次送出：${esc(S.submittedAt)}。修改後可以再送一次，老師那邊會換成最新版本。`:'同一個班級和座號重複送出時，老師那邊只保留最新版本。'}</p></section>`}
+
+/* 8 執行 */
+function gateHTML(){const g=S.gate,idx=GATES.indexOf(g);if(!SCRIPT_URL&&!S.sample)return'';
+ return`<div class="gates"><span class="k">老師關卡</span><div class="gtrack">${GATES.map((n,i)=>`<span class="g ${i<=idx?'on':''}">${i<=idx?'✓':i+1} ${n}</span>`).join('')}</div>
+ ${g==='需修改'?resBox('warn','老師請你修改','看一下行動卡上的「老師的建議」，修改後重新送出。'):idx<0?'<p class="mini">送出行動卡後，老師會在這裡標示你通過了哪一關。</p>':''}</div>`}
+const vals=ph=>S.exe.data.filter(d=>d.phase===ph).map(d=>parseFloat(d.v)).filter(v=>!isNaN(v));
+const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:NaN;
+const r2=x=>Math.round(x*100)/100;
+R[7]=()=>{const E=S.exe,nb=vals('改變前').length,na=vals('改變後').length,planOK=GATES.indexOf(S.gate)>=1;return head('Step 8 · Do','執行：動手做，把過程記下來','<strong>這一步的規則：</strong>先量「改變前」，開始試做後量「改變後」，每次都用一樣的方法量。遇到問題就寫進日誌，下一輪只改一件事。每週回報一次進度。')+gateHTML()+
+ (SCRIPT_URL&&!planOK&&!S.sample?resBox('warn','還沒通過計畫關卡','可以先量「改變前」的數據；正式開始改變之前，建議等老師看過你的計畫。'):'')+
+ `<div class="ctxbar"><b>第一版：</b>${esc(S.plan.mvp||'（先完成步驟 6）')}<br><b>怎麼量：</b>${esc(S.plan.before||'')}</div>`+
+ sec('數據紀錄',`改變前 ${nb} 筆、改變後 ${na} 筆`,`<div class="grid2"><div class="q"><label for="eu">測量的單位</label>${inp('exe.unit','例如：公斤、分鐘、人數、分','eu')}</div><div class="q"><span class="qlabel">這個數字你希望</span>${seg('exe.goal',['變少','變多'],null,true)}</div></div>
+  <div class="card" style="display:grid;gap:10px"><div class="grid3"><div class="q"><label for="edd">日期</label>${inp('exe.df.date','例如：10/20','edd')}</div><div class="q"><span class="qlabel">階段</span>${seg('exe.df.phase',['改變前','改變後'],null,true)}</div><div class="q"><label for="edv">數值${E.unit?'（'+esc(E.unit)+'）':''}</label>${inp('exe.df.v','例如：4.2','edv','number')}</div></div>
+  <div class="q"><label for="edn">備註（特殊狀況）</label>${inp('exe.df.note','例如：這天有不受歡迎的菜','edn')}</div><div class="toolbar"><button class="btn" data-act="addData">加入一筆</button></div></div>
+  ${E.data.length?`<div class="tbwrap"><table class="tb"><thead><tr><th>日期</th><th>階段</th><th>數值</th><th>備註</th><th></th></tr></thead><tbody>${E.data.map((d,i)=>`<tr><td>${esc(d.date)}</td><td><span class="tag ${d.phase==='改變後'?'teal':''}">${esc(d.phase)}</span></td><td class="num">${esc(d.v)} ${esc(E.unit)}</td><td class="mini">${esc(d.note)}</td><td><button class="xbtn" data-act="delData" data-i="${i}" aria-label="刪除">×</button></td></tr>`).join('')}</tbody></table></div>
+  <p class="mini">${nb<3||na<3?'改變前、改變後各至少 3 筆，比較才有意義。':'數據足夠了，可以到「成果」看比較結果。'}</p>`:'<p class="empty">還沒有數據。先量「改變前」。</p>'}`)+
+ sec('試做日誌',`${E.log.length} 則`,`<div class="card" style="display:grid;gap:10px"><div class="q"><label for="ld">這次做了什麼？</label>${ta('exe.lf.did','例如：第一週試用選擇卡，打菜股長看卡打菜',50,'ld')}</div>
+  <div class="q"><label for="ls">發生什麼事？遇到什麼問題？</label>${ta('exe.lf.saw','例如：有些人忘記舉卡，打菜速度變慢',50,'ls')}</div>
+  <div class="q"><label for="ln">下一輪只改一件事</label>${inp('exe.lf.next','例如：把卡片貼在餐盤架旁','ln')}</div><div class="toolbar"><button class="btn" data-act="addLog">加入日誌</button></div></div>
+  ${E.log.length?`<div class="list">${E.log.map((l,i)=>`<div class="item"><span class="n">${i+1}</span><div><div class="t">${esc(l.did)}</div>${l.saw?`<p style="font-size:.93rem"><b>發生：</b>${esc(l.saw)}</p>`:''}${l.next?`<p style="font-size:.93rem;color:var(--teal)"><b>下一輪：</b>${esc(l.next)}</p>`:''}</div><button class="xbtn" data-act="delLog" data-i="${i}" aria-label="刪除">×</button></div>`).join('')}</div>`:''}`)+
+ sec('卡關急救包','點開看看',`<div class="list">${STALLS.map(([q,a])=>`<details class="mini-sum" style="margin:0"><summary>${esc(q)}</summary><p style="margin-top:6px;font-size:.93rem">${esc(a)}</p></details>`).join('')}</div>`)+
+ sec('每週回報','三分鐘就好',`<div class="grid2"><div class="q"><label for="ww">第幾週</label>${inp('exe.pg.week','例如：5','ww','number')}</div><div class="q"><span class="qlabel">需要老師協助嗎？</span>${seg('exe.pg.help',['需要','暫時不用'])}</div></div>
+  <div class="q"><label for="wd">這週完成了什麼？</label>${ta('exe.pg.done','具體寫：例如「完成 5 天改變前的秤量，平均 4.1 公斤」',60,'wd')}</div>
+  <div class="q"><label for="wn">下週要做什麼？</label>${inp('exe.pg.next','例如：開始試辦選擇卡','wn')}</div>
+  <div class="q"><label for="wk">卡在哪裡？</label>${inp('exe.pg.stuck','沒有就留白','wk')}</div>
+  <div class="toolbar">${SCRIPT_URL?'<button class="btn" data-act="sendWk">送出給老師</button><button class="btn ghost sm" data-act="getRep">查看老師回覆</button>':''}<button class="btn ${SCRIPT_URL?'ghost':''} sm" data-act="copyWk">複製回報文字</button></div>
+  <p class="mini" id="wkStatus">${SCRIPT_URL?(S.idOK?'':'送出前，請先在頁面上方建立你的身分。'):'老師還沒設定送出網址，可以先複製回報文字交給老師。'}</p>
+  ${E.hist.length?`<div class="list">${E.hist.slice().reverse().map(h=>{const r=E.replies.find(r=>String(r.week)===String(h.week)&&r.reply);return`<div class="item"><span class="n">${esc(h.week||'?')}</span><div><p class="mini">${esc(h.at)}</p><p style="font-size:.93rem">${esc(h.done)}</p>${h.stuck?`<p style="font-size:.93rem"><b>卡關：</b>${esc(h.stuck)}</p>`:''}${r?`<div class="reply"><b>老師回覆：</b>${nl(r.reply)}</div>`:''}</div><span></span></div>`}).join('')}</div>`:''}`)+nav()};
+function wkText(){const g=S.exe.pg;return`【第 ${g.week||'?'} 週進度】${S.name?'　'+S.name:''}
+問題：${stmt(chosen())}
+這週完成：${g.done||'（未填）'}
+下週計畫：${g.next||'（未填）'}
+卡關：${g.stuck||'（沒有）'}
+需要老師協助：${g.help||'（未填）'}`}
+
+/* 9 成果 */
+function cmp(){const b=vals('改變前'),a=vals('改變後'),mb=avg(b),ma=avg(a);if(!b.length||!a.length)return null;
+ const pct=mb?((ma-mb)/mb*100):NaN,good=S.exe.goal==='變少'?ma<mb:ma>mb;return{b,a,mb:r2(mb),ma:r2(ma),pct:isNaN(pct)?null:Math.round(pct),good}}
+function cmpHTML(){const c=cmp(),u=esc(S.exe.unit);if(!c)return'<p class="empty">先在「執行」記錄改變前和改變後的數據。</p>';const mx=Math.max(c.mb,c.ma)||1;
+ const notes=[];if(c.b.length<3||c.a.length<3)notes.push('每個階段不到 3 筆，結果可能只是剛好，結論要寫得保守。');
+ if(c.pct!==null&&Math.abs(c.pct)<10)notes.push('差距不到 10%，可能是正常的起伏，不一定是你的方案造成的。');
+ notes.push('想一想：除了你的方案，還有什麼可能影響數字？（例如天氣、菜色、考試週）');
+ return`<div class="stat"><div><b>${c.mb}</b><span>改變前平均 ${u}（${c.b.length} 筆）</span></div><div><b>${c.ma}</b><span>改變後平均 ${u}（${c.a.length} 筆）</span></div><div><b>${c.pct===null?'–':(c.pct>0?'+':'')+c.pct+'%'}</b><span>變化</span></div></div>
+ <div class="cbars"><div><span>改變前</span><div class="bar"><i style="width:${c.mb/mx*100}%"></i></div><b>${c.mb}</b></div><div><span>改變後</span><div class="bar"><i class="t" style="width:${c.ma/mx*100}%"></i></div><b>${c.ma}</b></div></div>
+ ${c.good?resBox('ok','方向正確',`數字往你希望的方向（${S.exe.goal}）改變了。`):resBox('warn','方向不如預期',`數字沒有往你希望的方向（${S.exe.goal}）改變。這也是重要的發現：回頭看試做日誌，找可能的原因。`)}${resBox('neutral','解讀時要小心',notes)}`}
+function conclTpl(){const c=cmp();if(!c)return'';const p=chosen();return`在${p?.who||'＿＿'}、改變前 ${c.b.length} 筆與改變後 ${c.a.length} 筆的紀錄中，實施「${(S.plan.mvp||'＿＿').split(/[，,。]/)[0]}」後，平均從 ${c.mb} ${S.exe.unit} 變成 ${c.ma} ${S.exe.unit}${c.pct!==null?`，約${c.pct<0?'減少':'增加'} ${Math.abs(c.pct)}%`:''}。不過＿＿也可能影響結果。`}
+function nextCards(){const c=card(S.pick);if(!c||c.lv>=3)return[];const [d]=S.pick.split('-');if(d==='ladder')return['ladder-'+c.lv];return DOMAINS[d].c.map((x,i)=>x[0]===c.lv+1?d+'-'+i:'').filter(Boolean)}
+R[8]=()=>{const nx=nextCards();return head('Finish · Results','成果：有沒有解決問題？','<strong>這一步的規則：</strong>用數據說話。先看改變前後的比較，再寫結論和反思。沒有改善也沒關係，誠實寫出你發現了什麼，一樣是好成果。')+gateHTML()+
+ sec('改變前後比較','',`<div id="cmpout">${cmpHTML()}</div>`)+
+ sec('我的結論','只寫數據支持的事',`${cmp()?`<div class="out"><span class="k">結論句型（可以套用後修改）</span><p>${esc(conclTpl())}</p><div class="toolbar"><button class="btn ghost sm" data-act="useConcl">套用句型</button></div></div>`:''}${ta('res.concl','寫下你的結論：數字怎麼變了？還有什麼可能的影響？',80,'rc')}`)+
+ sec('反思','',`<div class="q"><label for="rr">問題解決了嗎？解決到什麼程度？</label>${ta('res.reflect','例如：剩食有減少，但不喜歡的菜還是剩很多',60,'rr')}</div>
+  <div class="q"><label for="rs">意外的發現</label>${ta('res.surprise','例如：打菜股長說，打菜反而更快',50,'rs')}</div>
+  <div class="q"><label for="ra">如果再做一次，我會改什麼？</label>${ta('res.again','例如：把同一道菜放在改變前、改變後各一天比較',50,'ra')}</div>`)+
+ (nx.length?sec('升級路線','做完這一版，可以挑戰下一個難度',`<div class="sols">${nx.map(id=>cardHTML(card(id))).join('')}</div>`):'')+
+ sec('成果摘要','放進學習歷程檔案',`<div class="out"><pre id="resPre">${esc(resultText())}</pre><div class="toolbar"><button class="btn ghost sm" data-act="copyRes">複製成果摘要</button></div></div>`)+
+ sendBox()+nav()};
+function resultText(){const c=cmp(),p=chosen(),cd=card(S.pick);return`【生活觀察解題成果】${S.name?'　'+S.name:''}
+我觀察到：${S.obs[p?.from]?.what||'（未填）'}
+要解決的問題：${stmt(p)||'（未填）'}
+根本原因：${(p?.whys||[]).filter(Boolean).slice(-1)[0]||'（未填）'}
+我的方案：${cd?TIER[cd.lv]+'｜'+cd.t:'（未選）'}；我的版本：${S.plan.mine||'（未填）'}
+過程：${S.exe.log.map((l,i)=>`第 ${i+1} 輪 ${l.did}${l.next?'→ 調整：'+l.next:''}`).join('；')||'（未填）'}
+結果：${c?`改變前平均 ${c.mb} ${S.exe.unit}（${c.b.length} 筆），改變後平均 ${c.ma} ${S.exe.unit}（${c.a.length} 筆）${c.pct!==null?`，變化 ${c.pct>0?'+':''}${c.pct}%`:''}`:'（尚無數據）'}
+結論：${S.res.concl||'（未填）'}
+反思：${S.res.reflect||'（未填）'}${S.res.surprise?'\n意外發現：'+S.res.surprise:''}${S.res.again?'\n再做一次會改：'+S.res.again:''}`}
+
+/* AI 提示詞 */
+function base(){return`我是高中生，正在做自主學習專題，想從生活觀察中找到一個問題並動手解決。
+請遵守：只用提問、檢查和舉例的方式幫我，不要直接替我做決定或寫好；不確定就說不確定；不要編造數據或資料來源。`}
+const AI=[
+ ['幫我觀察更多',()=>`${base()}
+
+我已經記下的觀察：
+${S.obs.map((o,i)=>`${i+1}. ${o.where||''}｜${o.what}`).join('\n')||'（還沒有）'}
+
+請一次問我一個問題，引導我回想一天當中（上學、上課、午餐、下課、回家、睡前）還有哪些讓我覺得浪費、不方便、不安全、不健康、不舒服或煩惱的時刻。問 5 題後幫我整理成觀察清單。`],
+ ['檢查問題敘述',()=>`${base()}
+
+我的問題敘述：
+${S.probs.map((p,i)=>`${i+1}. ${stmt(p)}\n   五個為什麼：${p.whys.filter(Boolean).join(' → ')||'未填'}`).join('\n')||'（還沒有）'}
+
+請檢查每個敘述：是不是把「解法」寫成了「問題」？對象夠具體嗎？原因是不是我推測的、需要先驗證？再用追問「為什麼」幫我往下挖根本原因。`],
+ ['比較問題',()=>`${base()}
+
+我在考慮這些問題：
+${S.probs.map((p,i)=>`${i+1}. ${stmt(p)}（我的評分：${SCORE.map(([k,n])=>n+(p.sc[k]||'?')).join('、')}）`).join('\n')||'（還沒有）'}
+
+請問我問題，幫我確認評分是否合理，特別是「我接觸得到嗎」：我能不能親自觀察、找到人測試？最後讓我自己決定。`],
+ ['發想更多方案',()=>`${base()}
+
+我要解決的問題：${stmt(chosen())||'（未填）'}
+根本原因：${(chosen()?.whys||[]).filter(Boolean).slice(-1)[0]||'未填'}
+
+請用提問的方式，引導我想出三種難度的方案：初階（觀察、記錄、調查、提出建議）、中階（低成本的小改變，比較前後）、進階（原型、感測器或程式，讓使用者測試）。每種先問我問題，不要直接給完整方案。`],
+ ['檢查可行性',()=>`${base()}
+
+我選的方案：${card(S.pick)?.t||'未選'}｜${card(S.pick)?.d||''}
+我的條件：技能 ${S.me.skills.join('、')||'未填'}；預算 ${S.me.budget||'?'} 元；${S.me.weeks||'?'} 週；資源：${S.me.tools||'未填'}
+
+請問我問題，幫我判斷這個方案在我的條件下做不做得完；如果有困難，問我能不能縮小範圍、借資源，或先做低一級的版本。`],
+ ['檢查計畫',()=>`${base()}
+
+${propText()}
+
+請檢查：第一版夠不夠小？改變前、改變後的測量能不能真的比較出差別？有沒有其他因素會影響結果？有沒有倫理或安全的問題？用提問讓我自己修改。`],
+ ['整份行動卡回饋',()=>`${base()}
+
+${propText()}
+
+請像指導老師一樣，用提問給我回饋：從觀察到方案的邏輯通不通？最可能卡在哪裡？做完之後，怎麼升級到下一個難度？不要幫我改寫。`],
+ ['卡關求助',()=>`${base()}
+
+問題：${stmt(chosen())}
+第一版：${S.plan.mvp||'未填'}
+目前的數據：改變前 ${vals('改變前').join('、')||'無'}；改變後 ${vals('改變後').join('、')||'無'}（單位：${S.exe.unit||'未填'}）
+試做日誌：
+${S.exe.log.map((l,i)=>`${i+1}. 做了：${l.did}｜發生：${l.saw}｜下一輪：${l.next}`).join('\n')||'（還沒有）'}
+我現在卡在：${S.exe.pg.stuck||'（請寫下）'}
+
+請用提問的方式陪我找出卡住的原因，一次問一題。最後建議我下一輪「只改一件事」，並提醒我怎麼記錄。`],
+ ['檢查結論與反思',()=>`${base()}
+
+${resultText()}
+
+請檢查：結論有沒有超出數據？樣本夠不夠？有沒有其他因素可能影響結果？用提問讓我自己修改。最後問我 2 個問題，幫我想清楚在學習歷程檔案中，怎麼呈現「發現問題、解決問題」的能力。不要幫我改寫。`]];
+function aiCard(){const [t,f]=AI[cur];return`<section class="ai"><h3><span class="eyebrow">AI Assistant</span>AI 助手提示詞：${t}</h3>
+ <p class="mini">複製後貼到 Claude（免費帳號就可以）或其他 AI 的新對話。提示詞已經放進你目前的內容，並要求 AI 只提問和檢查，不代寫。</p>
+ <textarea id="aiText" readonly aria-label="AI 提示詞">${esc(f())}</textarea>
+ <div class="toolbar"><button class="btn teal" data-act="copyAI">複製提示詞</button></div>
+ <p class="note">AI 會出錯。數據、資料來源和安全資訊，一定要自己查證。</p></section>`}
+
+/* 版面 */
+function nav(){return`<div class="nav">${cur>0?`<button class="btn ghost" data-go="${cur-1}">← 上一步</button>`:'<span></span>'}${cur<LAST?`<button class="btn" data-go="${cur+1}">下一步：${STEPS[cur+1][1]} →</button>`:''}</div>`+aiCard()}
+function renderSteps(){const box=document.getElementById('steps');box.innerHTML=STEPS.map((s,i)=>`<button class="step ${i===cur?'on':''} ${done(i)?'done':''}" data-go="${i}" aria-current="${i===cur?'step':'false'}"><span class="n">${done(i)&&i!==cur?'✓':s[0]}</span>${s[1]}</button>`).join('');
+ const on=box.querySelector('.step.on');if(on)box.scrollLeft=on.offsetLeft-box.offsetLeft-(box.clientWidth-on.offsetWidth)/2}
+function normCls(v){return String(v||'').replace(/[\uFF01-\uFF5E]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xFEE0)).replace(/\s+/g,'')}
+function normSeat(v){const t=normCls(v);return/^\d+$/.test(t)?String(parseInt(t,10)):t}
+function idLine(){return S.idOK?`<div class="idline"><span>送出身分：<b>${esc(S.cls)} 班 ${esc(S.seat)} 號 ${esc(S.name)}</b>${S.idRoster?'<span class="tag teal">已核對名單</span>':''}</span><button class="linkbtn" data-act="editId">更正</button></div>`
+ :'<p class="rule">請先在頁面上方建立你的身分，才能送出。</p>'}
+function idCard(){const v=ui.idf||{cls:S.cls,seat:S.seat,name:S.name,code:S.code};
+ return`<div class="card idcard"><div><span class="eyebrow">Who Are You</span><h3>${S.idOK?'更正你的身分':'第一次使用，先建立你的身分'}</h3>
+ <p class="mini">填一次就好。之後送出行動卡、每週回報都會自動帶入，老師也能在試算表找到你的資料。${SCRIPT_URL?'系統會和老師的全班名單核對。':''}</p></div>
+ <div class="grid3"><div class="q"><label for="idc">班級</label><input type="text" id="idc" value="${esc(v.cls)}" placeholder="例如 205" inputmode="numeric"></div>
+ <div class="q"><label for="ids">座號</label><input type="text" id="ids" value="${esc(v.seat)}" placeholder="例如 8" inputmode="numeric"></div>
+ <div class="q"><label for="idn">姓名</label><input type="text" id="idn" value="${esc(v.name)}" placeholder="真實姓名"></div></div>
+ ${SCRIPT_URL?`<div class="q"><label for="idk">班級代碼（老師上課時會給）</label><input type="text" id="idk" value="${esc(v.code)}" placeholder="班級代碼"></div>`:''}
+ <div class="toolbar"><button class="btn" data-act="verifyId">${SCRIPT_URL?'核對並建立身分':'儲存身分'}</button>${S.idOK?'<button class="btn ghost sm" data-act="cancelId">取消</button>':''}</div>
+ <p class="mini" id="idStatus">${SCRIPT_URL?'':'老師還沒設定送出網址，身分先存在這台裝置。'}</p></div>`}
+function renderNotice(){let h='';
+ if(!S.sample&&(!S.idOK||ui.editId))h+=idCard();
+ else if(!S.sample)h+=`<div class="idbar"><span>目前身分：<b>${esc(S.cls)} 班 ${esc(S.seat)} 號 ${esc(S.name)}</b>${S.idRoster?' <span class="tag teal">已核對名單</span>':''}${GOOGLE_CLIENT_ID&&AUTH?`<br><span class="mini">${esc(AUTH.email)}</span>`:''}</span><span><button class="linkbtn" data-act="editId">更正</button>${GOOGLE_CLIENT_ID?'<button class="linkbtn" data-act="logout">登出</button>':''}</span></div>`;
+ if(S.sample&&GOOGLE_CLIENT_ID&&AUTH)h+=`<div class="idbar"><span class="mini">已登入：${esc(AUTH.email)}</span><button class="linkbtn" data-act="logout">登出</button></div>`;
+ if(S.sample)h+=`<div class="banner"><span>目前顯示的是<b>範例同學「小晴」</b>從午餐剩食出發的過程，先看看每一步怎麼寫。</span><button class="btn sm" data-act="start">清空，開始填我的</button></div>`;
+ if(ui.confirmClear)h+=`<div class="banner"><span>確定要清空全部內容嗎？無法復原，建議先複製進度碼。</span><button class="btn sm danger" data-act="clear">確定清空</button><button class="btn ghost sm" data-act="cancelclear">取消</button></div>`;
+ if(S.feedback.text&&fbKey()!==S.feedback.seen&&cur!==FBSTEP)h+=`<div class="banner"><b>老師給你新的建議了！</b><button class="btn sm" data-go="${FBSTEP}">去看建議</button></div>`;
+ if(ui.backup)h+=`<div class="card" style="display:grid;gap:10px;margin-bottom:16px"><b>進度碼</b><p class="mini">內容只存在這個瀏覽器。換裝置前複製這串進度碼傳給自己，到新裝置貼上後按「讀入」。</p><textarea id="bkOut" readonly style="min-height:80px">${esc(encode())}</textarea><div class="toolbar"><button class="btn sm" data-act="copyBk">複製進度碼</button></div><textarea id="bkIn" placeholder="貼上之前複製的進度碼" style="min-height:80px"></textarea><div class="toolbar"><button class="btn sm" data-act="import">讀入</button><button class="btn ghost sm" data-act="backup">收起</button></div></div>`;
+ document.getElementById('notice').innerHTML=h}
+function render(){if(cur===FBSTEP&&S.feedback.text&&fbKey()!==S.feedback.seen){S.feedback.seen=fbKey();save()}renderSteps();renderNotice();document.getElementById('panel').innerHTML=`<div class="fade">${R[cur]()}</div>`}
+function refresh(){renderSteps();
+ S.probs.forEach((p,k)=>{const a=document.getElementById('st'+k);if(a)a.innerHTML=`<b>${esc(stmt(p))||'填好上面四格，這裡會組成一句話。'}</b>`;const b=document.getElementById('sw'+k);if(b)b.innerHTML=stmtWarn(p)});
+ const m=document.getElementById('mwarn');if(m)m.innerHTML=measureWarn();const mi=document.getElementById('minewarn');if(mi)mi.innerHTML=mineWarn();
+ const cp=document.getElementById('cmpout');if(cp)cp.innerHTML=cmpHTML();const rp=document.getElementById('resPre');if(rp)rp.textContent=resultText();const ai=document.getElementById('aiText');if(ai)ai.value=AI[cur][1]()}
+
+/* 後台 */
+async function post(o){if(GOOGLE_CLIENT_ID){if(!authValid()){lock('登入已經過期，請重新登入，你填的內容都還在。');throw new Error('auth')}o.idToken=AUTH.token}
+ const r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(o)});return r.json()}
+/* ---------- 學校帳號登入 ---------- */
+const AUTH_KEY=KEY+'-auth';let AUTH=null;try{AUTH=JSON.parse(localStorage.getItem(AUTH_KEY))}catch(e){}
+function jwtPayload(t){let p=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');p+='='.repeat((4-p.length%4)%4);return JSON.parse(decodeURIComponent(escape(atob(p))))}
+function authValid(){return!!(AUTH&&AUTH.token&&AUTH.hd===ALLOWED_DOMAIN&&AUTH.exp*1000>Date.now()+60000)}
+function gmsg(m,bad){const el=document.getElementById('gmsg');if(el){el.textContent=m||'';el.style.color=bad?'var(--bad)':'var(--ink-soft)'}}
+function onCred(r){try{const p=jwtPayload(r.credential),email=String(p.email||'').toLowerCase();
+  if(p.hd!==ALLOWED_DOMAIN||!email.endsWith('@'+ALLOWED_DOMAIN)){gmsg(`「${email}」不是學校帳號。請改用 @${ALLOWED_DOMAIN} 帳號登入。`,true);try{google.accounts.id.disableAutoSelect()}catch(e){}return}
+  AUTH={token:r.credential,email,name:p.name||'',exp:p.exp,hd:p.hd};try{localStorage.setItem(AUTH_KEY,JSON.stringify(AUTH))}catch(e){}unlock()}catch(e){gmsg('登入失敗，請再試一次。',true)}}
+let gisReady=false;
+function renderGBtn(tries=0){if(!window.google||!google.accounts||!google.accounts.id){if(tries<50)setTimeout(()=>renderGBtn(tries+1),200);else gmsg('Google 登入載入失敗。請確認網路，或換用 Chrome、Safari 開啟（不要在 LINE 裡開）。',true);return}
+ if(!gisReady){google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:onCred,hd:ALLOWED_DOMAIN,auto_select:true,cancel_on_tap_outside:false});gisReady=true}
+ const el=document.getElementById('gbtn');el.innerHTML='';google.accounts.id.renderButton(el,{theme:'filled_blue',size:'large',shape:'pill',text:'signin_with',locale:'zh-TW'});google.accounts.id.prompt()}
+function lock(msg){document.body.classList.add('locked');document.getElementById('gate').hidden=false;gmsg(msg||'');renderGBtn()}
+function unlock(){document.body.classList.remove('locked');document.getElementById('gate').hidden=true;
+ if(!S.sample&&!S.idOK&&!S.name&&AUTH&&AUTH.name){S.name=AUTH.name;save()}render();if(!booted){booted=true;checkFb(true);getRep(true)}}
+function logout(){try{google.accounts.id.disableAutoSelect()}catch(e){}AUTH=null;try{localStorage.removeItem(AUTH_KEY)}catch(e){}lock('已登出。')}
+let booted=false;
+async function verifyId(){const st=document.getElementById('idStatus'),say=(m,b)=>{st.textContent=m;st.style.color=b?'var(--bad)':'var(--teal)'};
+ const v={cls:normCls(document.getElementById('idc').value),seat:normSeat(document.getElementById('ids').value),name:normCls(document.getElementById('idn').value),code:SCRIPT_URL?document.getElementById('idk').value.trim():''};
+ ui.idf=v;if(!v.cls||!v.seat||!v.name){say('請填寫班級、座號和姓名。',true);return}
+ if(!SCRIPT_URL){Object.assign(S,v,{idOK:true,idRoster:false,idAt:new Date().toLocaleString('zh-TW',{hour12:false})});ui.idf=null;ui.editId=false;save();render();toast('已儲存身分');return}
+ if(!v.code){say('請輸入班級代碼。',true);return}
+ if(ui.sending)return;ui.sending=true;say('核對中…');
+ try{const j=await post({action:'verify',code:v.code,cls:v.cls,seat:v.seat,name:v.name});
+  if(!j.ok){say(j.msg||'核對失敗，請再試一次。',true);return}
+  const changed=S.idOK&&(S.cls!==v.cls||S.seat!==v.seat);
+  Object.assign(S,v,{idOK:true,idRoster:!!j.roster,idAt:new Date().toLocaleString('zh-TW',{hour12:false})});if(changed)S.submittedAt='';
+  ui.idf=null;ui.editId=false;save();render();toast(j.roster?'已核對名單，身分建立完成':'身分建立完成')
+ }catch(e){say('連不上，請確認網路，並用老師發的正式網址開啟。',true)}finally{ui.sending=false}}
+async function submit(){const st=document.getElementById('sendStatus'),say=(m,b)=>{st.textContent=m;st.style.color=b?'var(--bad)':'var(--teal)'};
+ if(ui.sending||S.sample||!SCRIPT_URL)return;const c=String(S.cls).trim(),s=String(S.seat).trim(),n=String(S.name).trim(),k=String(S.code).trim();
+ if(!S.idOK||!c||!s||!n||!k){say('請先在頁面上方建立你的身分。',true);return}
+ if(!chosen()||!S.pick){say('請先完成「選題」和「適配」，選定問題和方案。',true);return}
+ const p=chosen(),cd=card(S.pick),P=S.plan;ui.sending=true;say('送出中…');
+ try{const j=await post({action:'problem',code:k,cls:c,seat:s,name:n,observe:S.obs[p.from]?.what||'',problem:stmt(p),root:p.whys.filter(Boolean).join(' → '),
+  scale:`${p.n||'?'}，${p.f||'?'}`,option:`${TIER[cd.lv]}｜${cd.t}（${cd.dom}）`,mvp:P.mvp,measure:`改變前：${P.before}\n改變後：${P.after}`,first:P.first,
+  resources:`技能：${S.me.skills.join('、')}；預算 ${S.me.budget} 元；${S.me.weeks} 週`,mine:P.mine,
+  result:(()=>{const x=cmp();return x?`改變前 ${x.mb}／改變後 ${x.ma} ${S.exe.unit}（${x.b.length}／${x.a.length} 筆）${x.pct!==null?'，'+(x.pct>0?'+':'')+x.pct+'%':''}`:''})(),
+  logs:S.exe.log.map((l,i)=>`${i+1}. ${l.did}｜${l.saw}｜下一輪：${l.next}`).join('\n'),reflect:[S.res.concl,S.res.reflect].filter(Boolean).join('\n'),full:propText()+'\n\n'+resultText(),backup:encode()});
+  if(!j.ok){say(j.msg||'送出失敗，請再試一次。',true);return}
+  S.submittedAt=new Date().toLocaleString('zh-TW',{hour12:false});save();say(`已送出！這是第 ${j.count} 次送出（${S.submittedAt}）。`);toast('已送出給老師')
+ }catch(e){say('送不出去。請確認網路，並用老師發的正式網址開啟。',true)}finally{ui.sending=false}}
+async function checkFb(silent){if(!SCRIPT_URL||S.sample||!S.submittedAt)return;
+ try{const j=await post({action:'problemFb',code:String(S.code).trim(),cls:String(S.cls).trim(),seat:String(S.seat).trim(),name:String(S.name).trim()});
+  if(!j.ok){if(!silent)toast(j.msg||'暫時查不到');return}
+  if(j.gate&&j.gate!==S.gate){S.gate=j.gate;save();render()}
+  if(!j.feedback){if(!silent)toast(j.gate?'目前關卡：'+j.gate:'老師還沒有寫建議');return}
+  S.feedback.text=j.feedback;S.feedback.at=j.at||'';save();render();if(!silent)toast('已取得老師建議')}catch(e){if(!silent)toast('連不上，請稍後再試')}}
+async function sendWk(){const st=document.getElementById('wkStatus'),say=(m,b)=>{st.textContent=m;st.style.color=b?'var(--bad)':'var(--teal)'};
+ if(ui.sending||S.sample||!SCRIPT_URL)return;const g=S.exe.pg,c=String(S.cls).trim(),s=String(S.seat).trim(),n=String(S.name).trim(),k=String(S.code).trim();
+ if(!S.idOK||!c||!s||!n||!k){say('請先在頁面上方建立你的身分。',true);return}
+ if(!g.week||!g.done.trim()){say('請至少填寫第幾週和這週完成了什麼。',true);return}
+ ui.sending=true;say('送出中…');
+ try{const j=await post({action:'progress',source:'生活觀察解題室',code:k,cls:c,seat:s,name:n,week:g.week,rq:stmt(chosen()),done:g.done,next:g.next,stuck:g.stuck,help:g.help,backup:encode()});
+  if(!j.ok){say(j.msg||'送出失敗，請再試一次。',true);return}
+  S.exe.hist.push({week:g.week,done:g.done,stuck:g.stuck,at:new Date().toLocaleString('zh-TW',{hour12:false})});
+  S.exe.pg={week:String((+g.week||0)+1),done:'',next:'',stuck:'',help:''};save();render();toast('已送出本週回報')
+ }catch(e){say('送不出去。請確認網路，並用老師發的正式網址開啟。',true)}finally{ui.sending=false}}
+async function getRep(silent){if(!SCRIPT_URL||S.sample||!S.cls||!S.seat||!S.code)return;
+ try{const j=await post({action:'replies',code:String(S.code).trim(),cls:String(S.cls).trim(),seat:String(S.seat).trim(),name:String(S.name).trim()});
+  if(!j.ok){if(!silent)toast(j.msg||'暫時查不到');return}S.exe.replies=(j.replies||[]).filter(r=>!r.source||r.source==='生活觀察解題室');save();if(cur===7)render();
+  if(!silent)toast(S.exe.replies.some(r=>r.reply)?'已更新老師回覆':'老師還沒有回覆')}catch(e){if(!silent)toast('連不上，請稍後再試')}}
+
+/* 事件 */
+document.addEventListener('input',e=>{const t=e.target,p=t.dataset.path;if(!p)return;setP(p,t.value);save();refresh()});
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+ if(d.go!=null){cur=+d.go;render();document.querySelector('.stepper').scrollIntoView({behavior:'smooth'});return}
+ if(d.toggle){const a=getP(d.toggle)||[];const i=a.indexOf(d.val);i>=0?a.splice(i,1):a.push(d.val);setP(d.toggle,a);save();render();return}
+ if(d.set!=null){let v=d.val;if(!d.keep&&String(getP(d.set))===v)v='';setP(d.set,v);save();render();return}
+ switch(d.act){
+  case'start':S=blank();if(AUTH&&AUTH.name)S.name=AUTH.name;save();cur=0;render();scrollTo({top:0});toast('已清空，從觀察開始');break;
+  case'askclear':ui.confirmClear=true;renderNotice();scrollTo({top:0,behavior:'smooth'});break;
+  case'cancelclear':ui.confirmClear=false;renderNotice();break;
+  case'clear':S=blank();if(AUTH&&AUTH.name)S.name=AUTH.name;ui.confirmClear=false;save();cur=0;render();toast('已清空');break;
+  case'backup':ui.backup=!ui.backup;renderNotice();break;
+  case'copyBk':copy(encode(),'已複製進度碼');break;
+  case'import':{try{const o=JSON.parse(decodeURIComponent(escape(atob(document.getElementById('bkIn').value.trim()))));if(!o.obs)throw 0;S=deepMerge(blank(),o);save();ui.backup=false;render();toast('已讀入進度')}catch(err){toast('進度碼不完整，請重新複製整串再貼上')}break}
+  case'addObs':{const f=S.of;if(!f.what.trim()){toast('先寫下發生了什麼');return}S.obs.push({...f,what:f.what.trim()});S.of={where:f.where,when:'',what:'',who:'',freq:'',lens:''};save();render();toast(`已記下第 ${S.obs.length} 則觀察`);break}
+  case'delObs':{const i=+d.i;S.obs.splice(i,1);S.probs=S.probs.filter(p=>p.from!==i).map(p=>({...p,from:p.from>i?p.from-1:p.from}));if(!S.probs.some(p=>p.id===S.chosen))S.chosen=null;save();render();break}
+  case'mkProb':{const o=S.obs[+d.i];S.probs.push({id:S.nextId++,from:+d.i,who:o.who||'',sit:'',cause:'',effect:'',whys:['','','',''],n:'',f:o.freq||'',domain:'',sc:{}});save();render();break}
+  case'delProb':{const x=S.probs.splice(+d.i,1)[0];if(S.chosen===x.id)S.chosen=null;save();render();break}
+  case'choose':{S.chosen=+d.id;const p=chosen();if(p&&!p.domain)p.domain=suggestDomain(p);ui.dom='';save();render();break}
+  case'dom':ui.dom=d.k;render();break;
+  case'setDom':{const p=chosen();if(p){p.domain=d.k;save();render();toast('已設定問題領域')}break}
+  case'fav':{const i=S.favs.indexOf(d.id);if(i>=0){S.favs.splice(i,1);if(S.pick===d.id)S.pick=''}else{if(S.favs.length>=3){toast('最多收藏 3 個，先取消一個');return}S.favs.push(d.id)}save();render();break}
+  case'pick':S.pick=d.id;if(!S.plan.tl.length)S.plan.tl=genTL(S.me.weeks,card(d.id).lv);save();render();break;
+  case'genTL':S.plan.tl=genTL(S.me.weeks,card(S.pick)?.lv||1);save();render();toast('已產生時程，可以直接修改');break;
+  case'copyProp':copy(propText(),'已複製行動卡');break;
+  case'copyAI':copy(document.getElementById('aiText').value,'已複製，貼到 AI 新對話就能開始');break;
+  case'submit':submit();break;
+  case'fb':checkFb(false);break;
+  case'verifyId':verifyId();break;
+  case'logout':logout();break;
+  case'editId':ui.editId=true;ui.idf=null;renderNotice();scrollTo({top:0,behavior:'smooth'});break;
+  case'cancelId':ui.editId=false;ui.idf=null;renderNotice();break;
+  case'addData':{const f=S.exe.df;if(f.v===''||isNaN(parseFloat(f.v))){toast('先填數值');return}S.exe.data.push({...f});S.exe.df={date:'',phase:f.phase,v:'',note:''};save();render();toast('已加入');break}
+  case'delData':S.exe.data.splice(+d.i,1);save();render();break;
+  case'addLog':{const f=S.exe.lf;if(!f.did.trim()){toast('先寫這次做了什麼');return}S.exe.log.push({...f});S.exe.lf={did:'',saw:'',next:''};save();render();toast('已加入日誌');break}
+  case'delLog':S.exe.log.splice(+d.i,1);save();render();break;
+  case'sendWk':sendWk();break;
+  case'getRep':getRep(false);break;
+  case'copyWk':copy(wkText(),'已複製回報文字');break;
+  case'useConcl':S.res.concl=conclTpl();save();render();toast('已套用，記得把＿＿補完');break;
+  case'copyRes':copy(resultText(),'已複製成果摘要');break;
+ }});
+if(GOOGLE_CLIENT_ID){if(authValid())unlock();else lock()}else{render();booted=true;checkFb(true);getRep(true)}
+</script>
+</body>
+</html>
