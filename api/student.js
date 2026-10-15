@@ -11,7 +11,11 @@ const FIELDS = ['observe', 'problem', 'root', 'scale', 'option', 'mine', 'mvp', 
 
 export default {
   async fetch(request) {
-    if (request.method !== 'POST') return json({ ok: true, msg: '生活觀察解題室 API 運作中' });
+    if (request.method !== 'POST') return json({
+      ok: true, msg: '生活觀察解題室 API 運作中',
+      database: !!(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID),
+      teacherPassword: !!process.env.TEACHER_PASSWORD
+    });
     if (!process.env.BLOB_READ_WRITE_TOKEN && !process.env.BLOB_STORE_ID) {
       return json({ ok: false, msg: '老師還沒有建立資料庫，請先告訴老師。' });
     }
