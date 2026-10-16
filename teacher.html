@@ -7,15 +7,16 @@
 <title>解題室老師後台</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&family=Noto+Sans+TC:wght@400;500;700&family=Bricolage+Grotesque:wght@600;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FDF8F1;--bg-warm:#F7EFE3;--card:#FFFFFF;--amber:#D97706;--amber-deep:#B45309;--amber-dark:#92400E;--amber-tint:#FDF0DC;
-  --teal:#0F766E;--teal-soft:#5EAEA6;--teal-tint:#E3F2EF;--ink:#2E2419;--ink-soft:#6B5D4F;--line:#E8DCCB;--on-amber:#FFFFFF;--bad:#B91C1C;--bad-tint:#FDECEC;
-  --shadow:0 4px 20px rgba(146,64,14,.08);--radius:16px;--radius-sm:10px;
-  --serif:'Noto Serif TC','Songti TC','PMingLiU',serif;--display:'Playfair Display',Georgia,'Noto Serif TC',serif;
+  --bg:#F5F6FB;--bg-warm:#ECEFF8;--card:#FFFFFF;--amber:#2F5BEA;--amber-deep:#1F45C9;--amber-dark:#1C3FAE;--amber-tint:#E6ECFE;
+  --teal:#0B7F65;--teal-soft:#7FD8C0;--teal-tint:#DDF6EE;--ink:#1E1B3A;--ink-soft:#5B5875;--line:#DCE0EE;--on-amber:#FFFFFF;--bad:#C9354E;--bad-tint:#FFE4EA;
+  --hl:#E3F45C;--hl-tint:#F5FBCF;--p1:#FF6B8B;--p1t:#FFE3EA;--p1i:#B42446;--p3:#FF9F1C;--p3t:#FFF0D9;--p3i:#9A5300;--p4:#19B892;
+  --shadow:none;--radius:18px;--radius-sm:12px;
+  --serif:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;--hand:'LXGW WenKai TC','Noto Sans TC',serif;--display:'Bricolage Grotesque','Noto Sans TC',sans-serif;
 }
-@media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#1B1611;--bg-warm:#231C15;--card:#2A221A;--amber:#F59E0B;--amber-deep:#FBBF24;--amber-dark:#FCD34D;--amber-tint:#3A2A14;--teal:#5EC4B8;--teal-tint:#17332F;--ink:#F3E9DC;--ink-soft:#BFAF9C;--line:#3E3228;--on-amber:#1B1611;--bad:#F87171;--bad-tint:#3A1C1C;--shadow:0 4px 20px rgba(0,0,0,.35)}}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#13122A;--bg-warm:#1C1B38;--card:#201F3F;--amber:#7B9BFF;--amber-deep:#9DB4FF;--amber-dark:#A9BEFF;--amber-tint:#28305C;--teal:#5EDDB9;--teal-tint:#173A35;--ink:#EEEEFF;--ink-soft:#B4B2D0;--line:#34335A;--on-amber:#13122A;--bad:#FF8DA3;--bad-tint:#3D1B2A;--hl:#D5E84A;--hl-tint:#2E3318;--p1:#FF7F9A;--p1t:#3D1B2A;--p1i:#FFB3C3;--p3:#FFB347;--p3t:#3A2A12;--p3i:#FFD08A;--p4:#3DD6AE}}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:15px;line-height:1.7;padding:0 16px}
@@ -107,12 +108,42 @@ pre{white-space:pre-wrap;word-break:break-word;font-family:var(--serif);margin:8
 .toast.show{opacity:1}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 footer{margin-top:40px;text-align:center;color:var(--ink-soft);font-size:.82rem}
+
+/* 新配色：與學生頁一致 */
+h1,h2{font-family:var(--hand);font-weight:700}
+.eyebrow{font-family:var(--serif);font-style:normal;font-weight:700;letter-spacing:0;color:var(--ink-soft);font-size:.86rem}
+.top{background-image:radial-gradient(var(--line) 1.2px,transparent 1.2px);background-size:18px 18px;border:1.5px solid var(--line);border-radius:var(--radius);padding:16px 18px;background-color:var(--card)}
+.btn{border-radius:12px;font-weight:700;min-height:38px}
+.btn.sm{min-height:32px;border-radius:10px}
+.btn.ghost{background:var(--card)}
+.tab{border-radius:12px}
+.card,.tbwrap{border-width:1.5px;box-shadow:none}
+.stat{border-width:1.5px;border-left:5px solid var(--line)}
+.stats>.stat:nth-child(1){border-left-color:var(--amber)}
+.stats>.stat:nth-child(2){border-left-color:var(--p3)}
+.stats>.stat:nth-child(3){border-left-color:var(--hl)}
+.stats>.stat:nth-child(4){border-left-color:var(--p1)}
+.stats>.stat:nth-child(5){border-left-color:var(--ink-soft)}
+.stat b{font-family:var(--display);color:var(--ink)}
+tbody tr:hover{background:var(--amber-tint)}
+tbody tr.sel{background:var(--hl-tint)}
+.tag.amber{background:var(--p3t);color:var(--p3i)}
+.tag.bad{background:var(--p1t);color:var(--p1i)}
+.dot{background:var(--p1)}
+.pbar i{background:var(--p4)}
+.qa section{border-left-color:var(--amber)}
+.qa h4{letter-spacing:0;font-size:.84rem}
+.df{background:var(--hl-tint)}
+.dh{background-image:radial-gradient(var(--line) 1.2px,transparent 1.2px);background-size:18px 18px}
+input[type=text],input[type=password],select,textarea{border-radius:12px;font-size:16px}
+.login{border:2px solid var(--amber);box-shadow:0 0 0 5px var(--amber-tint)}
+.toast{font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div id="login" class="card login" hidden>
-    <p class="eyebrow">Teacher Dashboard</p>
+    <p class="eyebrow">鳳新高中 自主學習</p>
     <h1>解題室老師後台</h1>
     <p class="mini">輸入老師密碼，查看全班學生在「生活觀察解題室」每個步驟的回答。</p>
     <input type="password" id="pw" placeholder="老師密碼" autocomplete="current-password">
@@ -122,7 +153,7 @@ footer{margin-top:40px;text-align:center;color:var(--ink-soft);font-size:.82rem}
 
   <div id="app" hidden>
     <div class="top">
-      <div><p class="eyebrow">Teacher Dashboard</p><h1>解題室老師後台</h1></div>
+      <div><p class="eyebrow">鳳新高中 自主學習</p><h1>解題室老師後台</h1></div>
       <div class="row">
         <div class="tabs"><button class="tab on" data-tab="list">全班進度</button><button class="tab" data-tab="roster">名單</button></div>
         <button class="btn ghost sm" id="refresh">重新整理</button>
