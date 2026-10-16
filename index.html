@@ -200,7 +200,7 @@ svg .ln{fill:none;stroke:var(--amber);stroke-width:3;stroke-linecap:round;stroke
 .plan div{display:grid;grid-template-columns:110px 1fr;gap:10px;border-bottom:1px dotted var(--line);padding-block:4px}
 .plan span:first-child{color:var(--amber-dark);font-weight:600;font-variant-numeric:tabular-nums}
 
-.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:99px;opacity:0;pointer-events:none;transition:all .25s;font-size:.92rem;z-index:20;max-width:90vw;text-align:center}
+.toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top,0px));transform:translate(-50%,-20px);background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:99px;opacity:0;pointer-events:none;transition:all .25s;font-size:.92rem;z-index:20;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 footer{text-align:center;color:var(--ink-soft);font-size:.85rem;padding-block:40px 30px;border-top:1px solid var(--line);margin-top:30px}
 footer .brand{font-family:var(--display);font-style:italic;color:var(--amber)}
@@ -336,6 +336,39 @@ body.locked .wrap{display:none}
 .gatecard{max-width:440px;width:100%;background:var(--card);border:2px solid var(--amber);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:32px 26px;display:grid;gap:14px;text-align:center;justify-items:center}
 .gatecard h1{font-size:clamp(1.6rem,6vw,2.2rem)}
 .gbtn{min-height:44px}
+/* 進度與關卡（身分列） */
+.prog{display:grid;gap:4px;min-width:min(260px,100%);flex:1}
+.prog .bar{height:8px;min-width:0}
+.prog .bar i{background:var(--teal)}
+.prog .pl{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;font-size:.86rem;color:var(--ink-soft)}
+.gchip{display:inline-block;border-radius:99px;padding:0 10px;font-size:.8rem;font-weight:600;background:var(--card);color:var(--teal);border:1.5px solid var(--teal-soft)}
+.gchip.warn{color:var(--bad);border-color:var(--bad)}
+/* AI 提示詞收合 */
+details.ai{display:block}
+details.ai>summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-weight:700}
+details.ai>summary::-webkit-details-marker{display:none}
+details.ai>summary::after{content:'點開 ▾';margin-left:auto;font-size:.84rem;font-weight:600;color:var(--teal)}
+details.ai[open]>summary::after{content:'收起 ▴'}
+details.ai[open]>summary{margin-bottom:12px}
+details.ai .aibody{display:grid;gap:12px}
+/* 身分前的說明 */
+.pre-id{display:grid;gap:12px}
+.pre-id ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+/* 觀察任務卡 */
+.tasks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.task{background:var(--teal-tint);border-radius:var(--radius-sm);padding:12px 14px;display:grid;gap:4px;font-size:.92rem;line-height:1.6}
+.task b{color:var(--teal);font-size:.98rem}
+/* 驗證、參考資料 */
+.val{background:var(--bg-warm);border-radius:var(--radius-sm);padding:12px 14px;display:grid;gap:10px}
+.val .grid2 input{max-width:none}
+.srcs{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:6px}
+.src{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);padding:7px 11px;display:grid;gap:0;font-size:.86rem;line-height:1.45;text-decoration:none;color:var(--ink)}
+.src:hover{border-color:var(--amber)}
+.src b{color:var(--amber-dark)}
+.kw{display:flex;flex-wrap:wrap;gap:6px}
+.kw button{border:1px dashed var(--amber);background:var(--card);border-radius:8px;padding:3px 10px;font-size:.88rem;cursor:pointer;color:var(--amber-dark)}
+.favbar{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;background:var(--teal-tint);border-radius:var(--radius-sm);padding:10px 14px;font-size:.92rem;margin-bottom:18px}
+.favbar b{color:var(--teal)}
 </style>
 </head>
 <body>
@@ -356,14 +389,14 @@ body.locked .wrap{display:none}
     <h1>生活觀察解題室</h1>
     <p>好的實作題目，常常藏在每天讓你覺得「卡卡的」時刻裡。先觀察、找出真正的問題，再從初階到進階的方案中，挑一個你做得到的開始動手。</p>
     <div class="toolbar">
-      <button class="btn ghost sm" data-act="backup">進度碼：換裝置接著做</button>
+      <button class="btn ghost sm" data-act="backup">換裝置接著做</button>
       <button class="btn ghost sm" data-act="askclear">全部清空</button>
     </div>
   </header>
   <div id="notice"></div>
   <nav class="stepper" aria-label="步驟"><div class="steps" id="steps"></div></nav>
   <main id="panel"></main>
-  <footer><span class="brand">Gina教室的AI奇蹟</span> · 你的內容只存在這台裝置的瀏覽器裡。方案的預算與時間是估計值，實際以你的情況為準。</footer>
+  <footer><span class="brand">Gina教室的AI奇蹟</span> · 建立身分後，你寫的內容會自動同步給老師，這台裝置也會保留一份。方案的預算與時間是估計值，實際以你的情況為準。<br>鳳新高中英文科李姬慧老師 X AI 彙整製作</footer>
 </div>
 <div class="toast" id="toast" role="status"></div>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -414,6 +447,13 @@ const DOMAINS={
   [2,'雨天動線改善提案','記錄雨天積水和擁擠的地點，做照片或模型提案給總務處。','提案＋模型',['手作','設計排版'],'相機、紙板',500,8,'追蹤提案是否被採納'],
   [3,'擁擠程度提示','用感測器計算進出人數（不拍臉），在網頁顯示福利社擁擠程度。','原型＋測試',['程式','電路','網頁'],'micro:bit、感測器',1800,14,'分析一週人流數據'],
   [3,'校園導覽網站','做互動式校園地圖網站，貼 QR Code，收集使用回饋改版兩次。','網站＋改版紀錄',['網頁','設計排版'],'電腦、QR Code 貼紙',300,12,'加入英文版給交換生']]},
+ comfort:{n:'舒適與空間',lens:'不舒服',ex:'教室太熱、太吵、太亮、午休被打擾',c:[
+  [1,'教室溫度與噪音地圖','用手機 App 測量不同教室、不同時段的溫度和分貝，畫成舒適度地圖，提出改善建議。','數據地圖＋建議',['試算表'],'手機（溫度計、分貝 App）',0,6,'中階：試一個降溫或降噪的小改變'],
+  [1,'午休干擾調查','調查影響午休的因素（光線、聲音、溫度、座位），整理排名，向班上提出改善建議。','調查報告＋建議',['問卷訪談'],'Google 表單',0,6,'中階：挑一個因素試辦改善'],
+  [2,'遮光通風改善試辦','試一種低成本改善（例如調整窗簾、風扇方向、開窗時段），比較前後的教室溫度和同學舒適度自評。','前後比較報告',['實驗設計','試算表'],'溫度計或手機、風扇',300,8,'進階：做溫溼度自動紀錄器'],
+  [2,'自習音量提示卡','設計自習時段的音量提示卡或手勢，試辦兩週，比較前後的分貝值和專注自評。','試辦報告',['設計排版','溝通協調'],'護貝卡、分貝 App',200,8,'進階：做噪音提示燈'],
+  [3,'噪音提示燈','用 micro:bit 的麥克風偵測音量，超過門檻就亮燈提醒，測試門檻設定和同學的感受。','原型＋測試',['程式','電路'],'micro:bit',800,12,'加入數據紀錄，分析最吵的時段'],
+  [3,'溫溼度紀錄器','用 micro:bit 或 Arduino 加溫溼度感測器，自動記錄一週教室溫溼度，畫成圖表找出最熱的時段。','原型＋數據分析',['程式','電路','試算表'],'micro:bit、溫溼度感測器',900,12,'和冷氣使用時間比對，提出節能建議']]},
  study:{n:'學習與時間管理',lens:'讓人煩惱',ex:'拖延、背單字、筆記、考試焦慮',c:[
   [1,'拖延原因調查','調查同學最常拖延的情境和原因，整理成策略卡。','調查報告＋策略卡',['問卷訪談','設計排版'],'Google 表單',100,6,'中階：做番茄鐘挑戰'],
   [1,'讀書環境比較','比較在不同環境（安靜、音樂、圖書館）讀書 25 分鐘後的專注自評。','比較報告',['試算表'],'計時器',0,6,'中階：增加人數與重複次數'],
@@ -452,13 +492,41 @@ const DOMAINS={
 const LADDER=[[1,'記錄與調查','把「{p}」發生的次數、時間、影響的人記錄兩週，做成圖表，提出改善建議。','數據報告＋建議',['試算表','問卷訪談'],'手機、紙筆、表單',100,6,'中階：挑一個建議實際試辦'],
  [2,'試一個小改變','針對「{p}」設計一個低成本的改變（標語、流程、表單或手作工具），試辦兩週並比較前後。','試辦＋前後比較',['實驗設計','溝通協調'],'依解法而定',500,8,'進階：把有效的改變做成工具'],
  [3,'做出工具','做一個能更自動、更大規模解決「{p}」的原型（感測器、網頁或 App），讓至少 10 位使用者測試並改版。','原型＋使用者測試',['程式'],'電腦、micro:bit 等',1200,12,'推廣到其他班級或社區']];
+/* 觀察靈感：想不到時，用這些問題回想 */
+const SPARKS={'浪費':['今天有什麼東西用一次就丟了？','有沒有燈、冷氣或電扇沒人在用還開著？'],'不方便':['今天哪件事讓你等最久？','有沒有每天都要重複做、很煩的小事？'],
+ '不安全':['上學路上哪裡讓你需要閃車或小心？','校園裡哪裡容易滑倒、撞到或受傷？'],'不健康':['你或同學今天喝了幾杯含糖飲料？','昨天幾點睡？是什麼讓你晚睡？'],
+ '不公平':['有沒有人常常用不到某個設施或資源？','分工時，有沒有人總是做比較多？'],'不舒服':['教室什麼時候最熱、最吵或最擠？','午休時，什麼讓你睡不好？'],
+ '讓人煩惱':['這週讓你壓力最大的是什麼？','你常聽到同學抱怨什麼？']};
+const TASKS=[['校園散步 10 分鐘','下課時繞一圈福利社、走廊、廁所、樓梯，看到卡卡的地方就拍照或寫下來（不要拍到人臉）。'],
+ ['訪問 3 個人','問同學、家人或老師：「最近有什麼事讓你覺得很麻煩、很浪費或很不方便？」把他們說的記下來。'],
+ ['記錄自己的一天','從起床到睡前，每次覺得「唉」的時候就記一筆，連記 3 天。']];
+/* 查資料：每個領域的搜尋關鍵字（中＋英） */
+const KW={env:['校園 剩食 減量','一次性 杯 減塑 學校','教室 節電 行為','school food waste reduction','single-use cup reuse program'],
+ health:['高中生 含糖飲料 攝取','早餐 習慣 青少年','久坐 伸展 學生','sugary drinks adolescents','sedentary behavior students'],
+ campus:['福利社 排隊 分流','校園 動線 擁擠','校園 無障礙 地圖','queue waiting time school canteen','campus wayfinding'],
+ comfort:['教室 熱舒適 溫度','教室 噪音 分貝 學習','午休 睡眠 品質 學生','classroom thermal comfort','classroom noise learning'],
+ study:['拖延 原因 高中生','番茄鐘 專注','間隔複習 單字 記憶','procrastination high school students','spaced repetition vocabulary'],
+ safe:['學校 周邊 交通 安全','通學步道 改善','反光 材料 可見距離','school zone pedestrian safety','retroreflective visibility'],
+ mind:['高中生 壓力 來源','校園 適應 新生','感恩 介入 情緒','adolescent stress sources','gratitude intervention students'],
+ tech:['手機 使用時間 睡眠 青少年','假訊息 辨識 學生','長輩 數位 學習','smartphone use sleep adolescents','misinformation literacy'],
+ home:['家務 分工 家庭','家庭 節水 行為','收納 整理 效率','household chores division','household water saving']};
+const SOURCES=[['全國中小學科展作品','https://www.ntsec.edu.tw/','看高中生做過什麼實驗、怎麼設計變因'],
+ ['中學生網站・小論文','https://www.shs.edu.tw/','看同年齡的人怎麼寫研究和引用資料'],
+ ['臺灣博碩士論文知識加值系統','https://ndltd.ncl.edu.tw/','找研究方法、問卷題目，看摘要就好'],
+ ['Google 學術搜尋','https://scholar.google.com/','用英文關鍵字找國外研究，看摘要'],
+ ['政府資料開放平臺','https://data.gov.tw/','找全國或縣市的統計數字，和你的數據比較']];
+/* 安全提醒：依方案需要的技能 */
+const SAFETY={'烹飪':'用火、用刀、用烤箱時要有大人在場；注意食材保存和衛生；請人試吃前先問有沒有過敏。',
+ '電路':'只用電池或 USB 等低電壓，不要自己拆或改裝插 110V 插座的電器。',
+ '手作':'使用刀具、熱熔膠槍、電鑽時注意安全，必要時請老師或家人協助。',
+ '實驗設計':'實驗前想好安全措施；有用到食物、化學品或要找人參與時，先和老師確認。'};
 const PHASES={1:[['設計觀察與紀錄方式',.2],['蒐集資料',.4],['整理與分析',.2],['提出建議並分享',.2]],2:[['蒐集改變前的數據',.2],['設計並準備解法',.2],['試辦',.3],['比較前後、修正',.2],['分享成果',.1]],3:[['訪談使用者、確認需求',.15],['設計並學習技術',.2],['做出第一版原型',.25],['使用者測試',.2],['改版',.1],['發表',.1]]};
 
 function blank(){return{sample:false,name:'',cls:'',seat:'',code:'',idOK:false,idRoster:false,idAt:'',submittedAt:'',syncAt:'',syncHash:'',feedback:{text:'',at:'',seen:''},
  obs:[],of:{where:'',when:'',what:'',who:'',freq:'',lens:''},probs:[],nextId:1,chosen:null,favs:[],pick:'',
  me:{skills:[],budget:'',weeks:'',tools:''},plan:{mvp:'',mine:'',before:'',after:'',stuff:'',first:'',tl:[]},gate:'',
  exe:{unit:'',goal:'變少',data:[],df:{date:'',phase:'改變前',v:'',note:''},log:[],lf:{did:'',saw:'',next:''},pg:{week:'',done:'',next:'',stuck:'',help:''},hist:[],replies:[]},
- res:{concl:'',reflect:'',surprise:'',again:''}}}
+ res:{concl:'',reflect:'',surprise:'',again:''},refs:[],rf:{t:'',url:'',learn:''}}}
 function sample(){const s=blank();s.sample=true;s.name='小晴（範例）';
  s.obs=[{where:'午餐時間',when:'每天中午',what:'班上很多人的飯菜吃不完，直接倒進廚餘桶，桶子常常半滿',who:'全班、打菜的同學',freq:'每天',lens:'浪費'},
   {where:'福利社',when:'第二節下課',what:'排隊排到上課鐘響還買不到，只好空手回教室',who:'買早餐的同學',freq:'每天',lens:'不方便'},
@@ -467,6 +535,8 @@ function sample(){const s=blank();s.sample=true;s.name='小晴（範例）';
  s.probs=[{id:1,from:0,who:'本班同學',sit:'吃營養午餐',cause:'打菜份量固定，每個人食量不同，不喜歡的菜也一樣多',effect:'每天倒掉很多剩食，浪費食物，也增加廚餘處理量',
    whys:['為什麼會剩這麼多？因為很多人吃不完','為什麼吃不完？因為份量固定，不管食量大小都一樣','為什麼份量固定？因為打菜時沒有人問要多少','為什麼沒人問？因為時間趕，也沒有方便表達的方式'],n:'約 32 人',f:'每天',domain:'env',sc:{reach:4,freq:5,care:4,access:5,fresh:3}},
   {id:2,from:1,who:'買早餐的同學',sit:'第二節下課到福利社',cause:'大家集中在同一時間去，結帳只有一個櫃台',effect:'排隊排到上課，買不到或遲到',whys:['為什麼排這麼久？因為人都擠在同一節下課','為什麼都擠在同一節？因為第一節下課太短、早上沒時間吃','',''],n:'每天約 100 人',f:'每天',domain:'campus',sc:{reach:5,freq:5,care:3,access:3,fresh:3}}];
+ s.probs[0].val={asked:'8',agree:'6',said:'大家都說份量太多，也有 2 個人說是菜不好吃'};
+ s.refs=[{t:'（範例）一篇關於營養午餐剩食減量的科展作品',url:'全國中小學科展作品',learn:'（範例）他們用「份量自選」減少剩食，但沒有量介入前的數據，所以我會先量兩週改變前。'}];
  s.nextId=3;s.chosen=1;s.favs=['env-2','env-0','ladder-1'];s.pick='env-2';
  s.me={skills:['試算表','問卷訪談','溝通協調'],budget:'800',weeks:'10',tools:'家政教室的電子秤、手機'};
  s.plan={mvp:'準備「大份／正常／小份」三種選擇卡，打菜時讓同學舉卡選份量，試辦兩週',before:'介入前兩週，每天午餐後秤量全班剩食重量（公斤）',after:'介入後兩週同樣秤量，比較平均剩食量；再用問卷調查同學對份量的滿意度',stuff:'選擇卡印刷、護貝 32 套約 300 元；電子秤向家政教室借',first:'這週先和導師、打菜股長討論，並借好電子秤',tl:[]};
@@ -488,7 +558,7 @@ function load(){try{const r=localStorage.getItem(KEY);return r?JSON.parse(r):nul
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function deepMerge(b,o){for(const k in o){if(o[k]&&typeof o[k]==='object'&&!Array.isArray(o[k])&&b[k]&&typeof b[k]==='object'&&!Array.isArray(b[k]))deepMerge(b[k],o[k]);else b[k]=o[k]}return b}
 let S=(()=>{const l=load();return l?deepMerge(blank(),l):sample()})();
-let cur=0;const ui={confirmClear:false,backup:false,sending:false,dom:''};
+let cur=Math.min(Math.max(+S.lastStep||0,0),STEPS.length-1);const ui={confirmClear:false,backup:false,sending:false,dom:''};
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function nl(s){return esc(s).replace(/\n/g,'<br>')}
 function getP(p){return p.split('.').reduce((o,k)=>o==null?o:o[k],S)}
@@ -514,7 +584,7 @@ function card(id){if(!id)return null;const [d,i]=id.split('-');if(d==='ladder'){
 function fit(c){const have=S.me.skills,miss=c.need.filter(s=>!have.includes(s)),b=+S.me.budget,w=+S.me.weeks;const issues=[];
  if(b&&c.cost>b)issues.push(`預估花費約 ${c.cost} 元，超過你的預算 ${b} 元`);if(w&&c.wk>w)issues.push(`大約需要 ${c.wk} 週，你只有 ${w} 週`);
  const lv=!issues.length&&miss.length===0?'ok':(!issues.length&&miss.length<=1)?'prep':'down';return{miss,issues,lv}}
-function suggestDomain(p){const o=S.obs[p?.from];const m={'浪費':'env','不健康':'health','不方便':'campus','不安全':'safe','讓人煩惱':'mind','不舒服':'campus','不公平':'campus'};return o?m[o.lens]||'':''}
+function suggestDomain(p){const o=S.obs[p?.from];const m={'浪費':'env','不健康':'health','不方便':'campus','不安全':'safe','讓人煩惱':'mind','不舒服':'comfort','不公平':'campus'};return o?m[o.lens]||'':''}
 
 function done(i){const p=chosen();switch(i){
  case 0:return S.obs.length>=3;
@@ -531,10 +601,12 @@ const R=[];
 /* 1 觀察 */
 R[0]=()=>{const f=S.of;return head('Step 1 · Observe','觀察：記下生活中卡卡的時刻','<strong>這一步的規則：</strong>花 3–7 天，只要遇到讓你覺得「好麻煩、好浪費、好危險、好不舒服」的時刻，就記下來。先不要想解法，只記錄發生了什麼。至少記 3 則。')+
  sec('用這些角度觀察','',`<div class="legend">${LENSES.map(([n,d])=>`<div><b>${n}</b>${d}</div>`).join('')}</div>`)+
+ sec('想不到可以記什麼？','選一個任務，或點一個問題來回想',`<div class="tasks">${TASKS.map(([t,d])=>`<div class="task"><b>${t}</b><span>${d}</span></div>`).join('')}</div>
+  <div class="sparks">${LENSES.map(([n])=>SPARKS[n].map(q=>`<button class="spark" data-act="spark" data-lens="${n}" data-q="${esc(q)}"><b>${n}</b>${esc(q)}</button>`).join('')).join('')}</div>`)+
  sec('新增一則觀察','',`<div class="card" style="display:grid;gap:12px">
   <div class="q"><span class="qlabel">在哪裡？</span>${seg('of.where',SCENES,null,true)}</div>
   <div class="grid2"><div class="q"><label for="ow">什麼時候？</label>${inp('of.when','例如：第二節下課','ow')}</div><div class="q"><label for="oh">影響了誰？</label>${inp('of.who','例如：買早餐的同學','oh')}</div></div>
-  <div class="q"><label for="ot">發生了什麼？（寫看到的事實）</label>${ta('of.what','例如：排隊排到上課鐘響還買不到，只好空手回教室',60,'ot')}</div>
+  <div class="q"><label for="ot">發生了什麼？（寫看到的事實）</label>${ui.sparkQ?`<p class="mini" style="color:var(--amber-dark)">回想：${esc(ui.sparkQ)}</p>`:''}${ta('of.what','例如：排隊排到上課鐘響還買不到，只好空手回教室',60,'ot')}</div>
   <div class="grid2"><div class="q"><span class="qlabel">多常發生？</span>${seg('of.freq',FREQ,null,true)}</div><div class="q"><span class="qlabel">屬於哪一種？</span>${seg('of.lens',LENSES.map(l=>l[0]),null,true)}</div></div>
   <div class="toolbar"><button class="btn" data-act="addObs">加入觀察日記</button></div></div>`)+
  sec('我的觀察日記',`${S.obs.length} 則`,S.obs.length?`<div class="list">${S.obs.map((o,i)=>`<div class="item"><span class="n">${i+1}</span><div><div class="t">${esc(o.what)}</div><div>${o.where?`<span class="tag">${esc(o.where)}</span>`:''}${o.when?`<span class="tag">${esc(o.when)}</span>`:''}${o.lens?`<span class="tag amber">${esc(o.lens)}</span>`:''}${o.freq?`<span class="tag teal">${esc(o.freq)}</span>`:''}</div>${o.who?`<p class="mini">影響：${esc(o.who)}</p>`:''}</div><button class="xbtn" data-act="delObs" data-i="${i}" aria-label="刪除">×</button></div>`).join('')}</div>`:'<p class="empty">還沒有觀察。今天就從上學路上開始吧。</p>')+nav()};
@@ -552,12 +624,24 @@ R[1]=()=>head('Step 2 · Define','定義：把觀察變成一個清楚的問題'
   <div class="grid2"><div class="q"><label for="pc${k}">因為什麼原因？</label>${inp(`probs.${k}.cause`,'例如：打菜份量固定，每個人食量不同',`pc${k}`)}</div><div class="q"><label for="pe${k}">造成什麼困擾？</label>${inp(`probs.${k}.effect`,'例如：每天倒掉很多剩食',`pe${k}`)}</div></div>
   <div class="out"><span class="k">問題敘述</span><p id="st${k}"><b>${esc(stmt(p))||'填好上面四格，這裡會組成一句話。'}</b></p></div><div id="sw${k}">${stmtWarn(p)}</div>
   <details class="mini-sum" ${p.whys.some(Boolean)?'open':''}><summary>五個為什麼：往下挖出根本原因</summary><div style="display:grid;gap:8px;margin-top:10px">${p.whys.map((w,j)=>`<div class="q"><label for="wy${k}-${j}">為什麼 ${j+1}</label>${inp(`probs.${k}.whys.${j}`,j===0?'為什麼會發生？因為…':'那為什麼會這樣？因為…',`wy${k}-${j}`)}</div>`).join('')}<p class="mini">挖到「你可以著力的原因」就可以停了。最下面那個原因，通常就是解法要對準的地方。</p></div></details>
-  <div class="grid2"><div class="q"><label for="pn${k}">大約影響多少人？</label>${inp(`probs.${k}.n`,'例如：約 32 人',`pn${k}`)}</div><div class="q"><label for="pf${k}">多常發生？</label>${inp(`probs.${k}.f`,'例如：每天',`pf${k}`)}</div></div></div>`}).join('')+nav();
+  <div class="grid2"><div class="q"><label for="pn${k}">大約影響多少人？</label>${inp(`probs.${k}.n`,'例如：約 32 人',`pn${k}`)}</div><div class="q"><label for="pf${k}">多常發生？</label>${inp(`probs.${k}.f`,'例如：每天',`pf${k}`)}</div></div>
+  ${valHTML(p,k)}</div>`}).join('')+nav();
+function valQ(p){return`我在做自主學習專題，想請教你 1 分鐘：你有遇過「${p.sit?p.sit+'時，':''}${p.effect||'（這個問題）'}」嗎？大概多常發生？你覺得為什麼會這樣？`}
+function valRes(p){const v=p.val||{},a=+v.asked,g=+v.agree;if(!a)return'';
+ if(a<5)return resBox('warn','再多問幾個人','目前問了 '+a+' 人，問到 5 人以上，比較能確定這是不是大家的問題。');
+ if(g/a<.4)return resBox('warn','可能不是大家的問題',`${a} 人中只有 ${g||0} 人覺得是問題。可以把對象縮小到真的有困擾的人，或回到步驟 1 換一個觀察。`);
+ return resBox('ok','問題得到驗證',`${a} 人中有 ${g} 人也覺得是問題。${v.said?'他們說的原因如果和你想的不一樣，記得回頭修改「因為什麼原因」。':''}`)}
+function valHTML(p,k){const v=p.val||{};return`<details class="val" ${v.asked?'open':''}><summary style="cursor:pointer;font-weight:600;color:var(--amber-dark)">驗證：問 5 個人，這真的是問題嗎？（建議做）</summary>
+  <p class="mini">原因常常是我們自己猜的。找 5 個會遇到這個問題的人問一問，再決定要不要選它。</p>
+  <div class="out"><span class="k">可以這樣問</span><p id="vq${k}">${esc(valQ(p))}</p><div class="toolbar"><button class="btn ghost sm" data-act="copyVal" data-i="${k}">複製問句</button></div></div>
+  <div class="grid2"><div class="q"><label for="va${k}">我問了幾個人？</label>${inp(`probs.${k}.val.asked`,'例如：6',`va${k}`,'number')}</div><div class="q"><label for="vg${k}">幾個人也覺得是問題？</label>${inp(`probs.${k}.val.agree`,'例如：5',`vg${k}`,'number')}</div></div>
+  <div class="q"><label for="vs${k}">他們說的原因或不同看法</label>${ta(`probs.${k}.val.said`,'例如：大部分人說份量太多，也有人說是菜不好吃',50,`vs${k}`)}</div><div id="vr${k}">${valRes(p)}</div></details>`}
+function valText(p){const v=p?.val||{};return v.asked?`問了 ${v.asked} 人，${v.agree||0} 人也覺得是問題${v.said?'；他們說：'+v.said:''}`:''}
 
 /* 3 選題 */
 R[2]=()=>{const P=S.probs.filter(p=>p.who||p.effect);return head('Step 3 · Choose','選題：哪個問題最值得解決？','<strong>這一步的規則：</strong>每個問題依五個面向打 1–5 分，再選一個。「我接觸得到」很重要：你要能親自觀察、找到人測試，問題才做得下去。')+
  `<div class="legend">${SCORE.map(([k,n])=>`<div><b>${n}</b></div>`).join('')}</div><div style="height:16px"></div>`+
- (P.length?`<div class="list">${P.map(p=>{const k=S.probs.indexOf(p);return`<div class="fcard ${S.chosen===p.id?'final':''}"><div class="sc-top"><div class="t">${esc(stmt(p))}</div><div class="total">${pscore(p)}<small> /25</small></div></div>
+ (P.length?`<div class="list">${P.map(p=>{const k=S.probs.indexOf(p);return`<div class="fcard ${S.chosen===p.id?'final':''}"><div class="sc-top"><div><div class="t">${esc(stmt(p))}</div>${valText(p)?`<p class="mini" style="color:var(--teal)">驗證：${esc(valText(p))}</p>`:'<p class="mini">還沒驗證：可以回步驟 2 問 5 個人，再打分數會更準。</p>'}</div><div class="total">${pscore(p)}<small> /25</small></div></div>
   <div class="scores">${SCORE.map(([s,n])=>`<div><span class="k">${n}</span>${seg(`probs.${k}.sc.${s}`,['1','2','3','4','5'],[1,2,3,4,5].map(String),true)}</div>`).join('')}</div>
   <button class="radio ${S.chosen===p.id?'on':''}" data-act="choose" data-id="${p.id}" style="justify-self:start"><span class="dot"></span>${S.chosen===p.id?'就解決這個':'選這個'}</button></div>`}).join('')}</div>`:'<p class="empty">先在步驟 2 定義問題。</p>')+nav()};
 
@@ -565,14 +649,22 @@ R[2]=()=>{const P=S.probs.filter(p=>p.who||p.effect);return head('Step 3 · Choo
 function cardHTML(c){const on=S.favs.includes(c.id);return`<div class="sol lv${c.lv} ${on?'fav':''}"><div class="sol-top"><span class="lvtag">${TIER[c.lv]}</span><button class="star ${on?'on':''}" data-act="fav" data-id="${c.id}" aria-pressed="${on}" aria-label="收藏">${on?'★ 已收藏':'☆ 收藏'}</button></div>
  <h4>${esc(c.t)}</h4><p>${esc(c.d)}</p><div class="meta"><span>成果：${esc(c.out)}</span><span>約 ${c.cost?c.cost+' 元':'免費'}</span><span>約 ${c.wk} 週</span></div>
  <div>${c.need.map(s=>`<span class="tag ${S.me.skills.includes(s)?'teal':''}">${esc(s)}</span>`).join('')}</div><p class="mini">需要：${esc(c.tools)}　延伸：${esc(c.ext)}</p></div>`}
-R[3]=()=>{const p=chosen(),dk=ui.dom||p?.domain||suggestDomain(p)||'env',D=DOMAINS[dk];return head('Step 4 · Options','方案：從初階到進階','<strong>這一步的規則：</strong>先看「通用方案階梯」，再到領域方案庫找靈感，收藏 1–3 個有興趣的方案。不一定要選進階：初階做得紮實，一樣是好成果，而且做完可以往上升級。')+
+R[3]=()=>{const p=chosen(),dk=ui.dom||p?.domain||suggestDomain(p)||'env',D=DOMAINS[dk],tv=ui.tier==null?1:ui.tier;return head('Step 4 · Options','方案：從初階到進階','<strong>這一步的規則：</strong>先查一查別人怎麼做過，再看「通用方案階梯」和領域方案庫，收藏 1–3 個有興趣的方案。不一定要選進階：初階做得紮實，一樣是好成果，而且做完可以往上升級。')+
  `<div class="ctxbar"><b>我的問題：</b>${esc(stmt(p)||'（先完成步驟 3）')}</div>`+
- sec('三種難度代表什麼','',`<div class="tiers">${[1,2,3].map(l=>`<div class="lv${l}"><b>${TIER[l]}</b><span>${TIER_D[l]}</span></div>`).join('')}</div>`)+
- sec('通用方案階梯','依你的問題自動帶入',`<div class="sols">${LADDER.map((c,i)=>cardHTML(card('ladder-'+i))).join('')}</div>`)+
+ `<div class="favbar"><b>已收藏 ${S.favs.length}／3</b>${S.favs.length?S.favs.map(id=>{const c=card(id);return c?`<span class="tag teal">${TIER[c.lv]}・${esc(c.t)}</span>`:''}).join(''):'<span class="mini">按方案右上角的「收藏」</span>'}</div>`+
+ sec('先查一查：別人怎麼做過？','找 1–3 筆資料，方案會更有根據',`<p class="lead">搜尋時把問題拆成 2–3 個關鍵詞，再加上「高中」「校園」「科展」。點一下關鍵字就能複製。</p>
+  <div class="kw">${(KW[dk]||[]).map(k=>`<button data-act="copyKw" data-k="${esc(k)}">${esc(k)}</button>`).join('')}</div>
+  <div class="srcs">${SOURCES.map(([n,u,d])=>`<a class="src" href="${u}" target="_blank" rel="noopener"><b>${n} ↗</b><span class="mini">${d}</span></a>`).join('')}</div>
+  <details class="mini-sum" style="margin:0" ${ui.refOpen?'open':''} id="refBox"><summary>＋ 記下找到的資料（${S.refs.length} 筆）</summary><div style="display:grid;gap:10px;margin-top:10px"><div class="grid2"><div class="q"><label for="rft">資料名稱</label>${inp('rf.t','例如：某篇科展作品或報導的標題','rft')}</div><div class="q"><label for="rfu">網址或出處</label>${inp('rf.url','貼上網址，或寫出處','rfu')}</div></div>
+   <div class="q"><label for="rfl">他們怎麼做？我可以借用或改進什麼？</label>${ta('rf.learn','例如：他們用份量自選，但沒有量改變前的數據；我會先量兩週',50,'rfl')}</div>
+   <div class="toolbar"><button class="btn" data-act="addRef">加入資料</button></div></div></details>
+  ${S.refs.length?`<div class="list">${S.refs.map((r,i)=>`<div class="item"><span class="n">${i+1}</span><div><div class="t">${esc(r.t)}</div>${r.url?`<p class="mini">${/^https?:\/\//.test(r.url)?`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.url)}</a>`:esc(r.url)}</p>`:''}${r.learn?`<p style="font-size:.93rem">${esc(r.learn)}</p>`:''}</div><button class="xbtn" data-act="delRef" data-i="${i}" aria-label="刪除">×</button></div>`).join('')}</div>`:''}
+  <p class="mini">查完之後，可以回步驟 3 調整「還沒有人好好解決」的分數。資料要自己點開確認，不要只看 AI 的整理。</p>`)+
+ sec('通用方案階梯','初階、中階、進階各一個，依你的問題自動帶入',`<div class="sols">${LADDER.map((c,i)=>cardHTML(card('ladder-'+i))).join('')}</div>`)+
  sec('領域方案庫',D?esc(D.ex):'',`<div class="chips">${Object.entries(DOMAINS).map(([k,d])=>`<button class="chip teal ${k===dk?'on':''}" data-act="dom" data-k="${k}">${esc(d.n)}</button>`).join('')}</div>
   ${p&&dk!==p.domain?`<button class="linkbtn" data-act="setDom" data-k="${dk}">把「${esc(D.n)}」設成我的問題領域</button>`:''}
-  ${[1,2,3].map(l=>`<div class="tierrow"><span class="k">${TIER[l]}</span><div class="sols">${D.c.map((c,i)=>c[0]===l?cardHTML(card(dk+'-'+i)):'').join('')}</div></div>`).join('')}`)+
- sec('我收藏的方案',`${S.favs.length} 個`,S.favs.length?`<div class="list">${S.favs.map(id=>{const c=card(id);return c?`<div class="item"><span class="n">${TIER[c.lv][0]}</span><div><div class="t">${esc(c.t)}</div><p class="mini">${esc(c.dom)}</p></div><button class="xbtn" data-act="fav" data-id="${id}" aria-label="取消收藏">×</button></div>`:''}).join('')}</div>`:'<p class="empty">按方案右上角的「收藏」。</p>')+nav()};
+  <div class="q"><span class="qlabel">看哪一種難度</span><div class="seg" role="group">${[1,2,3,0].map(l=>`<button data-act="tier" data-l="${l}" class="${tv===l?'on':''}" aria-pressed="${tv===l}">${l?TIER[l]:'全部'}</button>`).join('')}</div>${tv?`<p class="mini">${TIER[tv]}＝${TIER_D[tv]}</p>`:''}</div>
+  ${[1,2,3].filter(l=>!tv||l===tv).map(l=>`<div class="tierrow">${tv?'':`<span class="k">${TIER[l]}</span>`}<div class="sols">${D.c.map((c,i)=>c[0]===l?cardHTML(card(dk+'-'+i)):'').join('')}</div></div>`).join('')}`)+nav()};
 
 /* 5 適配 */
 R[4]=()=>head('Step 5 · Fit Check','適配：哪個方案最適合我？','<strong>這一步的規則：</strong>誠實填寫你的技能、預算和時間，系統會比對每個收藏的方案。結果是「需要準備」或「建議降一級」都沒關係，先從做得到的開始，做完再升級。')+
@@ -592,7 +684,8 @@ R[5]=()=>{const c=card(S.pick),p=S.plan;return head('Step 6 · Plan','計畫：�
  sec('需要的東西與預算','',ta('plan.stuff','例如：選擇卡印刷 300 元；電子秤向家政教室借',60,'pst'))+
  sec('這週就做的第一件事','只寫一件、具體的事',inp('plan.first','例如：和導師、打菜股長討論，並借好電子秤','pf'))+
  sec('時程',`${esc(S.me.weeks||'?')} 週`,`<div class="toolbar"><button class="btn ghost sm" data-act="genTL">${p.tl.length?'依週數重新產生':'依週數產生時程'}</button></div>${p.tl.length?`<div class="plan">${p.tl.map((r,i)=>`<div><input type="text" data-path="plan.tl.${i}.w" value="${esc(r.w)}" aria-label="週次"><input type="text" data-path="plan.tl.${i}.task" value="${esc(r.task)}" aria-label="工作"></div>`).join('')}</div>`:''}`)+
- (['mind','tech'].includes(c?.id.split('-')[0])||/問卷|訪談|匿名/.test(c?.d||'')?resBox('warn','研究倫理提醒','你的方案會蒐集別人的資料或心情。記得事先說明目的、採匿名、不蒐集不必要的個資，並先和老師確認。'):'')+nav()};
+ (['mind','tech'].includes(c?.id.split('-')[0])||/問卷|訪談|匿名|招募|試用|盲測/.test(c?.d||'')||c?.need.includes('問卷訪談')?resBox('warn','研究倫理提醒','你的方案會蒐集別人的資料或心情。記得事先說明目的、採匿名、不蒐集不必要的個資，並先和老師確認。'):'')+
+ (c&&(c.need.some(n=>SAFETY[n])||c.id.startsWith('safe'))?resBox('warn','安全提醒',[...c.need.filter(n=>SAFETY[n]).map(n=>SAFETY[n]),...(c.id.startsWith('safe')?['在路邊觀察或測量時，站在安全的位置，不要為了記錄走進車道。']:[])]):'')+nav()};
 function mineWarn(){const t=(S.plan.mine||'').trim(),c=card(S.pick);if(!t)return resBox('neutral','為什麼要寫這一欄','方案庫是起點，不是答案。寫出你為自己的問題做了什麼調整，作品才會是你的，而不是和別人一樣的方案卡。');
  if(t.length<25)return resBox('warn','我的版本','再具體一點：你的對象是誰？在哪裡做？和方案卡原本的做法有什麼不同？');
  if(c&&t.includes(c.d.slice(0,15)))return resBox('warn','我的版本','看起來和方案卡的描述很像。寫出你自己的調整，例如針對根本原因改了什麼。');return resBox('ok','我的版本','有寫出自己的調整，這會是你作品的特色。')}
@@ -605,6 +698,8 @@ function propText(){const p=chosen(),c=card(S.pick),P=S.plan;return`【問題解
 問題：${stmt(p)||'（未填）'}
 根本原因：${(p?.whys||[]).filter(Boolean).slice(-1)[0]||'（未填）'}
 影響：${p?.n||'?'}，${p?.f||'?'}
+驗證：${valText(p)||'（未驗證）'}
+參考資料：${refsText()||'（未填）'}
 方案：${c?`${TIER[c.lv]}｜${c.t}（${c.dom}）\n　　${c.d}`:'（未選）'}
 第一版：${P.mvp||'（未填）'}
 改變前測量：${P.before||'（未填）'}
@@ -613,12 +708,14 @@ function propText(){const p=chosen(),c=card(S.pick),P=S.plan;return`【問題解
 這週第一件事：${P.first||'（未填）'}
 時程：
 ${P.tl.map(r=>`${r.w}　${r.task}`).join('\n')||'（未填）'}`}
+function refsText(){return S.refs.map((r,i)=>`${i+1}. ${r.t}${r.url?'（'+r.url+'）':''}${r.learn?'：'+r.learn:''}`).join('\n')}
 function fbKey(){return S.feedback.at||S.feedback.text}
 R[6]=()=>{const p=chosen(),c=card(S.pick),P=S.plan,v=x=>x?esc(x):'<span class="empty">尚未填寫</span>';return head('Finish · Action Card','問題解決行動卡','<strong>計畫完成！</strong>把行動卡送給老師。老師通過「計畫」關卡後，從「這週第一件事」開始動手，並到下一步「執行」記錄過程。')+gateHTML()+
  (S.feedback.text?`<div class="fbcard"><div class="fbh"><span class="eyebrow">From Your Teacher</span><b>老師的建議</b>${S.feedback.at?`<span class="mini">${esc(S.feedback.at)}</span>`:''}</div><p>${nl(S.feedback.text)}</p></div>`:'')+
  `<article class="doc"><div class="dt"><p class="eyebrow">Action Card</p><h3>${c?esc(c.t):v('')}</h3><p class="mini">${S.name?esc(S.name)+'　·　':''}${c?`<span class="lvtag lv${c.lv}">${TIER[c.lv]}</span> <span class="tag teal">${esc(c.dom)}</span>`:''}</p></div>
   <div class="dsec"><h4>我觀察到</h4><p>${v(S.obs[p?.from]?.what)}</p></div>
-  <div class="dsec"><h4>要解決的問題</h4><p class="big">${v(stmt(p))}</p><p class="mini">根本原因：${v((p?.whys||[]).filter(Boolean).slice(-1)[0])}｜影響 ${v(p?.n)}，${v(p?.f)}</p></div>
+  <div class="dsec"><h4>要解決的問題</h4><p class="big">${v(stmt(p))}</p><p class="mini">根本原因：${v((p?.whys||[]).filter(Boolean).slice(-1)[0])}｜影響 ${v(p?.n)}，${v(p?.f)}</p><p class="mini">驗證：${v(valText(p))}</p></div>
+  <div class="dsec"><h4>參考資料</h4>${S.refs.length?`<p style="white-space:pre-wrap">${esc(refsText())}</p>`:v('')}</div>
   <div class="dsec"><h4>方案</h4><p>${c?esc(c.d):v('')}</p></div>
   <div class="dsec"><h4>我的版本</h4><p>${v(P.mine)}</p></div>
   <div class="dsec"><h4>第一版</h4><p><b>${v(P.mvp)}</b></p></div>
@@ -628,17 +725,18 @@ R[6]=()=>{const p=chosen(),c=card(S.pick),P=S.plan,v=x=>x?esc(x):'<span class="e
  <div class="toolbar" style="margin-top:18px"><button class="btn" data-act="copyProp">複製行動卡文字</button></div>
  ${sendBox()}`+nav()};
 
-function sendBox(){return`<section class="send"><div class="stitle">送出給老師</div>
+function sendBox(){return`<section class="send"><div class="stitle">請老師審核</div>
+  <p class="mini">你寫的內容會自動同步，老師隨時看得到。<b>按下面的按鈕，是正式請老師審核、幫你打關卡。</b></p>
   ${S.sample?'<p class="rule">現在是範例資料，無法送出。請按上方「清空，開始填我的」。</p>':''}
   ${!SCRIPT_URL?'<p class="rule">老師還沒設定送出網址，可以先按「複製行動卡文字」交給老師。</p>':''}
   ${S.sample?'':idLine()}
-  <div class="toolbar"><button class="btn" data-act="submit" ${S.sample||!SCRIPT_URL||!S.idOK?'disabled':''}>${cur===8?'送出成果（更新行動卡）':S.submittedAt?'更新送出的行動卡':'送出行動卡'}</button>${S.submittedAt&&SCRIPT_URL?'<button class="btn ghost sm" data-act="fb">查看老師建議</button>':''}</div>
-  <p class="mini" id="sendStatus">${S.submittedAt?`上次送出：${esc(S.submittedAt)}。修改後可以再送一次，老師那邊會換成最新版本。`:'同一個班級和座號重複送出時，老師那邊只保留最新版本。'}</p></section>`}
+  <div class="toolbar"><button class="btn" data-act="submit" ${S.sample||!SCRIPT_URL||!S.idOK?'disabled':''}>${cur===8?'我完成了，請老師審核成果':S.submittedAt?'我改好了，請老師再看一次':'計畫完成，請老師審核'}</button>${S.submittedAt&&SCRIPT_URL?'<button class="btn ghost sm" data-act="fb">查看老師建議</button>':''}</div>
+  <p class="mini" id="sendStatus">${S.submittedAt?`上次請老師審核：${esc(S.submittedAt)}。修改後可以再按一次。`:'可以按很多次，老師那邊看到的永遠是最新版本。'}</p></section>`}
 
 /* 8 執行 */
 function gateHTML(){const g=S.gate,idx=GATES.indexOf(g);if(!SCRIPT_URL&&!S.sample)return'';
  return`<div class="gates"><span class="k">老師關卡</span><div class="gtrack">${GATES.map((n,i)=>`<span class="g ${i<=idx?'on':''}">${i<=idx?'✓':i+1} ${n}</span>`).join('')}</div>
- ${g==='需修改'?resBox('warn','老師請你修改','看一下行動卡上的「老師的建議」，修改後重新送出。'):idx<0?'<p class="mini">送出行動卡後，老師會在這裡標示你通過了哪一關。</p>':''}</div>`}
+ ${g==='需修改'?resBox('warn','老師請你修改','看一下行動卡上的「老師的建議」，修改後重新送出。'):idx<0?'<p class="mini">按「請老師審核」後，老師會在這裡標示你通過了哪一關。</p>':''}</div>`}
 const vals=ph=>S.exe.data.filter(d=>d.phase===ph).map(d=>parseFloat(d.v)).filter(v=>!isNaN(v));
 const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:NaN;
 const r2=x=>Math.round(x*100)/100;
@@ -693,7 +791,7 @@ R[8]=()=>{const nx=nextCards();return head('Finish · Results','成果：有沒�
 function resultText(){const c=cmp(),p=chosen(),cd=card(S.pick);return`【生活觀察解題成果】${S.name?'　'+S.name:''}
 我觀察到：${S.obs[p?.from]?.what||'（未填）'}
 要解決的問題：${stmt(p)||'（未填）'}
-根本原因：${(p?.whys||[]).filter(Boolean).slice(-1)[0]||'（未填）'}
+根本原因：${(p?.whys||[]).filter(Boolean).slice(-1)[0]||'（未填）'}${valText(p)?'\n驗證：'+valText(p):''}${S.refs.length?'\n參考資料：\n'+refsText():''}
 我的方案：${cd?TIER[cd.lv]+'｜'+cd.t:'（未選）'}；我的版本：${S.plan.mine||'（未填）'}
 過程：${S.exe.log.map((l,i)=>`第 ${i+1} 輪 ${l.did}${l.next?'→ 調整：'+l.next:''}`).join('；')||'（未填）'}
 結果：${c?`改變前平均 ${c.mb} ${S.exe.unit}（${c.b.length} 筆），改變後平均 ${c.ma} ${S.exe.unit}（${c.a.length} 筆）${c.pct!==null?`，變化 ${c.pct>0?'+':''}${c.pct}%`:''}`:'（尚無數據）'}
@@ -727,7 +825,8 @@ ${S.probs.map((p,i)=>`${i+1}. ${stmt(p)}（我的評分：${SCORE.map(([k,n])=>n
 我要解決的問題：${stmt(chosen())||'（未填）'}
 根本原因：${(chosen()?.whys||[]).filter(Boolean).slice(-1)[0]||'未填'}
 
-請用提問的方式，引導我想出三種難度的方案：初階（觀察、記錄、調查、提出建議）、中階（低成本的小改變，比較前後）、進階（原型、感測器或程式，讓使用者測試）。每種先問我問題，不要直接給完整方案。`],
+請用提問的方式，引導我想出三種難度的方案：初階（觀察、記錄、調查、提出建議）、中階（低成本的小改變，比較前後）、進階（原型、感測器或程式，讓使用者測試）。每種先問我問題，不要直接給完整方案。
+另外，幫我想 5 組可以拿去搜尋的中英文關鍵字，讓我自己找別人做過的研究或作品。不要直接給我文獻標題或網址，我會自己查證。`],
  ['檢查可行性',()=>`${base()}
 
 我選的方案：${card(S.pick)?.t||'未選'}｜${card(S.pick)?.d||''}
@@ -759,11 +858,11 @@ ${S.exe.log.map((l,i)=>`${i+1}. 做了：${l.did}｜發生：${l.saw}｜下一�
 ${resultText()}
 
 請檢查：結論有沒有超出數據？樣本夠不夠？有沒有其他因素可能影響結果？用提問讓我自己修改。最後問我 2 個問題，幫我想清楚在學習歷程檔案中，怎麼呈現「發現問題、解決問題」的能力。不要幫我改寫。`]];
-function aiCard(){const [t,f]=AI[cur];return`<section class="ai"><h3><span class="eyebrow">AI Assistant</span>AI 助手提示詞：${t}</h3>
+function aiCard(){const [t,f]=AI[cur];return`<details class="ai" ${ui.aiOpen?'open':''} id="aiBox"><summary><span class="eyebrow">AI Assistant</span>卡住了？AI 助手提示詞：${t}</summary><div class="aibody">
  <p class="mini">複製後貼到 Claude（免費帳號就可以）或其他 AI 的新對話。提示詞已經放進你目前的內容，並要求 AI 只提問和檢查，不代寫。</p>
  <textarea id="aiText" readonly aria-label="AI 提示詞">${esc(f())}</textarea>
  <div class="toolbar"><button class="btn teal" data-act="copyAI">複製提示詞</button></div>
- <p class="note">AI 會出錯。數據、資料來源和安全資訊，一定要自己查證。</p></section>`}
+ <p class="note">AI 會出錯。數據、資料來源和安全資訊，一定要自己查證。</p></div></details>`}
 
 /* 版面 */
 function nav(){return`<div class="nav">${cur>0?`<button class="btn ghost" data-go="${cur-1}">← 上一步</button>`:'<span></span>'}${cur<LAST?`<button class="btn" data-go="${cur+1}">下一步：${STEPS[cur+1][1]} →</button>`:''}</div>`+aiCard()}
@@ -782,17 +881,30 @@ function idCard(){const v=ui.idf||{cls:S.cls,seat:S.seat,name:S.name,code:S.code
  ${SCRIPT_URL?`<div class="q"><label for="idk">班級代碼（老師上課時會給）</label><input type="text" id="idk" value="${esc(v.code)}" placeholder="班級代碼"></div>`:''}
  <div class="toolbar"><button class="btn" data-act="verifyId">${SCRIPT_URL?'核對並建立身分':'儲存身分'}</button>${S.idOK?'<button class="btn ghost sm" data-act="cancelId">取消</button>':''}</div>
  <p class="mini" id="idStatus">${SCRIPT_URL?'':'老師還沒設定送出網址，身分先存在這台裝置。'}</p></div>`}
+function progHTML(){const dn=STEPS.filter((_,i)=>done(i)).length;return`<div class="prog" style="flex-basis:100%"><div class="pl"><b>第 ${cur+1}／${STEPS.length} 步・${STEPS[cur][1]}</b><span id="progN">已完成 ${dn} 步</span>${S.gate?`<span class="gchip ${S.gate==='需修改'?'warn':''}">老師關卡：${esc(S.gate)}</span>`:''}</div><div class="bar"><i id="progBar" style="width:${dn/STEPS.length*100}%"></i></div></div>`}
+const needId=()=>!S.sample&&!!SCRIPT_URL&&!S.idOK;
+const hasLocal=()=>S.obs.length>0||S.probs.length>0;
+function preIdHTML(){return`<div class="pre-id"><p class="lead">建立身分後就能開始。你會走過這 9 步，每一步都有範例和提示：</p>
+ <ol>${[['觀察','記下 3 則生活中卡卡的時刻'],['定義','寫成一句清楚的問題，並問人驗證'],['選題','比較問題，選一個最值得做的'],['方案','查資料，從初階到進階收藏方案'],['適配','依技能、預算、時間選一個做得到的'],['計畫','決定第一版和怎麼量'],['行動卡','請老師審核計畫'],['執行','動手做、記數據、每週回報'],['成果','比較前後，寫結論和反思']].map(([a,b])=>`<li><b>${a}</b>：${b}</li>`).join('')}</ol>
+ <p class="mini">換了電腦或手機？輸入一樣的班級、座號、姓名和班級代碼，就會找回之前的進度。</p></div>`}
 function renderNotice(){let h='';
  if(!S.sample&&(!S.idOK||ui.editId))h+=idCard();
- else if(!S.sample)h+=`<div class="idbar"><span>目前身分：<b>${esc(S.cls)} 班 ${esc(S.seat)} 號 ${esc(S.name)}</b>${S.idRoster?' <span class="tag teal">已核對名單</span>':''}${GOOGLE_CLIENT_ID&&AUTH?`<br><span class="mini">${esc(AUTH.email)}</span>`:''}${SCRIPT_URL?`<br><span class="mini" id="syncInfo">${S.syncAt?`已自動同步給老師（${esc(S.syncAt)}）`:'完成步驟時會自動同步給老師'}</span>`:''}</span><span><button class="linkbtn" data-act="editId">更正</button>${GOOGLE_CLIENT_ID?'<button class="linkbtn" data-act="logout">登出</button>':''}</span></div>`;
+ else if(!S.sample)h+=`<div class="idbar"><span>目前身分：<b>${esc(S.cls)} 班 ${esc(S.seat)} 號 ${esc(S.name)}</b>${S.idRoster?' <span class="tag teal">已核對名單</span>':''}${GOOGLE_CLIENT_ID&&AUTH?`<br><span class="mini">${esc(AUTH.email)}</span>`:''}${SCRIPT_URL?`<br><span class="mini" id="syncInfo">${S.syncAt?`已自動同步給老師（${esc(S.syncAt)}）`:'完成步驟時會自動同步給老師'}</span>`:''}</span><span><button class="linkbtn" data-act="editId">更正</button>${GOOGLE_CLIENT_ID?'<button class="linkbtn" data-act="logout">登出</button>':''}</span>${progHTML()}</div>`;
  if(S.sample&&GOOGLE_CLIENT_ID&&AUTH)h+=`<div class="idbar"><span class="mini">已登入：${esc(AUTH.email)}</span><button class="linkbtn" data-act="logout">登出</button></div>`;
  if(S.sample)h+=`<div class="banner"><span>目前顯示的是<b>範例同學「小晴」</b>從午餐剩食出發的過程，先看看每一步怎麼寫。</span><button class="btn sm" data-act="start">清空，開始填我的</button></div>`;
  if(ui.confirmClear)h+=`<div class="banner"><span>確定要清空全部內容嗎？無法復原，建議先複製進度碼。</span><button class="btn sm danger" data-act="clear">確定清空</button><button class="btn ghost sm" data-act="cancelclear">取消</button></div>`;
  if(S.feedback.text&&fbKey()!==S.feedback.seen&&cur!==FBSTEP)h+=`<div class="banner"><b>老師給你新的建議了！</b><button class="btn sm" data-go="${FBSTEP}">去看建議</button></div>`;
- if(ui.backup)h+=`<div class="card" style="display:grid;gap:10px;margin-bottom:16px"><b>進度碼</b><p class="mini">內容只存在這個瀏覽器。換裝置前複製這串進度碼傳給自己，到新裝置貼上後按「讀入」。</p><textarea id="bkOut" readonly style="min-height:80px">${esc(encode())}</textarea><div class="toolbar"><button class="btn sm" data-act="copyBk">複製進度碼</button></div><textarea id="bkIn" placeholder="貼上之前複製的進度碼" style="min-height:80px"></textarea><div class="toolbar"><button class="btn sm" data-act="import">讀入</button><button class="btn ghost sm" data-act="backup">收起</button></div></div>`;
+ if(ui.restore)h+=`<div class="card" style="display:grid;gap:10px;margin-bottom:16px;border:2px solid var(--teal)"><b style="color:var(--teal)">找到你存在雲端的進度</b><p class="mini">最後更新：${esc(ui.restore.at||'')}<br>${esc(ui.restore.step||'')}</p>
+  <p>${ui.restore.local?'這台裝置上也有內容。要用哪一份？':'要接著做嗎？'}</p><div class="toolbar"><button class="btn" data-act="restoreYes">用雲端的進度接著做</button><button class="btn ghost sm" data-act="restoreNo">${ui.restore.local?'用這台裝置的內容（會取代雲端）':'從頭開始（會取代雲端的進度）'}</button></div></div>`;
+ if(ui.backup)h+=`<div class="card" style="display:grid;gap:10px;margin-bottom:16px"><b>換裝置接著做</b><p>${SCRIPT_URL?'在新的電腦或手機打開同一個網址，輸入<b>一樣的班級、座號、姓名和班級代碼</b>，就會自動找回你的進度。':'換裝置前複製下面的進度碼傳給自己，到新裝置貼上後按「讀入」。'}</p>
+  <details${SCRIPT_URL?'':' open'}><summary class="mini" style="cursor:pointer">${SCRIPT_URL?'沒有網路或找不到進度時：用進度碼':'進度碼'}</summary><div style="display:grid;gap:10px;margin-top:10px"><textarea id="bkOut" readonly style="min-height:80px">${esc(encode())}</textarea><div class="toolbar"><button class="btn sm" data-act="copyBk">複製進度碼</button></div><textarea id="bkIn" placeholder="貼上之前複製的進度碼" style="min-height:80px"></textarea><div class="toolbar"><button class="btn sm" data-act="import">讀入</button></div></div></details>
+  <div class="toolbar"><button class="btn ghost sm" data-act="backup">收起</button></div></div>`;
  document.getElementById('notice').innerHTML=h}
-function render(){if(cur===FBSTEP&&S.feedback.text&&fbKey()!==S.feedback.seen){S.feedback.seen=fbKey();save()}renderSteps();renderNotice();document.getElementById('panel').innerHTML=`<div class="fade">${R[cur]()}</div>`;watchDone()}
+function render(){if(cur===FBSTEP&&S.feedback.text&&fbKey()!==S.feedback.seen){S.feedback.seen=fbKey();save()}const gate=needId()||!!ui.restore;
+ document.querySelector('.stepper').hidden=gate;renderSteps();renderNotice();document.getElementById('panel').innerHTML=gate?(ui.restore?'':preIdHTML()):`<div class="fade">${R[cur]()}</div>`;watchDone()}
 function refresh(){renderSteps();watchDone();
+ {const dn=STEPS.filter((_,i)=>done(i)).length,a=document.getElementById('progN'),b=document.getElementById('progBar');if(a)a.textContent=`已完成 ${dn} 步`;if(b)b.style.width=dn/STEPS.length*100+'%'}
+ S.probs.forEach((p,k)=>{const q=document.getElementById('vq'+k);if(q)q.textContent=valQ(p);const r=document.getElementById('vr'+k);if(r)r.innerHTML=valRes(p)});
  S.probs.forEach((p,k)=>{const a=document.getElementById('st'+k);if(a)a.innerHTML=`<b>${esc(stmt(p))||'填好上面四格，這裡會組成一句話。'}</b>`;const b=document.getElementById('sw'+k);if(b)b.innerHTML=stmtWarn(p)});
  const m=document.getElementById('mwarn');if(m)m.innerHTML=measureWarn();const mi=document.getElementById('minewarn');if(mi)mi.innerHTML=mineWarn();
  const cp=document.getElementById('cmpout');if(cp)cp.innerHTML=cmpHTML();const rp=document.getElementById('resPre');if(rp)rp.textContent=resultText();const ai=document.getElementById('aiText');if(ai)ai.value=AI[cur][1]()}
@@ -825,16 +937,17 @@ async function verifyId(){const st=document.getElementById('idStatus'),say=(m,b)
  if(ui.sending)return;ui.sending=true;say('核對中…');
  try{const j=await post({action:'verify',code:v.code,cls:v.cls,seat:v.seat,name:v.name});
   if(!j.ok){say(j.msg||'核對失敗，請再試一次。',true);return}
-  const changed=S.idOK&&(S.cls!==v.cls||S.seat!==v.seat);
+  const changed=S.idOK&&(S.cls!==v.cls||S.seat!==v.seat),same=S.idOK&&!changed&&S.name===v.name&&!!S.syncAt;if(same)j.saved=null;
   Object.assign(S,v,{idOK:true,idRoster:!!j.roster,idAt:new Date().toLocaleString('zh-TW',{hour12:false})});if(changed)S.submittedAt='';
-  ui.idf=null;ui.editId=false;save();render();toast(j.roster?'已核對名單，身分建立完成':'身分建立完成');autoSync(true)
+  ui.idf=null;ui.editId=false;ui.restore=j.saved?{...j.saved,local:hasLocal()}:null;save();render();scrollTo({top:0,behavior:'smooth'});
+  toast(j.saved?'身分建立完成，找到你之前的進度':j.roster?'已核對名單，身分建立完成':'身分建立完成');if(!j.saved)autoSync(true)
  }catch(e){say('連不上，請確認網路，並用老師發的正式網址開啟。',true)}finally{ui.sending=false}}
 function stepInfo(){const d=STEPS.map((_,i)=>done(i)),dn=STEPS.filter((_,i)=>d[i]).map(x=>x[1]);
  return`正在第 ${cur+1} 步「${STEPS[cur][1]}」｜已完成 ${dn.length}/${STEPS.length}：${dn.join('、')||'無'}`}
 function payload(){const p=chosen(),cd=card(S.pick),P=S.plan,x=cmp();
  return{code:String(S.code).trim(),cls:String(S.cls).trim(),seat:String(S.seat).trim(),name:String(S.name).trim(),
-  observe:p?(S.obs[p.from]?.what||''):S.obs.map((o,i)=>`${i+1}. ${o.what}`).join('\n'),problem:p?stmt(p):'',root:p?p.whys.filter(Boolean).join(' → '):'',
-  scale:p?`${p.n||'?'}，${p.f||'?'}`:'',option:cd?`${TIER[cd.lv]}｜${cd.t}（${cd.dom}）`:'',mvp:P.mvp,measure:P.before||P.after?`改變前：${P.before}\n改變後：${P.after}`:'',first:P.first,
+  observe:p?(S.obs[p.from]?.what||''):S.obs.map((o,i)=>`${i+1}. ${o.what}`).join('\n'),problem:p?stmt(p):'',root:p?p.whys.filter(Boolean).join(' → '):'',validate:valText(p),refs:refsText(),stepNo:String(cur+1),
+  scale:p&&(p.n||p.f)?`${p.n||'?'}，${p.f||'?'}`:'',option:cd?`${TIER[cd.lv]}｜${cd.t}（${cd.dom}）`:'',mvp:P.mvp,measure:P.before||P.after?`改變前：${P.before}\n改變後：${P.after}`:'',first:P.first,
   resources:S.me.budget||S.me.weeks?`技能：${S.me.skills.join('、')}；預算 ${S.me.budget} 元；${S.me.weeks} 週`:'',mine:P.mine,
   result:x?`改變前 ${x.mb}／改變後 ${x.ma} ${S.exe.unit}（${x.b.length}／${x.a.length} 筆）${x.pct!==null?'，'+(x.pct>0?'+':'')+x.pct+'%':''}`:'',
   logs:S.exe.log.map((l,i)=>`${i+1}. ${l.did}｜${l.saw}｜下一輪：${l.next}`).join('\n'),reflect:[S.res.concl,S.res.reflect].filter(Boolean).join('\n'),
@@ -846,12 +959,20 @@ async function submit(){const st=document.getElementById('sendStatus'),say=(m,b)
  ui.sending=true;say('送出中…');
  try{const j=await post({...payload(),action:'problem'});
   if(!j.ok){say(j.msg||'送出失敗，請再試一次。',true);return}
-  S.submittedAt=new Date().toLocaleString('zh-TW',{hour12:false});S.syncAt=S.submittedAt;save();say(`已送出！這是第 ${j.count} 次送出（${S.submittedAt}）。`);toast('已送出給老師')
+  S.submittedAt=new Date().toLocaleString('zh-TW',{hour12:false});S.syncAt=S.submittedAt;save();say(`已請老師審核！這是第 ${j.count} 次（${S.submittedAt}）。老師看過後，關卡和建議會出現在這裡。`);toast('已請老師審核')
  }catch(e){say('送不出去。請確認網路，並用老師發的正式網址開啟。',true)}finally{ui.sending=false}}
 /* ---------- 自動同步 ---------- */
 function hashStr(t){let h=0;for(let i=0;i<t.length;i++){h=(h*31+t.charCodeAt(i))|0}return String(h)}
 let syncTimer=null,lastMask='';
-function canSync(){return!!(SCRIPT_URL&&!S.sample&&S.idOK&&(!GOOGLE_CLIENT_ID||authValid()))}
+function canSync(){return!!(SCRIPT_URL&&!S.sample&&S.idOK&&!ui.restore&&(!GOOGLE_CLIENT_ID||authValid()))}
+function decodeBk(t){const o=JSON.parse(decodeURIComponent(escape(atob(String(t).trim()))));if(!o||!o.obs)throw new Error('bad');return o}
+async function restoreCloud(){if(ui.sending)return;ui.sending=true;
+ try{const j=await post({action:'restore',code:String(S.code).trim(),cls:S.cls,seat:S.seat,name:S.name});
+  if(!j.ok){toast(j.msg||'找不到雲端進度');return}
+  const keep={cls:S.cls,seat:S.seat,name:S.name,code:S.code,idOK:true,idRoster:S.idRoster,idAt:S.idAt};
+  S=deepMerge(blank(),decodeBk(j.backup));Object.assign(S,keep,{sample:false,syncHash:''});ui.restore=null;save();
+  const nx=STEPS.findIndex((_,i)=>!done(i));cur=nx<0?LAST:nx;S.lastStep=cur;save();render();toast('已找回進度，從第 '+(cur+1)+' 步接著做');checkFb(true);getRep(true)
+ }catch(e){toast('連不上，請稍後再試')}finally{ui.sending=false}}
 async function autoSync(force){if(!canSync()||ui.syncing)return;const pl=payload(),h=hashStr(JSON.stringify({...S,syncAt:'',syncHash:'',submittedAt:'',feedback:{}})+pl.step.split('｜')[1]);
  if(!force&&h===S.syncHash)return;ui.syncing=true;setSync('同步中…');
  try{const j=await post({...pl,action:'sync'});if(j.ok){S.syncHash=h;S.syncAt=new Date().toLocaleString('zh-TW',{hour12:false});save();setSync()}else setSync('同步失敗：'+(j.msg||'稍後會再試'),true)}
@@ -859,6 +980,7 @@ async function autoSync(force){if(!canSync()||ui.syncing)return;const pl=payload
 function scheduleSync(ms){clearTimeout(syncTimer);syncTimer=setTimeout(()=>autoSync(),ms||2500)}
 function setSync(msg,bad){const el=document.getElementById('syncInfo');if(!el)return;el.textContent=msg||(S.syncAt?`已自動同步給老師（${S.syncAt}）`:'');el.style.color=bad?'var(--bad)':''}
 function watchDone(){const m=STEPS.map((_,i)=>done(i)?1:0).join('');if(lastMask&&m!==lastMask&&m.split('').some((b,i)=>b==='1'&&lastMask[i]==='0'))scheduleSync(1500);lastMask=m}
+document.addEventListener('toggle',e=>{if(e.target.id==='aiBox')ui.aiOpen=e.target.open;if(e.target.id==='refBox')ui.refOpen=e.target.open},true);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')autoSync()});
 setInterval(()=>{if(document.visibilityState==='visible')autoSync()},120000);
 async function checkFb(silent){if(!SCRIPT_URL||S.sample||!(S.submittedAt||S.syncAt))return;
@@ -885,7 +1007,7 @@ async function getRep(silent){if(!SCRIPT_URL||S.sample||!S.cls||!S.seat||!S.code
 /* 事件 */
 document.addEventListener('input',e=>{const t=e.target,p=t.dataset.path;if(!p)return;setP(p,t.value);save();refresh()});
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
- if(d.go!=null){autoSync();cur=+d.go;render();document.querySelector('.stepper').scrollIntoView({behavior:'smooth'});return}
+ if(d.go!=null){autoSync();cur=+d.go;S.lastStep=cur;save();render();document.querySelector('.stepper').scrollIntoView({behavior:'smooth'});return}
  if(d.toggle){const a=getP(d.toggle)||[];const i=a.indexOf(d.val);i>=0?a.splice(i,1):a.push(d.val);setP(d.toggle,a);save();render();return}
  if(d.set!=null){let v=d.val;if(!d.keep&&String(getP(d.set))===v)v='';setP(d.set,v);save();render();return}
  switch(d.act){
@@ -895,8 +1017,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)r
   case'clear':S=blank();if(AUTH&&AUTH.name)S.name=AUTH.name;ui.confirmClear=false;save();cur=0;render();toast('已清空');break;
   case'backup':ui.backup=!ui.backup;renderNotice();break;
   case'copyBk':copy(encode(),'已複製進度碼');break;
-  case'import':{try{const o=JSON.parse(decodeURIComponent(escape(atob(document.getElementById('bkIn').value.trim()))));if(!o.obs)throw 0;S=deepMerge(blank(),o);save();ui.backup=false;render();toast('已讀入進度')}catch(err){toast('進度碼不完整，請重新複製整串再貼上')}break}
-  case'addObs':{const f=S.of;if(!f.what.trim()){toast('先寫下發生了什麼');return}S.obs.push({...f,what:f.what.trim()});S.of={where:f.where,when:'',what:'',who:'',freq:'',lens:''};save();render();toast(`已記下第 ${S.obs.length} 則觀察`);break}
+  case'import':{try{const o=decodeBk(document.getElementById('bkIn').value);S=deepMerge(blank(),o);save();ui.backup=false;render();toast('已讀入進度')}catch(err){toast('進度碼不完整，請重新複製整串再貼上')}break}
+  case'addObs':{const f=S.of;if(!f.what.trim()){toast('先寫下發生了什麼');return}ui.sparkQ='';S.obs.push({...f,what:f.what.trim()});S.of={where:f.where,when:'',what:'',who:'',freq:'',lens:''};save();render();toast(`已記下第 ${S.obs.length} 則觀察`);break}
   case'delObs':{const i=+d.i;S.obs.splice(i,1);S.probs=S.probs.filter(p=>p.from!==i).map(p=>({...p,from:p.from>i?p.from-1:p.from}));if(!S.probs.some(p=>p.id===S.chosen))S.chosen=null;save();render();break}
   case'mkProb':{const o=S.obs[+d.i];S.probs.push({id:S.nextId++,from:+d.i,who:o.who||'',sit:'',cause:'',effect:'',whys:['','','',''],n:'',f:o.freq||'',domain:'',sc:{}});save();render();break}
   case'delProb':{const x=S.probs.splice(+d.i,1)[0];if(S.chosen===x.id)S.chosen=null;save();render();break}
@@ -923,6 +1045,14 @@ document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)r
   case'copyWk':copy(wkText(),'已複製回報文字');break;
   case'useConcl':S.res.concl=conclTpl();save();render();toast('已套用，記得把＿＿補完');break;
   case'copyRes':copy(resultText(),'已複製成果摘要');break;
+  case'restoreYes':restoreCloud();break;
+  case'restoreNo':ui.restore=null;render();autoSync(true);toast(hasLocal()?'已用這台裝置的內容':'從頭開始');break;
+  case'spark':S.of.lens=d.lens;ui.sparkQ=d.q;save();render();setTimeout(()=>{const t=document.getElementById('ot');if(t){t.focus();t.scrollIntoView({block:'center',behavior:'smooth'})}},50);break;
+  case'copyVal':copy(valQ(S.probs[+d.i]),'已複製問句，可以傳給同學');break;
+  case'copyKw':copy(d.k,'已複製關鍵字');break;
+  case'tier':ui.tier=+d.l;render();break;
+  case'addRef':{const f=S.rf;if(!f.t.trim()){toast('先寫資料名稱');return}S.refs.push({t:f.t.trim(),url:f.url.trim(),learn:f.learn.trim()});S.rf={t:'',url:'',learn:''};save();render();toast('已加入資料');break}
+  case'delRef':S.refs.splice(+d.i,1);save();render();break;
  }});
 if(GOOGLE_CLIENT_ID){if(authValid())unlock();else lock()}else{render();booted=true;checkFb(true);getRep(true)}
 </script>

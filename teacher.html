@@ -40,7 +40,11 @@ textarea{width:100%;min-height:90px;resize:vertical;line-height:1.7}
 .tab{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:5px 14px;cursor:pointer;color:var(--ink-soft)}
 .tab.on{background:var(--amber);border-color:var(--amber);color:var(--on-amber);font-weight:600}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 14px;font:inherit;color:inherit}
+button.stat[data-flag]:hover{border-color:var(--amber)}
+.seatm{display:none}
+@media (max-width:760px){.seatm{display:inline;font-weight:400;color:var(--ink-soft)}.kbd{display:none}
+ .stats{grid-template-columns:repeat(3,1fr);gap:6px}.stat{padding:8px 10px}.stat b{font-size:1.3rem}.stat span{font-size:.76rem;line-height:1.3;display:block}}
 .stat b{display:block;font-family:var(--display);font-size:1.7rem;color:var(--amber-dark);font-variant-numeric:tabular-nums;line-height:1.2}
 .stat span{font-size:.84rem;color:var(--ink-soft)}
 .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
@@ -57,16 +61,46 @@ td.step{white-space:normal;min-width:240px;max-width:360px}
 .tag.amber{background:var(--amber-tint);color:var(--amber-dark)}
 .tag.bad{background:var(--bad-tint);color:var(--bad)}
 .mini{font-size:.85rem;color:var(--ink-soft)}
-.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
-.detail{display:grid;gap:14px}
-.dhead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:flex-start}
-.qa{display:grid;gap:10px}
+.layout{display:block}
+.qa{display:grid;gap:12px}
 .qa section{border-left:3px solid var(--amber);padding:2px 0 2px 12px}
 .qa h4{margin:0 0 2px;font-size:.82rem;letter-spacing:.08em;color:var(--amber-dark)}
 .qa p{margin:0;white-space:pre-wrap;word-break:break-word}
 .empty{color:var(--ink-soft);font-style:italic}
-.fbbox{background:var(--teal-tint);border-radius:var(--radius);padding:14px;display:grid;gap:8px}
 .wk{border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 12px;display:grid;gap:6px}
+/* 右側抽屜 */
+.scrim{position:fixed;inset:0;background:rgba(46,36,25,.35);z-index:20}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(680px,100vw);background:var(--bg);z-index:21;display:flex;flex-direction:column;box-shadow:-12px 0 40px rgba(0,0,0,.18)}
+.dh{padding:14px 18px 12px;border-bottom:1px solid var(--line);background:var(--card);display:grid;gap:6px}
+.dh .row{justify-content:space-between}
+.dh h2{font-size:1.25rem}
+.dh p{margin:0}
+.db{flex:1;overflow-y:auto;padding:16px 18px 24px;display:grid;gap:18px;align-content:start}
+.df{border-top:1px solid var(--line);background:var(--teal-tint);padding:10px 18px calc(12px + env(safe-area-inset-bottom,0px));display:grid;gap:8px}
+.df textarea{min-height:64px;max-height:28vh;background:var(--card)}
+.df .row{justify-content:space-between}
+.nav2{display:flex;gap:6px}
+.pbar{height:6px;background:var(--bg-warm);border-radius:99px;overflow:hidden;margin-top:4px;max-width:200px}
+.pbar i{display:block;height:100%;background:var(--teal)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--amber);margin-right:4px;vertical-align:middle}
+.todo{background:var(--bg-warm);border-radius:var(--radius-sm);padding:8px 12px;font-size:.88rem;color:var(--ink-soft)}
+/* 手機：一人一張卡 */
+@media (max-width:760px){
+ .tbwrap{background:none;border:0;overflow:visible}
+ table,tbody{display:block}
+ thead{display:none}
+ tbody tr{display:grid;grid-template-columns:auto 1fr auto;gap:2px 10px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px}
+ tbody td{border:0;padding:0;white-space:normal}
+ td.c-cls{grid-column:1;grid-row:1;font-weight:600}
+ td.c-seat{display:none}
+ td.c-name{grid-column:2;grid-row:1;font-weight:700}
+ td.c-gate{grid-column:3;grid-row:1}
+ td.c-step{grid-column:1/-1;min-width:0;max-width:none;font-size:.9rem}
+ td.c-time{grid-column:1/-1;font-size:.82rem;color:var(--ink-soft)}
+ td.c-flag{grid-column:1/-1}
+ td.c-week{display:none}
+ td.c-time:empty,td.c-flag:empty{display:none}
+}
 details summary{cursor:pointer;color:var(--amber-dark);font-weight:600}
 pre{white-space:pre-wrap;word-break:break-word;font-family:var(--serif);margin:8px 0 0;font-size:.9rem}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 18px;border-radius:99px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
@@ -102,13 +136,12 @@ footer{margin-top:40px;text-align:center;color:var(--ink-soft);font-size:.82rem}
       <div class="filters">
         <select id="fCls" aria-label="班級"><option value="">全部班級</option></select>
         <select id="fGate" aria-label="關卡"><option value="">全部關卡</option></select>
-        <select id="fFlag" aria-label="篩選"><option value="">全部學生</option><option value="help">需要協助（未回覆）</option><option value="idle">超過 7 天沒更新</option><option value="none">尚未開始</option></select>
+        <select id="fFlag" aria-label="篩選"><option value="">全部學生</option><option value="review">等我審核</option><option value="new">有新內容</option><option value="help">需要協助（未回覆）</option><option value="idle">超過 7 天沒更新</option><option value="none">尚未開始</option></select>
         <input type="text" id="fQ" placeholder="搜尋姓名或座號" aria-label="搜尋">
         <span class="mini" id="count"></span>
       </div>
       <div class="layout">
-        <div class="tbwrap"><table><thead><tr><th>班級</th><th>座號</th><th>姓名</th><th>目前進度</th><th>最後更新</th><th>送出</th><th>關卡</th><th>週報</th><th>提醒</th></tr></thead><tbody id="tbody"></tbody></table></div>
-        <div id="detail" class="card detail" hidden></div>
+        <div class="tbwrap"><table><thead><tr><th>班級</th><th>座號</th><th>姓名</th><th>目前進度</th><th>最後更新</th><th>關卡</th><th>週報</th><th>提醒</th></tr></thead><tbody id="tbody"></tbody></table></div>
       </div>
     </div>
 
@@ -121,21 +154,23 @@ footer{margin-top:40px;text-align:center;color:var(--ink-soft);font-size:.82rem}
   </div>
   <footer>鳳新高中英文科李姬慧老師 X AI 彙整製作</footer>
 </div>
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="detail" hidden aria-label="學生詳細內容"></aside>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
 const API='/api/teacher';
 const GATES=['待審','需修改','選題通過','計畫通過','期中通過','完成'];
-const STEP_FIELDS=[['觀察','observe'],['問題敘述','problem'],['五個為什麼','root'],['影響範圍','scale'],['選定方案','option'],['我的版本','mine'],['第一版','mvp'],['前後測量','measure'],['這週第一件事','first'],['我的條件','resources'],['成果數據','result'],['試做日誌','logs'],['結論與反思','reflect']];
+const STEP_FIELDS=[['觀察','observe'],['問題敘述','problem'],['五個為什麼','root'],['驗證（問了幾個人）','validate'],['影響範圍','scale'],['參考資料','refs'],['選定方案','option'],['我的版本','mine'],['第一版','mvp'],['前後測量','measure'],['這週第一件事','first'],['我的條件','resources'],['成果數據','result'],['試做日誌','logs'],['結論與反思','reflect']];
 let PW='';try{PW=sessionStorage.getItem('ls-teacher-pw')||''}catch(e){}
-let LIST=[],SEL=null;
+let LIST=[],ROWS=[],SEL=null,FB0=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800)}
 async function api(body){const r=await fetch(API,{method:'POST',headers:{'content-type':'application/json','x-teacher-password':PW},body:JSON.stringify(body)});
  const j=await r.json().catch(()=>({ok:false,msg:'伺服器沒有回應'}));if(j.auth===false){logout(j.msg);throw new Error('auth')}return j}
 function showLogin(msg){$('app').hidden=true;$('login').hidden=false;$('loginMsg').textContent=msg||'';$('pw').focus()}
-function logout(msg){PW='';try{sessionStorage.removeItem('ls-teacher-pw')}catch(e){}showLogin(msg)}
+function logout(msg){PW='';try{sessionStorage.removeItem('ls-teacher-pw')}catch(e){}closeDetail(true);showLogin(msg)}
 async function login(){PW=$('pw').value.trim();if(!PW)return;$('loginMsg').textContent='登入中…';
  try{const j=await api({action:'overview'});if(!j.ok){$('loginMsg').textContent=j.msg;return}try{sessionStorage.setItem('ls-teacher-pw',PW)}catch(e){}
   $('login').hidden=true;$('app').hidden=false;setList(j)}catch(e){}}
@@ -144,38 +179,65 @@ function setList(j){LIST=j.list||[];const cls=[...new Set(LIST.map(x=>x.cls))].f
  $('fGate').innerHTML='<option value="">全部關卡</option>'+GATES.map(g=>`<option ${g===$('fGate').value?'selected':''}>${g}</option>`).join('');
  renderList()}
 const idle=x=>x.syncIso&&(Date.now()-new Date(x.syncIso).getTime())>7*864e5;
+const FLAGS={review:x=>x.review,new:x=>x.isNew||x.newWeek,help:x=>x.needHelp,idle,none:x=>x.notStarted};
+function stepCell(x){if(x.notStarted)return'<span class="empty">尚未開始</span>';const m=String(x.step||'').match(/已完成 (\d+)\/(\d+)/),n=+x.stepNo||0;
+ const now=String(x.step||'').split('｜')[0];return`${esc(now)}${m?`<div class="pbar" title="已完成 ${m[1]}/${m[2]} 步"><i style="width:${m[1]/m[2]*100}%"></i></div><span class="mini">已完成 ${m[1]}/${m[2]} 步</span>`:''}`}
+function flags(x){return[x.review?'<span class="tag amber">等你審核</span>':'',x.isNew&&!x.notStarted?'<span class="tag"><span class="dot"></span>有新內容</span>':'',x.newWeek?'<span class="tag amber">新週報</span>':'',x.needHelp?'<span class="tag bad">需要協助</span>':'',idle(x)?'<span class="tag">久未更新</span>':'',x.fb&&!x.review?'<span class="tag teal">已建議</span>':''].join(' ').trim()}
 function renderList(){const c=$('fCls').value,g=$('fGate').value,f=$('fFlag').value,q=$('fQ').value.trim();
- const rows=LIST.filter(x=>(!c||x.cls===c)&&(!g||x.gate===g)&&(!q||(x.name+x.seat).includes(q))&&(!f||(f==='help'&&x.needHelp)||(f==='idle'&&idle(x))||(f==='none'&&x.notStarted)));
+ ROWS=LIST.filter(x=>(!c||x.cls===c)&&(!g||x.gate===g)&&(!q||(x.name+x.seat).includes(q))&&(!f||FLAGS[f](x)));
  const started=LIST.filter(x=>!x.notStarted);
- $('stats').innerHTML=[[LIST.length,'名單＋已使用'],[started.length,'已開始'],[LIST.filter(x=>x.count>0).length,'已手動送出'],[LIST.filter(x=>x.needHelp).length,'需要協助未回覆'],[LIST.filter(idle).length,'7 天沒更新']].map(([n,l])=>`<div class="stat"><b>${n}</b><span>${l}</span></div>`).join('');
- $('count').textContent=`顯示 ${rows.length} 位`;
- $('tbody').innerHTML=rows.map(x=>`<tr data-key="${esc(x.key)}" class="${SEL===x.key?'sel':''}"><td>${esc(x.cls)}</td><td>${esc(x.seat)}</td><td>${esc(x.name)}</td>
-  <td class="step">${x.notStarted?'<span class="empty">尚未開始</span>':esc(x.step)}</td><td>${esc(x.syncAt)}</td><td>${x.count||''}</td>
-  <td>${x.gate?`<span class="tag ${x.gate==='需修改'?'bad':x.gate==='待審'?'':'teal'}">${esc(x.gate)}</span>`:''}</td><td>${x.weeks?x.weeks+' 則':''}</td>
-  <td>${x.needHelp?'<span class="tag bad">需要協助</span> ':''}${idle(x)?'<span class="tag amber">久未更新</span>':''}${x.fb?'<span class="tag teal">已建議</span>':''}</td></tr>`).join('')||'<tr><td colspan="9" class="empty">還沒有學生資料。學生建立身分後就會出現在這裡。</td></tr>'}
-async function openDetail(key){SEL=key;renderList();const box=$('detail');box.hidden=false;box.innerHTML='<p class="mini">載入中…</p>';box.scrollIntoView({behavior:'smooth',block:'start'});
+ $('stats').innerHTML=[[started.length+'／'+LIST.length,'已開始／全部',''],[LIST.filter(x=>x.review).length,'等你審核','review'],[LIST.filter(FLAGS.new).length,'有新內容','new'],[LIST.filter(x=>x.needHelp).length,'需要協助未回覆','help'],[LIST.filter(idle).length,'7 天沒更新','idle']]
+  .map(([n,l,k])=>`<button class="stat" ${k?`data-flag="${k}"`:''} style="text-align:left;cursor:${k?'pointer':'default'}"><b>${n}</b><span>${l}</span></button>`).join('');
+ $('count').textContent=`顯示 ${ROWS.length} 位`;
+ $('tbody').innerHTML=ROWS.map(x=>`<tr data-key="${esc(x.key)}" class="${SEL===x.key?'sel':''}"><td class="c-cls">${esc(x.cls)}${''}</td><td class="c-seat">${esc(x.seat)}</td><td class="c-name"><span class="seatm">${esc(x.seat)} 號 </span>${esc(x.name)}</td>
+  <td class="step c-step">${stepCell(x)}</td><td class="c-time">${esc(x.syncAt)}</td>
+  <td class="c-gate">${x.gate?`<span class="tag ${x.gate==='需修改'?'bad':x.gate==='待審'?'':'teal'}">${esc(x.gate)}</span>`:''}</td><td class="c-week">${x.weeks?x.weeks+' 則':''}</td>
+  <td class="c-flag">${flags(x)}</td></tr>`).join('')||'<tr><td colspan="8" class="empty">還沒有學生資料。學生建立身分後就會出現在這裡。</td></tr>'}
+function fbDirty(){const a=$('fbText'),g=$('gateSel');return!!(FB0&&a&&g&&(a.value!==FB0.fb||g.value!==FB0.gate))}
+async function saveFb(silent){if(!SEL)return true;const key=SEL,fb=$('fbText').value,gate=$('gateSel').value;$('fbState').textContent='儲存中…';
+ const r=await api({action:'saveFeedback',key,fb,gate});if(!r.ok){toast(r.msg);$('fbState').textContent='儲存失敗';return false}
+ FB0={fb,gate};const x=LIST.find(x=>x.key===key);if(x){x.gate=gate;x.fb=fb;x.review=false}renderList();
+ if($('fbState'))$('fbState').textContent='已儲存 '+new Date().toLocaleTimeString('zh-TW',{hour12:false});toast(silent?'已自動儲存建議':'已儲存');return true}
+async function go(dir){const i=ROWS.findIndex(x=>x.key===SEL),n=ROWS[i+dir];if(!n){toast(dir>0?'已經是最後一位':'已經是第一位');return}openDetail(n.key)}
+async function closeDetail(skip){if(!skip&&fbDirty())await saveFb(true);$('detail').hidden=true;$('scrim').hidden=true;document.body.style.overflow='';SEL=null;FB0=null;renderList()}
+async function openDetail(key){if(SEL&&SEL!==key&&fbDirty()){if(!await saveFb(true))return}
+ SEL=key;renderList();const box=$('detail');box.hidden=false;$('scrim').hidden=false;document.body.style.overflow='hidden';
+ const x0=LIST.find(x=>x.key===key)||{},i=ROWS.findIndex(x=>x.key===key);
+ box.innerHTML=`<div class="dh"><div class="row"><h2>${esc(x0.cls||'')} 班 ${esc(x0.seat||'')} 號 ${esc(x0.name||'')}</h2><button class="btn ghost sm" id="closeD">關閉 ✕</button></div><p class="mini">載入中…</p></div><div class="db"></div>`;
+ $('closeD').onclick=()=>closeDetail();
+ if(x0.notStarted){box.querySelector('.db').innerHTML='<p class="empty">這位學生還沒有開始使用。</p>';box.querySelector('.dh .mini').textContent='在名單上，還沒建立身分。';FB0=null;return}
  let j;try{j=await api({action:'detail',key})}catch(e){return}
- if(!j.ok){box.innerHTML=`<p class="empty">${esc(j.msg)}</p>`;return}
- const s=j.student,t=j.teacher;
- box.innerHTML=`<div class="dhead"><div><p class="eyebrow">Student</p><h2>${esc(s.cls||'')} 班 ${esc(s.seat||'')} 號 ${esc(s.name||'')}</h2>
-  <p class="mini">${s.email?esc(s.email)+'｜':''}最後更新 ${esc(s.syncAt||'—')}｜手動送出 ${s.count||0} 次${s.submittedAt?'（最近 '+esc(s.submittedAt)+'）':''}</p><p class="mini">${esc(s.step||'')}</p></div>
-  <div class="row">${s.backup?'<button class="btn ghost sm" id="copyBk">複製進度碼</button>':''}<button class="btn ghost sm" id="closeD">關閉</button></div></div>
-  <div class="fbbox"><b>老師回饋</b><div class="row"><label class="mini" for="gateSel">目前關卡</label><select id="gateSel">${GATES.map(g=>`<option ${g===t.gate?'selected':''}>${g}</option>`).join('')}</select>${t.fbAt?`<span class="mini">建議時間 ${esc(t.fbAt)}</span>`:''}</div>
-  <textarea id="fbText" placeholder="寫給這位學生的建議，學生的網頁會顯示">${esc(t.fb)}</textarea><div class="row"><button class="btn sm" id="saveFb">儲存建議與關卡</button></div></div>
-  <div class="qa">${STEP_FIELDS.map(([l,k])=>`<section><h4>${l}</h4>${s[k]?`<p>${esc(s[k])}</p>`:'<p class="empty">尚未填寫</p>'}</section>`).join('')}</div>
-  <div><b>每週回報（${j.progress.length}）</b>${j.progress.length?j.progress.slice().reverse().map(p=>`<div class="wk" style="margin-top:8px"><div class="row"><span class="tag">第 ${esc(p.week)} 週</span><span class="mini">${esc(p.atText)}</span>${p.help==='需要'?'<span class="tag bad">需要協助</span>':''}</div>
+ if(SEL!==key)return;
+ if(!j.ok){box.querySelector('.db').innerHTML=`<p class="empty">${esc(j.msg)}</p>`;return}
+ const s=j.student,t=j.teacher;if(x0){x0.isNew=false;x0.newWeek=false;renderList()}
+ const filled=STEP_FIELDS.filter(([,k])=>s[k]),empty=STEP_FIELDS.filter(([,k])=>!s[k]);
+ box.innerHTML=`<div class="dh"><div class="row"><div class="nav2"><button class="btn ghost sm" id="prevD" ${i<=0?'disabled':''} title="上一位（←）">← 上一位</button><button class="btn ghost sm" id="nextD" ${i<0||i>=ROWS.length-1?'disabled':''} title="下一位（→）">下一位 →</button></div><button class="btn ghost sm" id="closeD">關閉 ✕</button></div>
+  <h2>${esc(s.cls||'')} 班 ${esc(s.seat||'')} 號 ${esc(s.name||'')}</h2>
+  <p class="mini">${i>=0?`第 ${i+1}／${ROWS.length} 位｜`:''}${s.email?esc(s.email)+'｜':''}最後更新 ${esc(s.syncAt||'—')}${s.submittedAt?`｜請你審核 ${s.count||0} 次（最近 ${esc(s.submittedAt)}）`:'｜還沒請你審核'}</p>
+  <p class="mini">${esc(s.step||'')}</p></div>
+  <div class="db">
+  <div class="qa">${filled.map(([l,k])=>`<section><h4>${l}</h4><p>${esc(s[k])}</p></section>`).join('')||'<p class="empty">還沒有寫任何內容。</p>'}</div>
+  ${empty.length?`<div class="todo">尚未填寫：${empty.map(x=>x[0]).join('、')}</div>`:''}
+  <div><b>每週回報（${j.progress.length}）</b>${j.progress.length?j.progress.slice().reverse().map(p=>`<div class="wk" style="margin-top:8px"><div class="row"><span class="tag">第 ${esc(p.week)} 週</span><span class="mini">${esc(p.atText)}</span>${p.help==='需要'?'<span class="tag bad">需要協助</span>':''}${p.reply?'<span class="tag teal">已回覆</span>':''}</div>
    <div><b>完成：</b>${esc(p.done)}</div>${p.next?`<div><b>下週：</b>${esc(p.next)}</div>`:''}${p.stuck?`<div><b>卡關：</b>${esc(p.stuck)}</div>`:''}
-   <textarea data-at="${esc(p.at)}" class="rep" style="min-height:60px" placeholder="回覆這週的回報">${esc(p.reply)}</textarea><div><button class="btn sm ghost saveRep" data-at="${esc(p.at)}">儲存回覆</button></div></div>`).join(''):'<p class="empty">還沒有週報。</p>'}</div>
-  ${s.full?`<details><summary>完整行動卡與成果（學生送出的全文）</summary><pre>${esc(s.full)}</pre></details>`:''}`;
- $('closeD').onclick=()=>{box.hidden=true;SEL=null;renderList()};
- if($('copyBk'))$('copyBk').onclick=()=>copy(s.backup,'已複製進度碼，到學生網頁「進度碼」貼上即可看完整過程');
- $('saveFb').onclick=async()=>{const r=await api({action:'saveFeedback',key,fb:$('fbText').value,gate:$('gateSel').value});if(r.ok){toast('已儲存');const x=LIST.find(x=>x.key===key);if(x){x.gate=$('gateSel').value;x.fb=$('fbText').value;renderList()}}else toast(r.msg)};
- box.querySelectorAll('.saveRep').forEach(b=>b.onclick=async()=>{const ta=box.querySelector(`textarea.rep[data-at="${b.dataset.at}"]`);const r=await api({action:'reply',key,at:b.dataset.at,text:ta.value});toast(r.ok?'已儲存回覆':r.msg)})}
+   <textarea data-at="${esc(p.at)}" class="rep" style="min-height:56px" placeholder="回覆這週的回報">${esc(p.reply)}</textarea><div><button class="btn sm ghost saveRep" data-at="${esc(p.at)}">儲存回覆</button></div></div>`).join(''):'<p class="empty">還沒有週報。</p>'}</div>
+  ${s.full?`<details><summary>完整行動卡與成果（全文）</summary><pre>${esc(s.full)}</pre></details>`:''}
+  ${s.backup?'<div><button class="btn ghost sm" id="copyBk">複製進度碼</button> <span class="mini">貼到學生網頁「換裝置接著做 → 進度碼」可以看到學生的完整畫面。</span></div>':''}
+  </div>
+  <div class="df"><div class="row"><span><b>給這位學生的建議與關卡</b> <span class="mini" id="fbState">${t.fbAt?'上次儲存 '+esc(t.fbAt):''}</span></span>
+   <span class="row"><label class="mini" for="gateSel">關卡</label><select id="gateSel">${GATES.map(g=>`<option ${g===t.gate?'selected':''}>${g}</option>`).join('')}</select></span></div>
+   <textarea id="fbText" placeholder="讀完上面的內容，在這裡寫建議。學生的網頁會顯示。切換到其他學生時會自動儲存。">${esc(t.fb)}</textarea>
+   <div class="row"><span class="mini kbd">鍵盤：← → 換學生，Esc 關閉</span><span></span><button class="btn sm" id="saveFb">儲存建議與關卡</button></div></div>`;
+ FB0={fb:t.fb||'',gate:t.gate||'待審'};
+ $('closeD').onclick=()=>closeDetail();$('prevD').onclick=()=>go(-1);$('nextD').onclick=()=>go(1);$('saveFb').onclick=()=>saveFb(false);
+ $('fbText').oninput=$('gateSel').onchange=()=>{$('fbState').textContent=fbDirty()?'還沒儲存':''};
+ if($('copyBk'))$('copyBk').onclick=()=>copy(s.backup,'已複製進度碼');
+ box.querySelectorAll('.saveRep').forEach(b=>b.onclick=async()=>{const ta=box.querySelector(`textarea.rep[data-at="${b.dataset.at}"]`);const r=await api({action:'reply',key,at:b.dataset.at,text:ta.value});toast(r.ok?'已儲存回覆':r.msg);if(r.ok){const x=LIST.find(x=>x.key===key);if(x){x.needHelp=false;renderList()}}})}
 async function copy(text,msg){try{await navigator.clipboard.writeText(text);toast(msg||'已複製')}catch(e){prompt('請複製：',text)}}
-async function refresh(){try{const j=await api({action:'overview'});if(j.ok)setList(j);else toast(j.msg)}catch(e){}}
+async function refresh(){try{const j=await api({action:'overview'});if(j.ok){setList(j);toast('已更新')}else toast(j.msg)}catch(e){}}
 function csvCell(v){v=String(v??'');return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
 async function exportCSV(){toast('匯出中…');let j;try{j=await api({action:'exportAll'})}catch(e){return}if(!j.ok){toast(j.msg);return}
- const head=['班級','座號','姓名','學校帳號','目前進度','最後更新','手動送出次數','關卡','老師建議',...STEP_FIELDS.map(x=>x[0]),'週報'];
+ const head=['班級','座號','姓名','學校帳號','目前進度','最後更新','請老師審核次數','關卡','老師建議',...STEP_FIELDS.map(x=>x[0]),'週報'];
  const fmt=iso=>iso?new Date(iso).toLocaleString('zh-TW',{timeZone:'Asia/Taipei',hour12:false}):'';
  const lines=[head,...j.rows.map(({s,p,t})=>[s.cls,s.seat,s.name,s.email,s.step,fmt(s.syncAt),s.count||0,t.gate||'待審',t.fb||'',...STEP_FIELDS.map(([,k])=>s[k]||''),(p||[]).map(w=>`第${w.week}週：${w.done}${w.stuck?'（卡關：'+w.stuck+'）':''}`).join('\n')])];
  const csv='﻿'+lines.map(r=>r.map(csvCell).join(',')).join('\r\n');
@@ -187,6 +249,11 @@ $('loginBtn').onclick=login;$('pw').onkeydown=e=>{if(e.key==='Enter')login()};
 $('refresh').onclick=refresh;$('export').onclick=exportCSV;$('logout').onclick=()=>logout('已登出');
 ['fCls','fGate','fFlag'].forEach(id=>$(id).onchange=renderList);$('fQ').oninput=renderList;
 $('tbody').onclick=e=>{const tr=e.target.closest('tr[data-key]');if(tr)openDetail(tr.dataset.key)};
+$('stats').onclick=e=>{const b=e.target.closest('[data-flag]');if(!b)return;$('fFlag').value=$('fFlag').value===b.dataset.flag?'':b.dataset.flag;renderList()};
+$('scrim').onclick=()=>closeDetail();
+document.addEventListener('keydown',e=>{if($('detail').hidden)return;if(e.key==='Escape'){closeDetail();return}
+ const tag=(e.target.tagName||'').toLowerCase();if(tag==='textarea'||tag==='input'||tag==='select')return;if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1)});
+window.addEventListener('beforeunload',e=>{if(fbDirty()){e.preventDefault();e.returnValue=''}});
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===b));$('tabList').hidden=b.dataset.tab!=='list';$('tabRoster').hidden=b.dataset.tab!=='roster';if(b.dataset.tab==='roster')loadRoster()});
 $('saveRoster').onclick=saveRoster;
 if(PW){(async()=>{try{const j=await api({action:'overview'});if(j.ok){$('app').hidden=false;setList(j)}else showLogin(j.msg)}catch(e){}})()}else showLogin();

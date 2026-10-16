@@ -6,8 +6,8 @@ import {
 const CLASS_CODE = process.env.CLASS_CODE || 'fengxin2026';
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const DOMAIN = process.env.ALLOWED_DOMAIN || 'fhsh.khc.edu.tw';
-const FIELDS = ['observe', 'problem', 'root', 'scale', 'option', 'mine', 'mvp', 'measure', 'first',
-  'resources', 'result', 'logs', 'reflect', 'full', 'step', 'backup'];
+const FIELDS = ['observe', 'problem', 'root', 'validate', 'scale', 'option', 'refs', 'mine', 'mvp', 'measure', 'first',
+  'resources', 'result', 'logs', 'reflect', 'full', 'step', 'stepNo', 'backup'];
 
 export default {
   async fetch(request) {
@@ -42,8 +42,18 @@ export default {
       const now = new Date().toISOString();
 
       switch (d.action) {
-        case 'verify':
-          return json({ ok: true, roster: roster.length > 0 });
+        case 'verify': { // 建立身分；順便告訴學生雲端有沒有存過進度（換裝置時用）
+          const cur = await readJSON(P.student);
+          const saved = cur && cur.backup && cur.name === name ? { at: fmt(cur.syncAt), step: cur.step || '' } : null;
+          return json({ ok: true, roster: roster.length > 0, saved });
+        }
+
+        case 'restore': { // 換裝置：把雲端存的進度抓回來
+          const cur = await readJSON(P.student);
+          if (!cur || !cur.backup) return json({ ok: false, msg: '雲端還沒有你的進度。' });
+          if (cur.name !== name) return json({ ok: false, msg: '姓名和雲端存的不一樣，請檢查。' });
+          return json({ ok: true, backup: cur.backup, at: fmt(cur.syncAt) });
+        }
 
         case 'sync':      // 自動同步
         case 'problem': { // 學生按「送出」
@@ -58,6 +68,10 @@ export default {
             count: (cur.count || 0) + (isSubmit ? 1 : 0)
           };
           FIELDS.forEach(f => { rec[f] = clip(d[f], f === 'backup' || f === 'full' ? 400000 : 60000); });
+          // 內容真的有改才更新 changedAt（只是切換步驟不算），老師後台的「有新內容」看這個
+          const CONTENT = FIELDS.filter(f => !['step', 'stepNo', 'backup'].includes(f));
+          const changed = CONTENT.some(f => (rec[f] || '') !== (cur[f] || ''));
+          rec.changedAt = changed || !cur.changedAt ? now : cur.changedAt;
           await writeJSON(P.student, rec);
           return json({ ok: true, msg: '已送出', count: rec.count });
         }

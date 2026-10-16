@@ -42,6 +42,12 @@ function summary({ key, s, p, t }) {
     gate: t.gate || '待審', fb: t.fb || '', fbAt: fmt(t.fbAt),
     weeks: p.length, lastWeek: last ? last.week : '',
     needHelp: p.some(x => x.help === '需要' && !rep[x.at]),
+    stepNo: s.stepNo || '',
+    // 你上次打開這位學生之後，學生又更新了
+    isNew: !!((s.changedAt || s.syncAt) && (!t.seenAt || (s.changedAt || s.syncAt) > t.seenAt)),
+    // 學生按了「請老師審核」，而你還沒有在那之後儲存建議或關卡
+    review: !!(s.submittedAt && (!t.reviewedAt || s.submittedAt > t.reviewedAt)),
+    newWeek: p.some(x => !rep[x.at] && (!t.seenAt || x.at > t.seenAt)),
     unreplied: p.filter(x => !rep[x.at]).length
   };
 }
@@ -80,9 +86,12 @@ export default {
 
         case 'detail': {
           const P = paths(String(d.key || ''));
-          const [s, p, t] = await Promise.all([readJSON(P.student), readJSON(P.progress), readJSON(P.teacher)]);
+          const [s, p, t0] = await Promise.all([readJSON(P.student), readJSON(P.progress), readJSON(P.teacher)]);
           if (!s && !p) return json({ ok: false, msg: '這位學生還沒有任何資料。' });
-          const rep = (t && t.replies) || {};
+          const t = t0 || {};
+          t.seenAt = new Date().toISOString(); // 記下老師看過的時間，列表的「新」標記就會消失
+          await writeJSON(P.teacher, t);
+          const rep = t.replies || {};
           return json({
             ok: true,
             student: s ? { ...s, syncAt: fmt(s.syncAt), submittedAt: fmt(s.submittedAt) } : {},
@@ -97,6 +106,7 @@ export default {
           const fb = clip(d.fb, 5000);
           if (fb !== (t.fb || '')) { t.fb = fb; t.fbAt = fb ? new Date().toISOString() : ''; }
           if (d.gate && GATES.includes(d.gate)) t.gate = d.gate;
+          t.reviewedAt = new Date().toISOString();
           await writeJSON(P.teacher, t);
           return json({ ok: true, fbAt: fmt(t.fbAt) });
         }
