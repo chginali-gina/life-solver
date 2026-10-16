@@ -6,38 +6,54 @@
 <title>生活觀察解題室</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&family=Bricolage+Grotesque:wght@600;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FDF8F1; --bg-warm:#F7EFE3; --card:#FFFFFF;
-  --amber:#D97706; --amber-deep:#B45309; --amber-dark:#92400E; --amber-tint:#FDF0DC;
-  --teal:#0F766E; --teal-soft:#5EAEA6; --teal-tint:#E3F2EF;
-  --ink:#2E2419; --ink-soft:#6B5D4F; --line:#E8DCCB; --on-amber:#FFFFFF;
-  --bad:#B91C1C; --bad-tint:#FDECEC;
-  --shadow:0 4px 20px rgba(146,64,14,.08); --shadow-lg:0 12px 40px rgba(146,64,14,.12);
-  --radius:18px; --radius-sm:12px;
-  --serif:'Noto Serif TC','Songti TC','PMingLiU',serif;
-  --display:'Playfair Display',Georgia,'Noto Serif TC',serif;
+  --bg:#F5F6FB; --bg-warm:#ECEFF8; --card:#FFFFFF;
+  --amber:#2F5BEA; --amber-deep:#1F45C9; --amber-dark:#1C3FAE; --amber-tint:#E6ECFE;
+  --teal:#0B7F65; --teal-soft:#7FD8C0; --teal-tint:#DDF6EE;
+  --ink:#1E1B3A; --ink-soft:#5B5875; --line:#DCE0EE; --on-amber:#FFFFFF;
+  --bad:#C9354E; --bad-tint:#FFE4EA;
+  --hl:#E3F45C; --hl-tint:#F5FBCF;
+  --p1:#FF6B8B; --p1t:#FFE3EA; --p1i:#B42446;
+  --p2:#2F5BEA; --p2t:#E6ECFE; --p2i:#1C3FAE;
+  --p3:#FF9F1C; --p3t:#FFF0D9; --p3i:#9A5300;
+  --p4:#19B892; --p4t:#DDF6EE; --p4i:#0B7F65;
+  --shadow:0 1px 0 rgba(30,27,58,.06); --shadow-lg:0 10px 30px rgba(30,27,58,.12);
+  --radius:20px; --radius-sm:12px;
+  --serif:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;
+  --hand:'LXGW WenKai TC','Noto Sans TC',serif;
+  --display:'Bricolage Grotesque','Noto Sans TC',sans-serif;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     color-scheme:dark;
-    --bg:#1B1611; --bg-warm:#231C15; --card:#2A221A;
-    --amber:#F59E0B; --amber-deep:#FBBF24; --amber-dark:#FCD34D; --amber-tint:#3A2A14;
-    --teal:#5EC4B8; --teal-soft:#5EAEA6; --teal-tint:#17332F;
-    --ink:#F3E9DC; --ink-soft:#BFAF9C; --line:#3E3228; --on-amber:#1B1611;
-    --bad:#F87171; --bad-tint:#3A1C1C;
-    --shadow:0 4px 20px rgba(0,0,0,.35); --shadow-lg:0 12px 40px rgba(0,0,0,.45);
+    --bg:#13122A; --bg-warm:#1C1B38; --card:#201F3F;
+    --amber:#7B9BFF; --amber-deep:#9DB4FF; --amber-dark:#A9BEFF; --amber-tint:#28305C;
+    --teal:#5EDDB9; --teal-soft:#2E7D6A; --teal-tint:#173A35;
+    --ink:#EEEEFF; --ink-soft:#B4B2D0; --line:#34335A; --on-amber:#13122A;
+    --bad:#FF8DA3; --bad-tint:#3D1B2A;
+    --hl:#D5E84A; --hl-tint:#2E3318;
+    --p1:#FF7F9A; --p1t:#3D1B2A; --p1i:#FFB3C3;
+    --p2:#7B9BFF; --p2t:#28305C; --p2i:#B6C7FF;
+    --p3:#FFB347; --p3t:#3A2A12; --p3i:#FFD08A;
+    --p4:#3DD6AE; --p4t:#173A35; --p4i:#8BEBD1;
+    --shadow:0 1px 0 rgba(0,0,0,.3); --shadow-lg:0 10px 30px rgba(0,0,0,.45);
   }
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
-  --bg:#1B1611; --bg-warm:#231C15; --card:#2A221A;
-  --amber:#F59E0B; --amber-deep:#FBBF24; --amber-dark:#FCD34D; --amber-tint:#3A2A14;
-  --teal:#5EC4B8; --teal-soft:#5EAEA6; --teal-tint:#17332F;
-  --ink:#F3E9DC; --ink-soft:#BFAF9C; --line:#3E3228; --on-amber:#1B1611;
-  --bad:#F87171; --bad-tint:#3A1C1C;
-  --shadow:0 4px 20px rgba(0,0,0,.35); --shadow-lg:0 12px 40px rgba(0,0,0,.45);
+  --bg:#13122A; --bg-warm:#1C1B38; --card:#201F3F;
+  --amber:#7B9BFF; --amber-deep:#9DB4FF; --amber-dark:#A9BEFF; --amber-tint:#28305C;
+  --teal:#5EDDB9; --teal-soft:#2E7D6A; --teal-tint:#173A35;
+  --ink:#EEEEFF; --ink-soft:#B4B2D0; --line:#34335A; --on-amber:#13122A;
+  --bad:#FF8DA3; --bad-tint:#3D1B2A;
+  --hl:#D5E84A; --hl-tint:#2E3318;
+  --p1:#FF7F9A; --p1t:#3D1B2A; --p1i:#FFB3C3;
+  --p2:#7B9BFF; --p2t:#28305C; --p2i:#B6C7FF;
+  --p3:#FFB347; --p3t:#3A2A12; --p3i:#FFD08A;
+  --p4:#3DD6AE; --p4t:#173A35; --p4i:#8BEBD1;
+  --shadow:0 1px 0 rgba(0,0,0,.3); --shadow-lg:0 10px 30px rgba(0,0,0,.45);
 }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:16px;line-height:1.8;padding:0 16px}
@@ -369,6 +385,195 @@ details.ai .aibody{display:grid;gap:12px}
 .kw button{border:1px dashed var(--amber);background:var(--card);border-radius:8px;padding:3px 10px;font-size:.88rem;cursor:pointer;color:var(--amber-dark)}
 .favbar{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;background:var(--teal-tint);border-radius:var(--radius-sm);padding:10px 14px;font-size:.92rem;margin-bottom:18px}
 .favbar b{color:var(--teal)}
+
+/* ===== 解題室 v2：筆記本 × 四階段配色 ===== */
+body{line-height:1.75;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:var(--hand);font-weight:700;letter-spacing:.01em}
+.ic{width:1.15em;height:1.15em;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em}
+.ph1{--ph:var(--p1);--pht:var(--p1t);--phi:var(--p1i)}
+.ph2{--ph:var(--p2);--pht:var(--p2t);--phi:var(--p2i)}
+.ph3{--ph:var(--p3);--pht:var(--p3t);--phi:var(--p3i)}
+.ph4{--ph:var(--p4);--pht:var(--p4t);--phi:var(--p4i)}
+
+/* hero：筆記本點格＋路線圖 */
+.hero{position:relative;padding:28px 18px 18px;margin:0 -16px 6px;gap:12px;
+ background-color:var(--bg);background-image:radial-gradient(var(--line) 1.2px,transparent 1.2px);background-size:18px 18px;background-position:9px 9px;border-bottom:1.5px solid var(--line)}
+.hero>*{max-width:900px;width:100%;margin-inline:auto}
+.brandline{font-size:.86rem;font-weight:700;color:var(--ink-soft);display:flex;gap:8px;align-items:center}
+.brandline .ic{color:var(--p1)}
+.hero h1{font-size:clamp(2.1rem,9vw,3rem);line-height:1.15}
+.hero p.sub{color:var(--ink);font-size:1.02rem;max-width:30em}
+.route{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;position:relative;background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);padding:14px 8px 12px}
+.route::before{content:'';position:absolute;left:12.5%;right:12.5%;top:36px;height:3px;border-radius:3px;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 13px)}
+.rph{display:grid;justify-items:center;gap:6px;position:relative;text-align:center}
+.rph .rico{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--pht);color:var(--phi);border:2.5px solid var(--card);box-shadow:0 0 0 1.5px var(--ph)}
+.rph .rico .ic{width:22px;height:22px}
+.rph.now .rico{background:var(--ph);color:#fff}
+.rph b{font-size:.92rem;color:var(--phi);line-height:1.2}
+.rdots{display:flex;gap:5px;justify-content:center}
+.rdot{width:22px;height:22px;border-radius:50%;border:2px solid var(--ph);background:var(--card);padding:0;cursor:pointer;font:700 .7rem/1 var(--display);color:var(--phi);display:grid;place-items:center}
+.rdot.done{background:var(--ph);color:#fff}
+.rdot.on{background:var(--hl);border-color:var(--ink);color:#1E1B3A;transform:scale(1.15)}
+.rdot[disabled]{cursor:default;opacity:.6}
+.rnote{grid-column:1/-1;text-align:center;font-size:.86rem;color:var(--ink-soft);margin-top:6px}
+.rnote b{background:var(--hl);color:#1E1B3A;padding:1px 6px;border-radius:6px}
+
+/* 按鈕：較高、好按 */
+.btn{min-height:44px;padding:10px 20px;font-weight:700;border-radius:14px}
+.btn.sm{min-height:36px;padding:6px 14px;border-radius:11px}
+.btn .ic{width:1.1em;height:1.1em}
+.btn.ghost{background:var(--card)}
+.btn.teal{background:var(--teal);color:#fff}
+.chip,.seg button{min-height:36px}
+.chip.on,.seg button.on{background:var(--amber);border-color:var(--amber);color:#fff}
+.chip.teal.on{background:var(--teal);border-color:var(--teal);color:#fff}
+
+/* 步驟列：圖示＋階段色 */
+.stepper{background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);margin-inline:-16px;padding:8px 16px}
+.step{padding:5px 13px 5px 5px;gap:7px;border-radius:14px;background:var(--card)}
+.step .n{width:30px;height:30px;border-radius:10px;background:var(--pht);color:var(--phi)}
+.step .n .ic{width:17px;height:17px}
+.step.done .n{background:var(--ph);color:#fff}
+.step.on{border-color:var(--ph);background:var(--pht);color:var(--ink)}
+.step.on .n{background:var(--ph);color:#fff}
+
+/* 每一步的標題 */
+.mhead{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;margin-block:6px 14px}
+.mhead h2{font-size:clamp(1.5rem,6.4vw,2rem);line-height:1.25}
+.mhead h2::after{display:none}
+.htile{width:56px;height:56px;border-radius:18px;background:var(--ph);color:#fff;display:grid;place-items:center;transform:rotate(-4deg)}
+.htile .ic{width:28px;height:28px}
+.hmeta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.85rem;color:var(--ink-soft);margin-bottom:2px}
+.phchip{background:var(--pht);color:var(--phi);font-weight:700;border-radius:99px;padding:0 10px}
+.rule{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;background:var(--hl-tint);color:var(--ink);border:1.5px solid color-mix(in srgb,var(--hl) 70%,var(--ink) 8%);border-radius:14px;padding:12px 14px;font-size:.96rem}
+.rule .ric{width:28px;height:28px;border-radius:9px;background:var(--hl);color:#1E1B3A;display:grid;place-items:center}
+.rule strong{color:var(--ink)}
+
+/* 區塊標題 */
+.stitle{font-family:var(--hand);font-size:1.22rem;border-bottom:0;padding-bottom:0;align-items:center}
+.stitle .ic{color:var(--amber)}
+.stitle small{font-family:var(--serif)}
+.sec{gap:12px;margin-bottom:30px}
+
+/* 卡片：用邊框分層，不用一樣的陰影 */
+.card{box-shadow:none;border-width:1.5px}
+.fcard{box-shadow:none;border-width:1.5px}
+.fcard.final{border:2px solid var(--amber);box-shadow:0 0 0 4px var(--amber-tint)}
+.item{border-width:1.5px}
+textarea,input[type=text],input[type=number],input[type=url]{border-radius:12px;padding:10px 13px;font-size:16px}
+.ctxbar{background:var(--card);border:1.5px dashed var(--line)}
+
+/* 觀察角度 */
+.legend.lens{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.legend.lens div{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:start;background:var(--card);border:1.5px solid var(--line)}
+.legend.lens .lic{grid-row:span 2;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--p1t);color:var(--p1i)}
+.legend.lens b{font-size:.98rem}
+.legend.lens span.d{font-size:.84rem;color:var(--ink-soft);line-height:1.5}
+.task{background:var(--card);border:1.5px solid var(--line);grid-template-columns:auto 1fr;column-gap:10px}
+.task .tic{grid-row:span 2;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--p1t);color:var(--p1i)}
+.task b{color:var(--ink)}
+.spark{border-style:solid;border-width:1.5px}
+.spark b{color:var(--p1i)}
+.slots{display:inline-flex;gap:4px;vertical-align:middle;margin-left:4px}
+.slots i{width:16px;height:16px;border-radius:50%;border:2px solid var(--p1);display:inline-block}
+.slots i.f{background:var(--p1)}
+
+/* 選題：比較長條＋分數圈 */
+.chart{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px;display:grid;gap:8px}
+.hrow{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:4px 10px;align-items:center;font-size:.88rem}
+.hrow .lb{grid-column:1/-1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink-soft)}
+.hrow .hb{height:12px;border-radius:99px;background:var(--bg-warm);overflow:hidden}
+.hrow .hb i{display:block;height:100%;border-radius:99px;background:var(--p1)}
+.hrow.pick .hb i{background:var(--amber)}
+.hrow.pick .lb{color:var(--ink);font-weight:700}
+.hrow b{font-family:var(--display);text-align:right;font-variant-numeric:tabular-nums}
+.donut{width:58px;height:58px}
+.donut .bg{stroke:var(--bg-warm)}
+.donut .fg{stroke:var(--amber);transition:stroke-dashoffset .3s}
+.donut text{font-family:var(--display);font-weight:800;fill:var(--ink);font-size:15px}
+.donut text.s{font-size:8px;font-weight:600;fill:var(--ink-soft)}
+
+/* 方案卡 */
+.sol{border-top-width:1.5px;border-width:1.5px;border-left:5px solid var(--lv);box-shadow:none}
+.sol.fav{box-shadow:0 0 0 3px var(--lvt)}
+.sol h4{font-family:var(--hand);font-size:1.12rem}
+.lvtag{display:inline-flex;align-items:center;gap:4px}
+.lvtag .ic{width:14px;height:14px}
+.meta{gap:6px}
+.meta span{display:inline-flex;align-items:center;gap:4px;background:var(--bg-warm);color:var(--ink);font-weight:600;border-radius:8px;padding:1px 8px}
+.meta .ic{width:14px;height:14px;color:var(--ink-soft)}
+.star.on{background:var(--hl);border-color:var(--ink);color:#1E1B3A}
+
+/* 適配三燈 */
+.fitrow{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.fitrow div{border-radius:12px;padding:8px 6px;text-align:center;display:grid;gap:2px;justify-items:center;font-size:.82rem;font-weight:600}
+.fitrow .ic{width:20px;height:20px}
+.fitrow .ok{background:var(--p4t);color:var(--p4i)}
+.fitrow .no{background:var(--p1t);color:var(--p1i)}
+.fitrow .na{background:var(--bg-warm);color:var(--ink-soft)}
+
+/* 時程條 */
+.gantt{display:flex;height:34px;border-radius:10px;overflow:hidden;gap:2px}
+.gantt span{display:grid;place-items:center;font:700 .78rem var(--display);color:#fff;min-width:0;overflow:hidden}
+.gantt span:nth-child(4n+1){background:var(--p1)}.gantt span:nth-child(4n+2){background:var(--p2)}.gantt span:nth-child(4n+3){background:var(--p3)}.gantt span:nth-child(4n+4){background:var(--p4)}
+.glegend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.82rem;color:var(--ink-soft)}
+.glegend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:0}
+.glegend span:nth-child(4n+1) i{background:var(--p1)}.glegend span:nth-child(4n+2) i{background:var(--p2)}.glegend span:nth-child(4n+3) i{background:var(--p3)}.glegend span:nth-child(4n+4) i{background:var(--p4)}
+
+/* 前後點圖 */
+.strip{width:100%;height:auto;display:block}
+.strip .ax{stroke:var(--line);stroke-width:1.5}
+.strip .b{fill:var(--p3)}.strip .a{fill:var(--p4)}
+.strip .m{stroke-width:3;stroke-linecap:round}.strip .mb{stroke:var(--p3i)}.strip .ma{stroke:var(--p4i)}
+.strip text{font-size:11px;fill:var(--ink-soft);font-family:var(--serif)}
+.cbars .bar i{background:var(--p3)}
+.cbars .bar i.t{background:var(--p4)}
+
+/* 身分、進度 */
+.idcard{border:2px solid var(--amber);box-shadow:0 0 0 4px var(--amber-tint)}
+.idbar{background:var(--card);border:1.5px solid var(--line)}
+.idbar .uic{color:var(--amber)}
+.prog .bar{display:none}
+.pre-id ol{list-style:none;padding:0;gap:6px}
+.pre-id li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:7px 12px}
+.pre-id li .n{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--pht);color:var(--phi)}
+.pre-id li .n .ic{width:17px;height:17px}
+
+/* AI、送出、頁尾 */
+.ai{border:1.5px solid var(--line);background:var(--card)}
+details.ai>summary .ic{color:var(--amber)}
+details.ai>summary .eyebrow{display:none}
+.send{border:2px solid var(--p3);background:var(--card)}
+.send .stitle .ic{color:var(--p3i)}
+.out{border:2px dashed var(--amber)}
+.rule,.res,.banner{line-height:1.7}
+.banner{background:var(--card);border:1.5px solid var(--amber)}
+footer{line-height:1.8}
+footer .brand{font-family:var(--hand);font-style:normal;color:var(--amber-dark)}
+.eyebrow{font-family:var(--serif);font-style:normal;font-weight:700;letter-spacing:0;color:var(--amber-dark);font-size:.88rem}
+.toast{background:var(--ink);color:var(--bg);font-weight:600}
+@media (max-width:420px){.route{padding:12px 4px 10px}.rdot{width:20px;height:20px}.rph .rico{width:40px;height:40px}.route::before{top:32px}}
+.lenses{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 10px;margin-inline:-16px;padding-inline:16px;scrollbar-width:thin}
+.lcard{flex:0 0 min(78%,260px);scroll-snap-align:start;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:12px;display:grid;gap:8px;align-content:start}
+.lcard .lh{display:flex;gap:10px;align-items:center}
+.lcard .lic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--p1t);color:var(--p1i)}
+.lcard b{font-size:1.05rem}
+.lcard .d{font-size:.86rem;color:var(--ink-soft);line-height:1.5}
+.lcard .spark{font-size:.9rem;background:var(--bg)}
+.scores{grid-template-columns:1fr;gap:6px}
+.srow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
+.srow .k{font-size:.86rem;letter-spacing:0;line-height:1.35}
+.srow .seg{flex-wrap:nowrap;gap:4px}
+.srow .seg button{min-width:32px;min-height:32px;padding:0}
+.dtb td,.dtb th{padding:6px 6px;white-space:nowrap}
+.dtb td.mini{white-space:normal}
+.dtb .tag{white-space:nowrap}
+.res.warn{background:var(--p3t);color:var(--p3i)}
+.res.warn b.h::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--p3);margin-right:6px}
+.res.ok b.h::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--p4);margin-right:6px}
+.res.bad b.h::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--bad);margin-right:6px}
+details.ai>summary{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;font-family:var(--serif);font-size:.98rem}
+details.ai>summary::after{margin-left:0}
 </style>
 </head>
 <body>
@@ -385,9 +590,10 @@ details.ai .aibody{display:grid;gap:12px}
 </div>
 <div class="wrap">
   <header class="hero">
-    <p class="eyebrow">From Everyday Life to Solutions</p>
+    <p class="brandline"><svg class="ic" viewBox="0 0 24 24"><path d="M12 22s7-6.3 7-12a7 7 0 0 0-14 0c0 5.7 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>鳳新高中 自主學習</p>
     <h1>生活觀察解題室</h1>
-    <p>好的實作題目，常常藏在每天讓你覺得「卡卡的」時刻裡。先觀察、找出真正的問題，再從初階到進階的方案中，挑一個你做得到的開始動手。</p>
+    <p class="sub">把每天讓你覺得「卡卡的」時刻，變成一個你做得到的解題專題。</p>
+    <nav id="route" aria-label="進度路線圖"></nav>
     <div class="toolbar">
       <button class="btn ghost sm" data-act="backup">換裝置接著做</button>
       <button class="btn ghost sm" data-act="askclear">全部清空</button>
@@ -410,6 +616,45 @@ const ALLOWED_DOMAIN='fhsh.khc.edu.tw';
 const KEY='gina-sdl-solver-v1';
 const STEPS=[['1','觀察'],['2','定義'],['3','選題'],['4','方案'],['5','適配'],['6','計畫'],['7','行動卡'],['8','執行'],['✓','成果']];
 const FBSTEP=6;
+/* 圖示（線條 SVG） */
+const IC={eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+ target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+ trophy:'<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/>',
+ bulb:'<path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V16h8v-1.3A7 7 0 0 0 12 2z"/>',
+ sliders:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',
+ clip:'<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6M9 16h4"/>',
+ send:'<path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/>',
+ wrench:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/>',
+ flag:'<path d="M4 22V4M4 4h13l-2 4 2 4H4"/>',
+ trash:'<path d="M3 6h18M8 6V4h8v2M6 6l1 15h10l1-15"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ alert:'<path d="M12 3 2 21h20z"/><path d="M12 10v5M12 18h.01"/>',
+ heart:'<path d="M20.8 5.6a5 5 0 0 0-7.6 0L12 6.9l-1.2-1.3a5 5 0 0 0-7.6 6.6L12 21l8.8-8.8a5 5 0 0 0 0-6.6z"/>',
+ scale:'<path d="M12 3v18M7 21h10M4 7h16M4 7l-3 7a3 3 0 0 0 6 0zM20 7l-3 7a3 3 0 0 0 6 0z"/>',
+ thermo:'<path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/>',
+ cloud:'<path d="M7 15a4 4 0 1 1 .9-7.9A6 6 0 0 1 19 9a3.5 3.5 0 0 1 0 7H7z"/><path d="M8 19l-1 2M12 19l-1 2M16 19l-1 2"/>',
+ coin:'<circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .8-3 2s1.3 1.7 3 2 3 .8 3 2-1.3 2-3 2c-1.4 0-2.5-.5-3-1.5M12 6v2M12 16v2"/>',
+ box:'<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
+ check:'<path d="M5 12l5 5L20 7"/>',x:'<path d="M6 6l12 12M18 6 6 18"/>',
+ search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-5-5"/>',
+ spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>',
+ user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+ users:'<circle cx="9" cy="8" r="3.5"/><path d="M2 20a7 7 0 0 1 14 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 13.5a7 7 0 0 1 4 6.5"/>',
+ chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.4A8 8 0 1 1 21 12z"/>',
+ pin:'<path d="M12 22s7-6.3 7-12a7 7 0 0 0-14 0c0 5.7 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>',
+ cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+ chart:'<path d="M3 3v18h18"/><path d="M7 15v3M12 10v8M17 6v12"/>',
+ shield:'<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/>',
+ book:'<path d="M4 4h6a3 3 0 0 1 3 3v14a2 2 0 0 0-2-2H4z"/><path d="M20 4h-6a3 3 0 0 0-3 3v14a2 2 0 0 1 2-2h7z"/>',
+ flask:'<path d="M9 3h6M10 3v6L4 19a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-6-10V3"/><path d="M7 15h10"/>',
+ chip:'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>',
+ left:'<path d="M15 18l-6-6 6-6"/>',right:'<path d="M9 18l6-6-6-6"/>',note:'<path d="M4 4h16v12l-4 4H4z"/><path d="M16 20v-4h4M8 9h8M8 13h5"/>'};
+const ic=(n,c='')=>`<svg class="ic ${c}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]||''}</svg>`;
+const STEP_IC=['eye','target','trophy','bulb','sliders','clip','send','wrench','flag'];
+const PHASES4=[['發現','search',[0,1,2]],['設計','bulb',[3,4,5]],['動手','wrench',[6,7]],['成果','flag',[8]]];
+const phOf=i=>PHASES4.findIndex(p=>p[2].includes(i))+1;
+const LENS_IC={'浪費':'trash','不方便':'clock','不安全':'alert','不健康':'heart','不公平':'scale','不舒服':'thermo','讓人煩惱':'cloud'};
+const TIER_IC=['','eye','flask','chip'];
 const GATES=['選題通過','計畫通過','期中通過','完成'];
 const STALLS=[['沒有人願意配合','先找 3–5 位願意幫忙的朋友試辦；請導師或幹部在班會上說明；讓參與的人看到結果（例如每週公布數據）。'],
  ['數據太少、回收率很低','把紀錄方式變簡單（例如只問一題，或固定時間由你親自量）；延長一週蒐集；在報告中誠實寫出樣本數。'],
@@ -497,6 +742,7 @@ const SPARKS={'浪費':['今天有什麼東西用一次就丟了？','有沒有�
  '不安全':['上學路上哪裡讓你需要閃車或小心？','校園裡哪裡容易滑倒、撞到或受傷？'],'不健康':['你或同學今天喝了幾杯含糖飲料？','昨天幾點睡？是什麼讓你晚睡？'],
  '不公平':['有沒有人常常用不到某個設施或資源？','分工時，有沒有人總是做比較多？'],'不舒服':['教室什麼時候最熱、最吵或最擠？','午休時，什麼讓你睡不好？'],
  '讓人煩惱':['這週讓你壓力最大的是什麼？','你常聽到同學抱怨什麼？']};
+const TASK_IC=['pin','chat','cal'];
 const TASKS=[['校園散步 10 分鐘','下課時繞一圈福利社、走廊、廁所、樓梯，看到卡卡的地方就拍照或寫下來（不要拍到人臉）。'],
  ['訪問 3 個人','問同學、家人或老師：「最近有什麼事讓你覺得很麻煩、很浪費或很不方便？」把他們說的記下來。'],
  ['記錄自己的一天','從起床到睡前，每次覺得「唉」的時候就記一筆，連記 3 天。']];
@@ -572,7 +818,11 @@ function seg(path,opts,vals,keep){const v=getP(path);vals=vals||opts;return`<div
 function chips(path,list,cls=''){const a=getP(path)||[];return`<div class="chips">${list.map(v=>`<button class="chip ${cls} ${a.includes(v)?'on':''}" data-toggle="${path}" data-val="${esc(v)}" aria-pressed="${a.includes(v)}">${esc(v)}</button>`).join('')}</div>`}
 function sec(t,sm,body){return`<section class="sec"><div class="stitle">${t}${sm?`<small>${sm}</small>`:''}</div>${body}</section>`}
 function resBox(kind,head,items){return`<div class="res ${kind}"><b class="h">${head}</b>${Array.isArray(items)?`<ul>${items.map(x=>`<li>${x}</li>`).join('')}</ul>`:items}</div>`}
-function head(eb,t,rule){return`<div class="mhead"><p class="eyebrow">${eb}</p><h2>${t}</h2></div><p class="rule">${rule}</p>`}
+function head(eb,t,rule){const ph=phOf(cur);return`<div class="mhead ph${ph}"><span class="htile">${ic(STEP_IC[cur])}</span><div><p class="hmeta"><span class="phchip">${PHASES4[ph-1][0]}</span>第 ${cur+1} 步，共 ${STEPS.length} 步</p><h2>${t}</h2></div></div><div class="rule"><span class="ric">${ic('note')}</span><p>${rule}</p></div>`}
+function donut(v,max){const r=24,c=2*Math.PI*r,f=Math.max(0,Math.min(1,v/max));return`<svg class="donut" viewBox="0 0 58 58" role="img" aria-label="${v} / ${max} 分"><circle class="bg" cx="29" cy="29" r="${r}" fill="none" stroke-width="7"/><circle class="fg" cx="29" cy="29" r="${r}" fill="none" stroke-width="7" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-f)}" transform="rotate(-90 29 29)"/><text x="29" y="31" text-anchor="middle">${v}</text><text class="s" x="29" y="42" text-anchor="middle">/${max}</text></svg>`}
+function renderRoute(){const el=document.getElementById('route');if(!el)return;const lock=needId()||!!ui.restore;
+ el.className='route';el.innerHTML=PHASES4.map(([n,icn,ids],k)=>{const now=ids.includes(cur)&&!lock&&!S.sample?' now':'';return`<div class="rph ph${k+1}${now}"><span class="rico">${ic(icn)}</span><b>${n}</b><div class="rdots">${ids.map(i=>`<button class="rdot ${done(i)?'done':''} ${i===cur&&!lock?'on':''}" data-go="${i}" ${lock?'disabled':''} aria-label="第 ${i+1} 步 ${STEPS[i][1]}${done(i)?'（完成）':''}">${i===8?ic('check'):i+1}</button>`).join('')}</div></div>`}).join('')+
+ `<p class="rnote">${lock?'先建立身分，就從「發現」開始':`你在 <b>第 ${cur+1} 步・${STEPS[cur][1]}</b>，已完成 ${STEPS.filter((_,i)=>done(i)).length}／${STEPS.length} 步`}</p>`}
 
 /* 衍生資料 */
 const chosen=()=>S.probs.find(p=>p.id===S.chosen);
@@ -600,16 +850,15 @@ function done(i){const p=chosen();switch(i){
 const R=[];
 /* 1 觀察 */
 R[0]=()=>{const f=S.of;return head('Step 1 · Observe','觀察：記下生活中卡卡的時刻','<strong>這一步的規則：</strong>花 3–7 天，只要遇到讓你覺得「好麻煩、好浪費、好危險、好不舒服」的時刻，就記下來。先不要想解法，只記錄發生了什麼。至少記 3 則。')+
- sec('用這些角度觀察','',`<div class="legend">${LENSES.map(([n,d])=>`<div><b>${n}</b>${d}</div>`).join('')}</div>`)+
- sec('想不到可以記什麼？','選一個任務，或點一個問題來回想',`<div class="tasks">${TASKS.map(([t,d])=>`<div class="task"><b>${t}</b><span>${d}</span></div>`).join('')}</div>
-  <div class="sparks">${LENSES.map(([n])=>SPARKS[n].map(q=>`<button class="spark" data-act="spark" data-lens="${n}" data-q="${esc(q)}"><b>${n}</b>${esc(q)}</button>`).join('')).join('')}</div>`)+
- sec('新增一則觀察','',`<div class="card" style="display:grid;gap:12px">
+ sec(ic('eye')+'用 7 個角度找找看','左右滑動，點問題來回想',`<div class="lenses">${LENSES.map(([n,d])=>`<div class="lcard"><div class="lh"><span class="lic">${ic(LENS_IC[n])}</span><b>${n}</b></div><p class="d">${d}</p>${SPARKS[n].map(q=>`<button class="spark" data-act="spark" data-lens="${n}" data-q="${esc(q)}">${esc(q)}</button>`).join('')}</div>`).join('')}</div>`)+
+ sec(ic('pin')+'還是想不到？選一個任務','',`<div class="tasks">${TASKS.map(([t,d],i)=>`<div class="task"><span class="tic">${ic(TASK_IC[i])}</span><b>${t}</b><span>${d}</span></div>`).join('')}</div>`)+
+ sec(ic('note')+'新增一則觀察','',`<div class="card" style="display:grid;gap:12px">
   <div class="q"><span class="qlabel">在哪裡？</span>${seg('of.where',SCENES,null,true)}</div>
   <div class="grid2"><div class="q"><label for="ow">什麼時候？</label>${inp('of.when','例如：第二節下課','ow')}</div><div class="q"><label for="oh">影響了誰？</label>${inp('of.who','例如：買早餐的同學','oh')}</div></div>
   <div class="q"><label for="ot">發生了什麼？（寫看到的事實）</label>${ui.sparkQ?`<p class="mini" style="color:var(--amber-dark)">回想：${esc(ui.sparkQ)}</p>`:''}${ta('of.what','例如：排隊排到上課鐘響還買不到，只好空手回教室',60,'ot')}</div>
   <div class="grid2"><div class="q"><span class="qlabel">多常發生？</span>${seg('of.freq',FREQ,null,true)}</div><div class="q"><span class="qlabel">屬於哪一種？</span>${seg('of.lens',LENSES.map(l=>l[0]),null,true)}</div></div>
   <div class="toolbar"><button class="btn" data-act="addObs">加入觀察日記</button></div></div>`)+
- sec('我的觀察日記',`${S.obs.length} 則`,S.obs.length?`<div class="list">${S.obs.map((o,i)=>`<div class="item"><span class="n">${i+1}</span><div><div class="t">${esc(o.what)}</div><div>${o.where?`<span class="tag">${esc(o.where)}</span>`:''}${o.when?`<span class="tag">${esc(o.when)}</span>`:''}${o.lens?`<span class="tag amber">${esc(o.lens)}</span>`:''}${o.freq?`<span class="tag teal">${esc(o.freq)}</span>`:''}</div>${o.who?`<p class="mini">影響：${esc(o.who)}</p>`:''}</div><button class="xbtn" data-act="delObs" data-i="${i}" aria-label="刪除">×</button></div>`).join('')}</div>`:'<p class="empty">還沒有觀察。今天就從上學路上開始吧。</p>')+nav()};
+ sec(ic('note')+'我的觀察日記',`${S.obs.length} 則<span class="slots" aria-label="至少 3 則">${[0,1,2].map(i=>`<i class="${i<S.obs.length?'f':''}"></i>`).join('')}</span>`,S.obs.length?`<div class="list">${S.obs.map((o,i)=>`<div class="item"><span class="n">${i+1}</span><div><div class="t">${esc(o.what)}</div><div>${o.where?`<span class="tag">${esc(o.where)}</span>`:''}${o.when?`<span class="tag">${esc(o.when)}</span>`:''}${o.lens?`<span class="tag amber">${esc(o.lens)}</span>`:''}${o.freq?`<span class="tag teal">${esc(o.freq)}</span>`:''}</div>${o.who?`<p class="mini">影響：${esc(o.who)}</p>`:''}</div><button class="xbtn" data-act="delObs" data-i="${i}" aria-label="刪除">×</button></div>`).join('')}</div>`:'<p class="empty">還沒有觀察。今天就從上學路上開始吧。</p>')+nav()};
 
 /* 2 定義 */
 function stmtWarn(p){const t=[p.who,p.sit,p.cause,p.effect].join('');if(!t)return'';const w=[];
@@ -640,15 +889,16 @@ function valText(p){const v=p?.val||{};return v.asked?`問了 ${v.asked} 人，$
 
 /* 3 選題 */
 R[2]=()=>{const P=S.probs.filter(p=>p.who||p.effect);return head('Step 3 · Choose','選題：哪個問題最值得解決？','<strong>這一步的規則：</strong>每個問題依五個面向打 1–5 分，再選一個。「我接觸得到」很重要：你要能親自觀察、找到人測試，問題才做得下去。')+
- `<div class="legend">${SCORE.map(([k,n])=>`<div><b>${n}</b></div>`).join('')}</div><div style="height:16px"></div>`+
- (P.length?`<div class="list">${P.map(p=>{const k=S.probs.indexOf(p);return`<div class="fcard ${S.chosen===p.id?'final':''}"><div class="sc-top"><div><div class="t">${esc(stmt(p))}</div>${valText(p)?`<p class="mini" style="color:var(--teal)">驗證：${esc(valText(p))}</p>`:'<p class="mini">還沒驗證：可以回步驟 2 問 5 個人，再打分數會更準。</p>'}</div><div class="total">${pscore(p)}<small> /25</small></div></div>
-  <div class="scores">${SCORE.map(([s,n])=>`<div><span class="k">${n}</span>${seg(`probs.${k}.sc.${s}`,['1','2','3','4','5'],[1,2,3,4,5].map(String),true)}</div>`).join('')}</div>
+ 
+ (P.length>1?`<div class="chart" style="margin-bottom:14px"><span class="k">${ic('chart')} 總分比較</span>${P.map(p=>`<div class="hrow ${S.chosen===p.id?'pick':''}"><span class="lb">${esc((p.who||'')+(p.sit?'・'+p.sit:'')||stmt(p))}</span><span class="hb"><i style="width:${pscore(p)/25*100}%"></i></span><b>${pscore(p)}</b></div>`).join('')}</div>`:'')+
+ (P.length?`<div class="list">${P.map(p=>{const k=S.probs.indexOf(p);return`<div class="fcard ${S.chosen===p.id?'final':''}"><div class="sc-top"><div><div class="t">${esc(stmt(p))}</div>${valText(p)?`<p class="mini" style="color:var(--teal)">驗證：${esc(valText(p))}</p>`:'<p class="mini">還沒驗證：可以回步驟 2 問 5 個人，再打分數會更準。</p>'}</div><div class="total" id="tot${k}">${donut(pscore(p),25)}</div></div>
+  <div class="scores">${SCORE.map(([s,n])=>`<div class="srow"><span class="k">${n}</span>${seg(`probs.${k}.sc.${s}`,['1','2','3','4','5'],[1,2,3,4,5].map(String),true)}</div>`).join('')}</div>
   <button class="radio ${S.chosen===p.id?'on':''}" data-act="choose" data-id="${p.id}" style="justify-self:start"><span class="dot"></span>${S.chosen===p.id?'就解決這個':'選這個'}</button></div>`}).join('')}</div>`:'<p class="empty">先在步驟 2 定義問題。</p>')+nav()};
 
 /* 4 方案 */
-function cardHTML(c){const on=S.favs.includes(c.id);return`<div class="sol lv${c.lv} ${on?'fav':''}"><div class="sol-top"><span class="lvtag">${TIER[c.lv]}</span><button class="star ${on?'on':''}" data-act="fav" data-id="${c.id}" aria-pressed="${on}" aria-label="收藏">${on?'★ 已收藏':'☆ 收藏'}</button></div>
- <h4>${esc(c.t)}</h4><p>${esc(c.d)}</p><div class="meta"><span>成果：${esc(c.out)}</span><span>約 ${c.cost?c.cost+' 元':'免費'}</span><span>約 ${c.wk} 週</span></div>
- <div>${c.need.map(s=>`<span class="tag ${S.me.skills.includes(s)?'teal':''}">${esc(s)}</span>`).join('')}</div><p class="mini">需要：${esc(c.tools)}　延伸：${esc(c.ext)}</p></div>`}
+function cardHTML(c){const on=S.favs.includes(c.id);return`<div class="sol lv${c.lv} ${on?'fav':''}"><div class="sol-top"><span class="lvtag">${ic(TIER_IC[c.lv])}${TIER[c.lv]}</span><button class="star ${on?'on':''}" data-act="fav" data-id="${c.id}" aria-pressed="${on}" aria-label="收藏">${on?'★ 已收藏':'☆ 收藏'}</button></div>
+ <h4>${esc(c.t)}</h4><p>${esc(c.d)}</p><div class="meta"><span>${ic('flag')}${esc(c.out)}</span><span>${ic('coin')}${c.cost?'約 '+c.cost+' 元':'免費'}</span><span>${ic('clock')}約 ${c.wk} 週</span></div>
+ <div>${c.need.map(s=>`<span class="tag ${S.me.skills.includes(s)?'teal':''}">${esc(s)}</span>`).join('')}</div><p class="mini">${ic('box')} 需要：${esc(c.tools)}<br>${ic('right')} 延伸：${esc(c.ext)}</p></div>`}
 R[3]=()=>{const p=chosen(),dk=ui.dom||p?.domain||suggestDomain(p)||'env',D=DOMAINS[dk],tv=ui.tier==null?1:ui.tier;return head('Step 4 · Options','方案：從初階到進階','<strong>這一步的規則：</strong>先查一查別人怎麼做過，再看「通用方案階梯」和領域方案庫，收藏 1–3 個有興趣的方案。不一定要選進階：初階做得紮實，一樣是好成果，而且做完可以往上升級。')+
  `<div class="ctxbar"><b>我的問題：</b>${esc(stmt(p)||'（先完成步驟 3）')}</div>`+
  `<div class="favbar"><b>已收藏 ${S.favs.length}／3</b>${S.favs.length?S.favs.map(id=>{const c=card(id);return c?`<span class="tag teal">${TIER[c.lv]}・${esc(c.t)}</span>`:''}).join(''):'<span class="mini">按方案右上角的「收藏」</span>'}</div>`+
@@ -673,8 +923,10 @@ R[4]=()=>head('Step 5 · Fit Check','適配：哪個方案最適合我？','<str
  sec('收藏方案的適配結果','',S.favs.length?`<div class="list">${S.favs.map(id=>{const c=card(id);if(!c)return'';const f=fit(c),lbl={ok:['ok','適合，可以直接開始'],prep:['warn','需要先準備'],down:['bad','建議先做低一級的版本']}[f.lv];
   const lower=c.lv>1?(id.startsWith('ladder')?'ladder-'+(c.lv-2):(()=>{const [d]=id.split('-');const j=DOMAINS[d].c.findIndex(x=>x[0]===c.lv-1);return j>=0?d+'-'+j:''})()):'';
   return`<div class="fcard ${S.pick===id?'final':''}"><div class="sc-top"><div><span class="lvtag lv${c.lv}">${TIER[c.lv]}</span> <b>${esc(c.t)}</b><p class="mini">${esc(c.dom)}</p></div><button class="radio ${S.pick===id?'on':''}" data-act="pick" data-id="${id}"><span class="dot"></span>${S.pick===id?'就做這個':'選這個'}</button></div>
-  ${resBox(lbl[0],lbl[1],[...(f.miss.length?[`還要學：${esc(f.miss.join('、'))}（可以找老師、社團或線上教學）`]:[]),...f.issues.map(esc),...(f.lv==='ok'?['技能、預算、時間都在範圍內。']:[]),...(f.lv==='down'&&lower?[`可以先做「${esc(card(lower).t)}」，做完再升級到這個方案。`]:[])])}</div>`}).join('')}</div>`:'<p class="empty">先在步驟 4 收藏方案。</p>')+nav();
+  ${fitRow(c,f)}${resBox(lbl[0],lbl[1],[...(f.miss.length?[`還要學：${esc(f.miss.join('、'))}（可以找老師、社團或線上教學）`]:[]),...f.issues.map(esc),...(f.lv==='ok'?['技能、預算、時間都在範圍內。']:[]),...(f.lv==='down'&&lower?[`可以先做「${esc(card(lower).t)}」，做完再升級到這個方案。`]:[])])}</div>`}).join('')}</div>`:'<p class="empty">先在步驟 4 收藏方案。</p>')+nav();
 
+function fitRow(c,f){const b=+S.me.budget,w=+S.me.weeks;const cell=(st,icn,t,d)=>`<div class="${st}">${ic(st==='ok'?'check':st==='no'?'alert':icn)}<span>${t}</span><span class="mini" style="color:inherit;font-weight:400">${d}</span></div>`;
+ return`<div class="fitrow">${cell(f.miss.length?'no':'ok','user','技能',f.miss.length?'還要學 '+f.miss.length+' 項':'都會')}${cell(!b?'na':c.cost>b?'no':'ok','coin','預算',c.cost?c.cost+' 元':'免費')}${cell(!w?'na':c.wk>w?'no':'ok','clock','時間',c.wk+' 週')}</div>`}
 /* 6 計畫 */
 R[5]=()=>{const c=card(S.pick),p=S.plan;return head('Step 6 · Plan','計畫：第一版做什麼、怎麼知道有效','<strong>這一步的規則：</strong>先做出最小的第一版，而且要在開始前就決定「怎麼量」。改變前量一次、改變後再量一次，才看得出有沒有解決問題。')+
  `<div class="ctxbar"><b>選定方案：</b>${c?`${TIER[c.lv]}・${esc(c.t)}`:'（先完成步驟 5）'}<br><b>問題：</b>${esc(stmt(chosen())||'')}</div>`+
@@ -683,9 +935,11 @@ R[5]=()=>{const c=card(S.pick),p=S.plan;return head('Step 6 · Plan','計畫：�
  sec('怎麼知道有沒有解決問題？','',`<div class="grid2"><div class="q"><label for="pb">改變前：量什麼、怎麼量</label>${ta('plan.before','例如：介入前兩週，每天秤全班剩食重量',70,'pb')}</div><div class="q"><label for="pa">改變後：量什麼、和什麼比</label>${ta('plan.after','例如：介入後兩週同樣秤量，比較平均剩食量',70,'pa')}</div></div><div id="mwarn">${measureWarn()}</div>`)+
  sec('需要的東西與預算','',ta('plan.stuff','例如：選擇卡印刷 300 元；電子秤向家政教室借',60,'pst'))+
  sec('這週就做的第一件事','只寫一件、具體的事',inp('plan.first','例如：和導師、打菜股長討論，並借好電子秤','pf'))+
- sec('時程',`${esc(S.me.weeks||'?')} 週`,`<div class="toolbar"><button class="btn ghost sm" data-act="genTL">${p.tl.length?'依週數重新產生':'依週數產生時程'}</button></div>${p.tl.length?`<div class="plan">${p.tl.map((r,i)=>`<div><input type="text" data-path="plan.tl.${i}.w" value="${esc(r.w)}" aria-label="週次"><input type="text" data-path="plan.tl.${i}.task" value="${esc(r.task)}" aria-label="工作"></div>`).join('')}</div>`:''}`)+
+ sec('時程',`${esc(S.me.weeks||'?')} 週`,`<div class="toolbar"><button class="btn ghost sm" data-act="genTL">${p.tl.length?'依週數重新產生':'依週數產生時程'}</button></div>${p.tl.length?gantt(p.tl):''}${p.tl.length?`<div class="plan">${p.tl.map((r,i)=>`<div><input type="text" data-path="plan.tl.${i}.w" value="${esc(r.w)}" aria-label="週次"><input type="text" data-path="plan.tl.${i}.task" value="${esc(r.task)}" aria-label="工作"></div>`).join('')}</div>`:''}`)+
  (['mind','tech'].includes(c?.id.split('-')[0])||/問卷|訪談|匿名|招募|試用|盲測/.test(c?.d||'')||c?.need.includes('問卷訪談')?resBox('warn','研究倫理提醒','你的方案會蒐集別人的資料或心情。記得事先說明目的、採匿名、不蒐集不必要的個資，並先和老師確認。'):'')+
  (c&&(c.need.some(n=>SAFETY[n])||c.id.startsWith('safe'))?resBox('warn','安全提醒',[...c.need.filter(n=>SAFETY[n]).map(n=>SAFETY[n]),...(c.id.startsWith('safe')?['在路邊觀察或測量時，站在安全的位置，不要為了記錄走進車道。']:[])]):'')+nav()};
+function wkSpan(w){const m=String(w).match(/(\d+)\s*[–-]\s*(\d+)/);if(m)return Math.max(1,+m[2]-+m[1]+1);return/\d/.test(w)?1:1}
+function gantt(tl){const tot=tl.reduce((a,r)=>a+wkSpan(r.w),0)||1;return`<div class="gantt" role="img" aria-label="時程圖">${tl.map(r=>`<span style="flex:${wkSpan(r.w)}" title="${esc(r.w+' '+r.task)}">${wkSpan(r.w)}週</span>`).join('')}</div><div class="glegend">${tl.map(r=>`<span><i></i>${esc(r.task)}</span>`).join('')}</div>`}
 function mineWarn(){const t=(S.plan.mine||'').trim(),c=card(S.pick);if(!t)return resBox('neutral','為什麼要寫這一欄','方案庫是起點，不是答案。寫出你為自己的問題做了什麼調整，作品才會是你的，而不是和別人一樣的方案卡。');
  if(t.length<25)return resBox('warn','我的版本','再具體一點：你的對象是誰？在哪裡做？和方案卡原本的做法有什麼不同？');
  if(c&&t.includes(c.d.slice(0,15)))return resBox('warn','我的版本','看起來和方案卡的描述很像。寫出你自己的調整，例如針對根本原因改了什麼。');return resBox('ok','我的版本','有寫出自己的調整，這會是你作品的特色。')}
@@ -725,7 +979,7 @@ R[6]=()=>{const p=chosen(),c=card(S.pick),P=S.plan,v=x=>x?esc(x):'<span class="e
  <div class="toolbar" style="margin-top:18px"><button class="btn" data-act="copyProp">複製行動卡文字</button></div>
  ${sendBox()}`+nav()};
 
-function sendBox(){return`<section class="send"><div class="stitle">請老師審核</div>
+function sendBox(){return`<section class="send"><div class="stitle">${ic('send')}請老師審核</div>
   <p class="mini">你寫的內容會自動同步，老師隨時看得到。<b>按下面的按鈕，是正式請老師審核、幫你打關卡。</b></p>
   ${S.sample?'<p class="rule">現在是範例資料，無法送出。請按上方「清空，開始填我的」。</p>':''}
   ${!SCRIPT_URL?'<p class="rule">老師還沒設定送出網址，可以先按「複製行動卡文字」交給老師。</p>':''}
@@ -746,7 +1000,7 @@ R[7]=()=>{const E=S.exe,nb=vals('改變前').length,na=vals('改變後').length,
  sec('數據紀錄',`改變前 ${nb} 筆、改變後 ${na} 筆`,`<div class="grid2"><div class="q"><label for="eu">測量的單位</label>${inp('exe.unit','例如：公斤、分鐘、人數、分','eu')}</div><div class="q"><span class="qlabel">這個數字你希望</span>${seg('exe.goal',['變少','變多'],null,true)}</div></div>
   <div class="card" style="display:grid;gap:10px"><div class="grid3"><div class="q"><label for="edd">日期</label>${inp('exe.df.date','例如：10/20','edd')}</div><div class="q"><span class="qlabel">階段</span>${seg('exe.df.phase',['改變前','改變後'],null,true)}</div><div class="q"><label for="edv">數值${E.unit?'（'+esc(E.unit)+'）':''}</label>${inp('exe.df.v','例如：4.2','edv','number')}</div></div>
   <div class="q"><label for="edn">備註（特殊狀況）</label>${inp('exe.df.note','例如：這天有不受歡迎的菜','edn')}</div><div class="toolbar"><button class="btn" data-act="addData">加入一筆</button></div></div>
-  ${E.data.length?`<div class="tbwrap"><table class="tb"><thead><tr><th>日期</th><th>階段</th><th>數值</th><th>備註</th><th></th></tr></thead><tbody>${E.data.map((d,i)=>`<tr><td>${esc(d.date)}</td><td><span class="tag ${d.phase==='改變後'?'teal':''}">${esc(d.phase)}</span></td><td class="num">${esc(d.v)} ${esc(E.unit)}</td><td class="mini">${esc(d.note)}</td><td><button class="xbtn" data-act="delData" data-i="${i}" aria-label="刪除">×</button></td></tr>`).join('')}</tbody></table></div>
+  ${E.data.length?`${stripChart()}<details class="mini-sum" style="margin:0" ${E.data.length<=4?'open':''}><summary>看全部數據（${E.data.length} 筆）</summary><div class="tbwrap"><table class="tb dtb"><thead><tr><th>日期</th><th>階段</th><th>數值</th><th>備註</th><th></th></tr></thead><tbody>${E.data.map((d,i)=>`<tr><td>${esc(d.date)}</td><td><span class="tag ${d.phase==='改變後'?'teal':''}">${esc(d.phase)}</span></td><td class="num">${esc(d.v)} ${esc(E.unit)}</td><td class="mini">${esc(d.note)}</td><td><button class="xbtn" data-act="delData" data-i="${i}" aria-label="刪除">×</button></td></tr>`).join('')}</tbody></table></div></details>
   <p class="mini">${nb<3||na<3?'改變前、改變後各至少 3 筆，比較才有意義。':'數據足夠了，可以到「成果」看比較結果。'}</p>`:'<p class="empty">還沒有數據。先量「改變前」。</p>'}`)+
  sec('試做日誌',`${E.log.length} 則`,`<div class="card" style="display:grid;gap:10px"><div class="q"><label for="ld">這次做了什麼？</label>${ta('exe.lf.did','例如：第一週試用選擇卡，打菜股長看卡打菜',50,'ld')}</div>
   <div class="q"><label for="ls">發生什麼事？遇到什麼問題？</label>${ta('exe.lf.saw','例如：有些人忘記舉卡，打菜速度變慢',50,'ls')}</div>
@@ -760,6 +1014,9 @@ R[7]=()=>{const E=S.exe,nb=vals('改變前').length,na=vals('改變後').length,
   <div class="toolbar">${SCRIPT_URL?'<button class="btn" data-act="sendWk">送出給老師</button><button class="btn ghost sm" data-act="getRep">查看老師回覆</button>':''}<button class="btn ${SCRIPT_URL?'ghost':''} sm" data-act="copyWk">複製回報文字</button></div>
   <p class="mini" id="wkStatus">${SCRIPT_URL?(S.idOK?'':'送出前，請先在頁面上方建立你的身分。'):'老師還沒設定送出網址，可以先複製回報文字交給老師。'}</p>
   ${E.hist.length?`<div class="list">${E.hist.slice().reverse().map(h=>{const r=E.replies.find(r=>String(r.week)===String(h.week)&&r.reply);return`<div class="item"><span class="n">${esc(h.week||'?')}</span><div><p class="mini">${esc(h.at)}</p><p style="font-size:.93rem">${esc(h.done)}</p>${h.stuck?`<p style="font-size:.93rem"><b>卡關：</b>${esc(h.stuck)}</p>`:''}${r?`<div class="reply"><b>老師回覆：</b>${nl(r.reply)}</div>`:''}</div><span></span></div>`}).join('')}</div>`:''}`)+nav()};
+function stripChart(){const b=vals('改變前'),a=vals('改變後');if(!b.length&&!a.length)return'';const all=[...b,...a],mn=Math.min(...all),mx=Math.max(...all),pad=(mx-mn)*.1||1,lo=mn-pad,hi=mx+pad,X=v=>20+(v-lo)/(hi-lo)*300;
+ const row=(arr,y,cl,lb)=>`<text x="0" y="${y-12}">${lb}</text><line class="ax" x1="20" x2="320" y1="${y}" y2="${y}"/>${arr.map(v=>`<circle class="${cl}" cx="${X(v)}" cy="${y}" r="6" fill-opacity=".75"/>`).join('')}${arr.length?`<line class="m m${cl}" x1="${X(avg(arr))}" x2="${X(avg(arr))}" y1="${y-11}" y2="${y+11}"/>`:''}`;
+ return`<svg class="strip" viewBox="0 0 340 120" role="img" aria-label="改變前後數據點"><g>${row(b,34,'b','改變前（直線＝平均）')}${row(a,88,'a','改變後')}</g><text x="20" y="116">${r2(lo)}</text><text x="320" y="116" text-anchor="end">${r2(hi)} ${esc(S.exe.unit)}</text></svg>`}
 function wkText(){const g=S.exe.pg;return`【第 ${g.week||'?'} 週進度】${S.name?'　'+S.name:''}
 問題：${stmt(chosen())}
 這週完成：${g.done||'（未填）'}
@@ -858,15 +1115,15 @@ ${S.exe.log.map((l,i)=>`${i+1}. 做了：${l.did}｜發生：${l.saw}｜下一�
 ${resultText()}
 
 請檢查：結論有沒有超出數據？樣本夠不夠？有沒有其他因素可能影響結果？用提問讓我自己修改。最後問我 2 個問題，幫我想清楚在學習歷程檔案中，怎麼呈現「發現問題、解決問題」的能力。不要幫我改寫。`]];
-function aiCard(){const [t,f]=AI[cur];return`<details class="ai" ${ui.aiOpen?'open':''} id="aiBox"><summary><span class="eyebrow">AI Assistant</span>卡住了？AI 助手提示詞：${t}</summary><div class="aibody">
+function aiCard(){const [t,f]=AI[cur];return`<details class="ai" ${ui.aiOpen?'open':''} id="aiBox"><summary>${ic('spark')}卡住了？AI 助手提示詞：${t}</summary><div class="aibody">
  <p class="mini">複製後貼到 Claude（免費帳號就可以）或其他 AI 的新對話。提示詞已經放進你目前的內容，並要求 AI 只提問和檢查，不代寫。</p>
  <textarea id="aiText" readonly aria-label="AI 提示詞">${esc(f())}</textarea>
  <div class="toolbar"><button class="btn teal" data-act="copyAI">複製提示詞</button></div>
  <p class="note">AI 會出錯。數據、資料來源和安全資訊，一定要自己查證。</p></div></details>`}
 
 /* 版面 */
-function nav(){return`<div class="nav">${cur>0?`<button class="btn ghost" data-go="${cur-1}">← 上一步</button>`:'<span></span>'}${cur<LAST?`<button class="btn" data-go="${cur+1}">下一步：${STEPS[cur+1][1]} →</button>`:''}</div>`+aiCard()}
-function renderSteps(){const box=document.getElementById('steps');box.innerHTML=STEPS.map((s,i)=>`<button class="step ${i===cur?'on':''} ${done(i)?'done':''}" data-go="${i}" aria-current="${i===cur?'step':'false'}"><span class="n">${done(i)&&i!==cur?'✓':s[0]}</span>${s[1]}</button>`).join('');
+function nav(){return`<div class="nav">${cur>0?`<button class="btn ghost" data-go="${cur-1}">${ic('left')}上一步</button>`:'<span></span>'}${cur<LAST?`<button class="btn" data-go="${cur+1}">下一步：${STEPS[cur+1][1]}${ic('right')}</button>`:''}</div>`+aiCard()}
+function renderSteps(){const box=document.getElementById('steps');box.innerHTML=STEPS.map((s,i)=>`<button class="step ph${phOf(i)} ${i===cur?'on':''} ${done(i)?'done':''}" data-go="${i}" aria-current="${i===cur?'step':'false'}"><span class="n">${ic(done(i)&&i!==cur?'check':STEP_IC[i])}</span>${s[1]}</button>`).join('');renderRoute();
  const on=box.querySelector('.step.on');if(on)box.scrollLeft=on.offsetLeft-box.offsetLeft-(box.clientWidth-on.offsetWidth)/2}
 function normCls(v){return String(v||'').replace(/[\uFF01-\uFF5E]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xFEE0)).replace(/\s+/g,'')}
 function normSeat(v){const t=normCls(v);return/^\d+$/.test(t)?String(parseInt(t,10)):t}
@@ -881,11 +1138,11 @@ function idCard(){const v=ui.idf||{cls:S.cls,seat:S.seat,name:S.name,code:S.code
  ${SCRIPT_URL?`<div class="q"><label for="idk">班級代碼（老師上課時會給）</label><input type="text" id="idk" value="${esc(v.code)}" placeholder="班級代碼"></div>`:''}
  <div class="toolbar"><button class="btn" data-act="verifyId">${SCRIPT_URL?'核對並建立身分':'儲存身分'}</button>${S.idOK?'<button class="btn ghost sm" data-act="cancelId">取消</button>':''}</div>
  <p class="mini" id="idStatus">${SCRIPT_URL?'':'老師還沒設定送出網址，身分先存在這台裝置。'}</p></div>`}
-function progHTML(){const dn=STEPS.filter((_,i)=>done(i)).length;return`<div class="prog" style="flex-basis:100%"><div class="pl"><b>第 ${cur+1}／${STEPS.length} 步・${STEPS[cur][1]}</b><span id="progN">已完成 ${dn} 步</span>${S.gate?`<span class="gchip ${S.gate==='需修改'?'warn':''}">老師關卡：${esc(S.gate)}</span>`:''}</div><div class="bar"><i id="progBar" style="width:${dn/STEPS.length*100}%"></i></div></div>`}
+function progHTML(){return S.gate?`<div class="prog" style="flex-basis:100%"><div class="pl"><span class="gchip ${S.gate==='需修改'?'warn':''}">老師關卡：${esc(S.gate)}</span></div></div>`:''}
 const needId=()=>!S.sample&&!!SCRIPT_URL&&!S.idOK;
 const hasLocal=()=>S.obs.length>0||S.probs.length>0;
 function preIdHTML(){return`<div class="pre-id"><p class="lead">建立身分後就能開始。你會走過這 9 步，每一步都有範例和提示：</p>
- <ol>${[['觀察','記下 3 則生活中卡卡的時刻'],['定義','寫成一句清楚的問題，並問人驗證'],['選題','比較問題，選一個最值得做的'],['方案','查資料，從初階到進階收藏方案'],['適配','依技能、預算、時間選一個做得到的'],['計畫','決定第一版和怎麼量'],['行動卡','請老師審核計畫'],['執行','動手做、記數據、每週回報'],['成果','比較前後，寫結論和反思']].map(([a,b])=>`<li><b>${a}</b>：${b}</li>`).join('')}</ol>
+ <ol>${[['觀察','記下 3 則生活中卡卡的時刻'],['定義','寫成一句清楚的問題，並問人驗證'],['選題','比較問題，選一個最值得做的'],['方案','查資料，從初階到進階收藏方案'],['適配','依技能、預算、時間選一個做得到的'],['計畫','決定第一版和怎麼量'],['行動卡','請老師審核計畫'],['執行','動手做、記數據、每週回報'],['成果','比較前後，寫結論和反思']].map(([a,b],i)=>`<li class="ph${phOf(i)}"><span class="n">${ic(STEP_IC[i])}</span><span><b>${a}</b>：${b}</span></li>`).join('')}</ol>
  <p class="mini">換了電腦或手機？輸入一樣的班級、座號、姓名和班級代碼，就會找回之前的進度。</p></div>`}
 function renderNotice(){let h='';
  if(!S.sample&&(!S.idOK||ui.editId))h+=idCard();
@@ -903,6 +1160,7 @@ function renderNotice(){let h='';
 function render(){if(cur===FBSTEP&&S.feedback.text&&fbKey()!==S.feedback.seen){S.feedback.seen=fbKey();save()}const gate=needId()||!!ui.restore;
  document.querySelector('.stepper').hidden=gate;renderSteps();renderNotice();document.getElementById('panel').innerHTML=gate?(ui.restore?'':preIdHTML()):`<div class="fade">${R[cur]()}</div>`;watchDone()}
 function refresh(){renderSteps();watchDone();
+ S.probs.forEach((p,k)=>{const t=document.getElementById('tot'+k);if(t)t.innerHTML=donut(pscore(p),25)});
  {const dn=STEPS.filter((_,i)=>done(i)).length,a=document.getElementById('progN'),b=document.getElementById('progBar');if(a)a.textContent=`已完成 ${dn} 步`;if(b)b.style.width=dn/STEPS.length*100+'%'}
  S.probs.forEach((p,k)=>{const q=document.getElementById('vq'+k);if(q)q.textContent=valQ(p);const r=document.getElementById('vr'+k);if(r)r.innerHTML=valRes(p)});
  S.probs.forEach((p,k)=>{const a=document.getElementById('st'+k);if(a)a.innerHTML=`<b>${esc(stmt(p))||'填好上面四格，這裡會組成一句話。'}</b>`;const b=document.getElementById('sw'+k);if(b)b.innerHTML=stmtWarn(p)});
